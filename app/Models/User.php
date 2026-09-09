@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nik',
+        'no_hp',
+        'role',
     ];
 
     /**
@@ -42,4 +45,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is masyarakat
+     */
+    public function isMasyarakat(): bool
+    {
+        return $this->role === 'masyarakat';
+    }
+
+    /**
+     * Get the masyarakat profile associated with the user.
+     */
+    public function masyarakat()
+    {
+        return $this->hasOne(Masyarakat::class);
+    }
 }
