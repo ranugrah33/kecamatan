@@ -1,64 +1,274 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+@section('title', 'Dashboard Admin')
 
 @section('content')
-<!-- Navbar -->
-<nav class="bg-blue-800 text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex items-center">
-                <span class="font-bold text-xl">Dashboard Admin Kecamatan</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-sm">Selamat datang, {{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition">Logout</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</nav>
 
-<div class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex">
-    <!-- Sidebar -->
-    <div class="w-64 bg-white rounded-xl shadow-sm border border-gray-100 p-4 mr-6 hidden md:block">
-        <ul class="space-y-2">
-            <li>
-                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg">Dashboard</a>
-            </li>
-            <li>
-                <a href="{{ route('admin.peminjaman_aula.index') ?? '#' }}" class="block px-4 py-2 {{ request()->routeIs('admin.peminjaman_aula.*') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg">Peminjaman Aula</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">Data Masyarakat</a>
-            </li>
-            <li>
-                <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">Pengaturan</a>
-            </li>
-        </ul>
+{{-- ===== STAT CARDS ===== --}}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+
+    {{-- Total Permohonan --}}
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-files text-xl text-blue-500"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-500 leading-tight">Total Permohonan</span>
+        </div>
+        <p class="text-3xl font-bold text-gray-900">{{ $total_permohonan }}</p>
+        <p class="text-xs text-green-600 mt-1.5 flex items-center gap-0.5 font-medium">
+            <i class="ph ph-arrow-up text-xs"></i> 2 dari kemarin
+        </p>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Dashboard</h2>
-        <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
-            <p class="text-green-800">✅ Informasi bahwa dashboard admin berhasil dibuat. Saat ini Anda login sebagai <strong>Admin</strong>.</p>
+    {{-- Menunggu Review --}}
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-clock text-xl text-orange-500"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-500 leading-tight">Menunggu Review</span>
         </div>
-
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center">
-                <div class="text-3xl font-bold text-blue-600">{{ $total_permohonan }}</div>
-                <div class="text-sm text-gray-500 mt-1">Total Permohonan</div>
-            </div>
-            <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-100 text-center">
-                <div class="text-3xl font-bold text-yellow-600">{{ $menunggu_review }}</div>
-                <div class="text-sm text-gray-500 mt-1">Menunggu Review</div>
-            </div>
-            <div class="bg-green-50 p-6 rounded-lg border border-green-100 text-center">
-                <div class="text-3xl font-bold text-green-600">{{ $selesai }}</div>
-                <div class="text-sm text-gray-500 mt-1">Selesai</div>
-            </div>
-        </div>
+        <p class="text-3xl font-bold text-orange-500">{{ $menunggu_review }}</p>
+        <p class="text-xs text-green-600 mt-1.5 flex items-center gap-0.5 font-medium">
+            <i class="ph ph-arrow-up text-xs"></i> 1 dari kemarin
+        </p>
     </div>
+
+    {{-- Selesai --}}
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-check-circle text-xl text-green-500"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-500 leading-tight">Selesai</span>
+        </div>
+        <p class="text-3xl font-bold text-green-600">{{ $selesai }}</p>
+        <p class="text-xs text-green-600 mt-1.5 flex items-center gap-0.5 font-medium">
+            <i class="ph ph-arrow-up text-xs"></i> 2 dari kemarin
+        </p>
+    </div>
+
+    {{-- Perlu Diperbaiki --}}
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-warning-circle text-xl text-red-500"></i>
+            </div>
+            <span class="text-xs font-medium text-gray-500 leading-tight">Perlu Diperbaiki</span>
+        </div>
+        <p class="text-3xl font-bold text-red-500">{{ $perlu_diperbaiki }}</p>
+        <p class="text-xs text-red-500 mt-1.5 flex items-center gap-0.5 font-medium">
+            <i class="ph ph-arrow-down text-xs"></i> 1 dari kemarin
+        </p>
+    </div>
+
 </div>
+
+{{-- ===== CHART + TABLE ===== --}}
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-5 mb-5">
+
+    {{-- Bar Chart --}}
+    <div class="lg:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+        <div class="flex items-start justify-between mb-4">
+            <div>
+                <h2 class="text-sm font-bold text-gray-900">Statistik Layanan (7 Hari Terakhir)</h2>
+                <div class="flex items-center gap-4 mt-1.5">
+                    <span class="flex items-center gap-1.5 text-xs text-gray-500">
+                        <span class="w-2.5 h-2.5 rounded-sm bg-blue-400 inline-block"></span>Diterima
+                    </span>
+                    <span class="flex items-center gap-1.5 text-xs text-gray-500">
+                        <span class="w-2.5 h-2.5 rounded-sm bg-green-400 inline-block"></span>Selesai
+                    </span>
+                </div>
+            </div>
+            <select class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white">
+                <option>Semua Layanan</option>
+                <option>Peminjaman Aula</option>
+                <option>Bantuan Sosial</option>
+                <option>Jual Beli Tanah</option>
+            </select>
+        </div>
+        <div style="height: 200px; position: relative;">
+            <canvas id="layananChart"></canvas>
+        </div>
+    </div>
+
+    {{-- Pengajuan Terbaru Table --}}
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm">
+        <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="text-sm font-bold text-gray-900">Pengajuan Terbaru</h2>
+            <a href="{{ route('admin.peminjaman_aula.index') }}" class="text-xs text-blue-500 font-medium hover:text-blue-700 flex items-center gap-1 transition">
+                Lihat Semua <i class="ph ph-arrow-right text-xs"></i>
+            </a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-gray-50/80">
+                        <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide">No</th>
+                        <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Jenis</th>
+                        <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Pemohon</th>
+                        <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Tgl</th>
+                        <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Status</th>
+                        <th class="px-4 py-2.5"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    @php
+                    $pengajuanAdmin = [
+                        ['no'=>1,'jenis'=>'Peminjaman Aula','pemohon'=>'Siti Nurhaliza','tgl'=>'15 Sep 2025','status'=>'Diproses','color'=>'blue'],
+                        ['no'=>2,'jenis'=>'Arsip UMKM','pemohon'=>'Budi Santoso','tgl'=>'14 Sep 2025','status'=>'Selesai','color'=>'green'],
+                        ['no'=>3,'jenis'=>'Bantuan Sosial','pemohon'=>'Rina Astuti','tgl'=>'13 Sep 2025','status'=>'Diterima','color'=>'yellow'],
+                        ['no'=>4,'jenis'=>'Jual Beli Tanah','pemohon'=>'Ahmad Fauzi','tgl'=>'12 Sep 2025','status'=>'Perlu Diperbaiki','color'=>'red'],
+                    ];
+                    @endphp
+                    @foreach($pengajuanAdmin as $item)
+                    <tr class="hover:bg-gray-50/80 transition">
+                        <td class="px-4 py-3 text-xs text-gray-400">{{ $item['no'] }}</td>
+                        <td class="px-4 py-3 text-xs font-medium text-gray-800">{{ $item['jenis'] }}</td>
+                        <td class="px-4 py-3 text-xs text-gray-500">{{ $item['pemohon'] }}</td>
+                        <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">{{ $item['tgl'] }}</td>
+                        <td class="px-4 py-3">
+                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap
+                                {{ $item['color'] === 'green' ? 'bg-green-100 text-green-700' : '' }}
+                                {{ $item['color'] === 'blue' ? 'bg-blue-100 text-blue-700' : '' }}
+                                {{ $item['color'] === 'yellow' ? 'bg-yellow-100 text-yellow-700' : '' }}
+                                {{ $item['color'] === 'red' ? 'bg-red-100 text-red-700' : '' }}">
+                                {{ $item['status'] }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <a href="{{ route('admin.peminjaman_aula.index') }}" class="text-gray-300 hover:text-blue-500 transition">
+                                <i class="ph ph-caret-right text-sm"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{{-- ===== QUICK ACTIONS ===== --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+    <a href="{{ route('admin.peminjaman_aula.index') }}"
+       class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group flex items-center gap-4">
+        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-100 transition">
+            <i class="ph ph-door-open text-xl text-blue-500"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800">Kelola Peminjaman Aula</p>
+            <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Atur jadwal, verifikasi dan kelola peminjaman aula</p>
+        </div>
+        <i class="ph ph-arrow-right text-gray-300 group-hover:text-blue-400 transition flex-shrink-0"></i>
+    </a>
+
+    <a href="#"
+       class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-green-200 hover:shadow-md transition-all group flex items-center gap-4">
+        <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-100 transition">
+            <i class="ph ph-users text-xl text-green-500"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800">Data Masyarakat</p>
+            <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Kelola data masyarakat dan pendaftaran</p>
+        </div>
+        <i class="ph ph-arrow-right text-gray-300 group-hover:text-green-400 transition flex-shrink-0"></i>
+    </a>
+
+    <a href="#"
+       class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-purple-200 hover:shadow-md transition-all group flex items-center gap-4">
+        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition">
+            <i class="ph ph-chart-bar text-xl text-purple-500"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800">Laporan</p>
+            <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Lihat laporan dan rekapitulasi data</p>
+        </div>
+        <i class="ph ph-arrow-right text-gray-300 group-hover:text-purple-400 transition flex-shrink-0"></i>
+    </a>
+
+    <a href="#"
+       class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-gray-300 hover:shadow-md transition-all group flex items-center gap-4">
+        <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition">
+            <i class="ph ph-gear text-xl text-gray-500"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800">Pengaturan Sistem</p>
+            <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Kelola informasi dan konfigurasi aplikasi</p>
+        </div>
+        <i class="ph ph-arrow-right text-gray-300 group-hover:text-gray-500 transition flex-shrink-0"></i>
+    </a>
+
+</div>
+
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('layananChart');
+    if (!ctx) return;
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['9 Sep', '10 Sep', '11 Sep', '12 Sep', '13 Sep', '14 Sep', '15 Sep'],
+            datasets: [
+                {
+                    label: 'Diterima',
+                    data: [3, 5, 8, 4, 6, 3, 5],
+                    backgroundColor: 'rgba(96, 165, 250, 0.85)',
+                    borderRadius: 5,
+                    borderSkipped: false,
+                },
+                {
+                    label: 'Selesai',
+                    data: [2, 3, 6, 3, 4, 2, 4],
+                    backgroundColor: 'rgba(74, 222, 128, 0.85)',
+                    borderRadius: 5,
+                    borderSkipped: false,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1a2744',
+                    cornerRadius: 8,
+                    padding: 10,
+                    titleFont: { size: 11, family: 'Inter' },
+                    bodyFont: { size: 11, family: 'Inter' },
+                    callbacks: {
+                        label: function(ctx) {
+                            return ` ${ctx.dataset.label}: ${ctx.parsed.y} pengajuan`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 10, family: 'Inter' }, color: '#9ca3af' },
+                    border: { display: false }
+                },
+                y: {
+                    grid: { color: '#f3f4f6' },
+                    ticks: { font: { size: 10, family: 'Inter' }, color: '#9ca3af', stepSize: 2 },
+                    border: { display: false },
+                    beginAtZero: true,
+                    max: 10
+                }
+            },
+            barPercentage: 0.6,
+            categoryPercentage: 0.75
+        }
+    });
+});
+</script>
+@endpush

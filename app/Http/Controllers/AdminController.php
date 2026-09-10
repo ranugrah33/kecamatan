@@ -12,7 +12,9 @@ class AdminController extends Controller
         $total_permohonan = PeminjamanAula::count();
         $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan'])->count();
         $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak'])->count();
+        $perlu_diperbaiki = PeminjamanAula::where('status', 'Perlu Perbaikan')->count();
 
-        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai'));
+        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki'));
     }
 }
+

@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal Layanan Publik Kecamatan Cikampek, Kabupaten Karawang">
-    <title>@yield('title', 'Dashboard') – Kec. Cikampek</title>
+    <meta name="description" content="Dashboard Admin Kecamatan Cikampek, Kabupaten Karawang">
+    <title>@yield('title', 'Admin') – Kec. Cikampek</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * { font-family: 'Inter', sans-serif; }
         [x-cloak] { display: none !important; }
@@ -20,20 +21,6 @@
         .menu-item:hover .menu-icon { color: #cbd5e1; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .welcome-card {
-            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
-            position: relative; overflow: hidden;
-        }
-        .welcome-card::before {
-            content: ''; position: absolute; right: -30px; bottom: -40px;
-            width: 180px; height: 180px; border-radius: 50%;
-            background: rgba(147,197,253,0.25);
-        }
-        .welcome-card::after {
-            content: ''; position: absolute; right: 60px; bottom: -60px;
-            width: 140px; height: 140px; border-radius: 50%;
-            background: rgba(165,180,252,0.2);
-        }
     </style>
 </head>
 <body class="bg-[#f5f7fb] text-gray-800 antialiased">
@@ -68,38 +55,47 @@
         <nav class="flex-1 overflow-y-auto scrollbar-hide px-3 py-4">
             <ul class="space-y-0.5">
                 <li>
-                    <a href="{{ route('masyarakat.dashboard') }}"
-                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('masyarakat.dashboard') ? 'menu-active' : '' }}">
-                        <i class="ph ph-house menu-icon text-lg {{ request()->routeIs('masyarakat.dashboard') ? 'text-blue-400' : 'text-slate-400' }}"></i>
-                        Beranda
+                    <a href="{{ route('admin.dashboard') }}"
+                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.dashboard') ? 'menu-active' : '' }}">
+                        <i class="ph ph-squares-four menu-icon text-lg {{ request()->routeIs('admin.dashboard') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('masyarakat.layanan') }}"
-                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('masyarakat.layanan') ? 'menu-active' : '' }}">
-                        <i class="ph ph-squares-four menu-icon text-lg {{ request()->routeIs('masyarakat.layanan') ? 'text-blue-400' : 'text-slate-400' }}"></i>
-                        Layanan Publik
+                    <a href="{{ route('admin.peminjaman_aula.index') }}"
+                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.peminjaman_aula.*') ? 'menu-active' : '' }}">
+                        <i class="ph ph-door-open menu-icon text-lg {{ request()->routeIs('admin.peminjaman_aula.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        Peminjaman Aula
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('masyarakat.riwayat') }}"
-                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('masyarakat.riwayat') ? 'menu-active' : '' }}">
-                        <i class="ph ph-clock-counter-clockwise menu-icon text-lg {{ request()->routeIs('masyarakat.riwayat') ? 'text-blue-400' : 'text-slate-400' }}"></i>
-                        Riwayat Pengajuan
+                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
+                        <i class="ph ph-users menu-icon text-lg text-slate-400"></i>
+                        Data Masyarakat
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('masyarakat.profil') }}"
-                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('masyarakat.profil') ? 'menu-active' : '' }}">
-                        <i class="ph ph-user menu-icon text-lg {{ request()->routeIs('masyarakat.profil') ? 'text-blue-400' : 'text-slate-400' }}"></i>
-                        Profil Saya
+                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
+                        <i class="ph ph-hand-heart menu-icon text-lg text-slate-400"></i>
+                        Bantuan Sosial
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('masyarakat.notifikasi') }}"
-                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('masyarakat.notifikasi') ? 'menu-active' : '' }}">
-                        <i class="ph ph-bell menu-icon text-lg {{ request()->routeIs('masyarakat.notifikasi') ? 'text-blue-400' : 'text-slate-400' }}"></i>
-                        Notifikasi
+                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
+                        <i class="ph ph-map-trifold menu-icon text-lg text-slate-400"></i>
+                        Jual Beli Tanah
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
+                        <i class="ph ph-chart-bar menu-icon text-lg text-slate-400"></i>
+                        Laporan
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
+                        <i class="ph ph-gear menu-icon text-lg text-slate-400"></i>
+                        Pengaturan
                     </a>
                 </li>
             </ul>
@@ -116,8 +112,7 @@
                 </button>
             </form>
             <div class="mt-4 mx-1 p-3 rounded-xl bg-white/5 border border-white/10">
-                <p class="text-blue-300 text-xs font-semibold leading-tight">Mudah, Cepat, Transparan</p>
-                <p class="text-slate-400 text-xs mt-1 leading-tight">Pelayanan Kecamatan untuk Anda</p>
+                <p class="text-blue-300 text-xs font-semibold leading-tight">Bersama Melayani Masyarakat</p>
             </div>
         </div>
     </aside>
@@ -132,26 +127,38 @@
                         class="md:hidden text-gray-500 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition">
                     <i class="ph ph-list text-xl"></i>
                 </button>
+                <div>
+                    <h1 class="text-sm font-bold text-gray-900 leading-tight">Dashboard Admin Kecamatan</h1>
+                    <p class="text-xs text-gray-500 hidden sm:block leading-tight">Selamat datang di Sistem Informasi Pelayanan Kecamatan Cikampek.</p>
+                </div>
             </div>
 
-            <div class="flex items-center gap-1.5" x-data="{ userOpen: false }">
+            <div class="flex items-center gap-2" x-data="{ userOpen: false }">
+                <!-- Date/Time -->
+                <div class="hidden md:flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
+                    <i class="ph ph-calendar-blank text-blue-500 text-sm"></i>
+                    <div class="text-right leading-tight">
+                        <p class="text-[11px] text-gray-500" id="admin-date">Senin, 15 Sep 2025</p>
+                        <p class="text-xs font-bold text-gray-800" id="admin-time">13:24 WIB</p>
+                    </div>
+                </div>
+
                 <!-- Notification Bell -->
-                <a href="{{ route('masyarakat.notifikasi') }}"
-                   class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition">
+                <button class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition">
                     <i class="ph ph-bell text-xl"></i>
                     <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                </a>
+                </button>
 
                 <!-- User Dropdown -->
                 <div class="relative ml-1">
                     <button @click="userOpen = !userOpen"
                             class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl hover:bg-gray-100 transition cursor-pointer">
-                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        <div class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-white flex-shrink-0">
+                            <i class="ph ph-user-circle text-lg"></i>
                         </div>
                         <div class="hidden sm:block text-left leading-tight">
-                            <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-gray-500">Masyarakat</p>
+                            <p class="text-sm font-semibold text-gray-800">Admin Kecamatan</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
                         </div>
                         <i class="ph ph-caret-down text-gray-400 text-xs hidden sm:block"></i>
                     </button>
@@ -162,13 +169,9 @@
                          x-transition:enter-end="opacity-100 scale-100"
                          class="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-200/80 py-1.5 z-50">
                         <div class="px-4 py-2.5 border-b border-gray-100">
-                            <p class="text-sm font-semibold text-gray-800 truncate">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                            <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
                         </div>
-                        <a href="{{ route('masyarakat.profil') }}"
-                           class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
-                            <i class="ph ph-user text-gray-400"></i> Profil Saya
-                        </a>
                         <div class="border-t border-gray-100 my-0.5"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -188,6 +191,23 @@
         </main>
     </div>
 
+    <script>
+    (function() {
+        const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+        const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+        function updateAdminTime() {
+            const now = new Date();
+            const dateEl = document.getElementById('admin-date');
+            const timeEl = document.getElementById('admin-time');
+            if (dateEl) dateEl.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+            if (timeEl) timeEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} WIB`;
+        }
+        updateAdminTime();
+        setInterval(updateAdminTime, 1000);
+    })();
+    </script>
+
+    @stack('scripts')
 </div>{{-- end x-data sidebarOpen wrapper --}}
 </body>
 </html>
