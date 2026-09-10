@@ -52,4 +52,5 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::post('/masyarakat/peminjaman-aula', [PeminjamanAulaController::class, 'store'])->name('masyarakat.peminjaman_aula.store');
     Route::get('/masyarakat/peminjaman-aula/sukses/{id}', [PeminjamanAulaController::class, 'sukses'])->name('masyarakat.peminjaman_aula.sukses');
     Route::get('/masyarakat/peminjaman-aula/{id}', [PeminjamanAulaController::class, 'show'])->name('masyarakat.peminjaman_aula.show');
+    Route::put('/masyarakat/peminjaman-aula/{id}/cancel', [PeminjamanAulaController::class, 'cancel'])->name('masyarakat.peminjaman_aula.cancel');
 });

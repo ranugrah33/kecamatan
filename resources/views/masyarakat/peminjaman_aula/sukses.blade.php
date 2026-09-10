@@ -43,8 +43,7 @@
             <a href="{{ route('masyarakat.peminjaman_aula.index') }}" class="px-6 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
                 Kembali
             </a>
-            <!-- Route detail belum dibuat (Tahap 6), sementara '#' dulu atau redirect ke riwayat umum -->
-            <a href="#" class="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition">
+            <a href="{{ route('masyarakat.peminjaman_aula.show', $peminjaman->id) }}" class="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition">
                 Lihat Detail Pengajuan
             </a>
         </div>

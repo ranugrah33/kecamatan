@@ -140,4 +140,16 @@ class PeminjamanAulaController extends Controller
         $peminjaman = PeminjamanAula::with(['aula', 'dokumens'])->where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         return view('masyarakat.peminjaman_aula.show', compact('peminjaman'));
     }
+
+    public function cancel($id)
+    {
+        $peminjaman = PeminjamanAula::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        
+        if ($peminjaman->status === 'Menunggu Verifikasi') {
+            $peminjaman->update(['status' => 'Dibatalkan']);
+            return redirect()->back()->with('success', 'Pengajuan berhasil dibatalkan.');
+        }
+
+        return redirect()->back()->withErrors(['msg' => 'Pengajuan tidak dapat dibatalkan pada status saat ini.']);
+    }
 }
