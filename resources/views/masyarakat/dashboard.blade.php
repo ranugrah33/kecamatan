@@ -107,14 +107,6 @@
                 @endforeach
             </div>
         </div>
-        
-        <div class="bg-indigo-50 rounded-xl shadow-sm border border-indigo-100 mt-6 p-6">
-             <div class="flex items-center gap-3 mb-2">
-                <i class="ph ph-speaker-high text-xl text-indigo-600"></i>
-                <h2 class="text-md font-semibold text-indigo-900">Pengaduan Anda</h2>
-            </div>
-            <p class="text-sm text-indigo-800">{{ $pengaduan_diproses }} pengaduan fasilitas umum sedang diproses oleh petugas.</p>
-        </div>
     </div>
 </div>
 @endsection

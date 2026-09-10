@@ -9,19 +9,34 @@ class MasyarakatController extends Controller
 {
     public function dashboard()
     {
-        // Data dummy untuk memenuhi requirement tanpa membuat table pengajuan/pengaduan sungguhan dulu
+        // Fetch real PeminjamanAula for the user
+        $peminjamanAulas = \App\Models\PeminjamanAula::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        
+        $total_peminjaman = $peminjamanAulas->count();
+        $diproses_peminjaman = $peminjamanAulas->whereIn('status', ['Menunggu Verifikasi', 'Diproses'])->count();
+        $selesai_peminjaman = $peminjamanAulas->where('status', 'Disetujui')->count();
+        $perlu_diperbaiki_peminjaman = $peminjamanAulas->where('status', 'Perlu Perbaikan')->count();
+
+        $pengajuan_terbaru = [];
+        foreach($peminjamanAulas->take(3) as $p) {
+            $pengajuan_terbaru[] = [
+                'jenis' => 'Peminjaman Aula',
+                'tanggal' => $p->tanggal,
+                'status' => $p->status
+            ];
+        }
+
+        // Dummy data for others
+        $pengajuan_terbaru[] = ['jenis' => 'Jual Beli Tanah', 'tanggal' => '2023-10-20', 'status' => 'Selesai'];
+
         $data = [
-            'total_pengajuan' => 5,
-            'diproses' => 2,
-            'selesai' => 2,
-            'perlu_diperbaiki' => 1,
-            'pengaduan_diproses' => 1,
-            'pengajuan_terbaru' => [
-                ['jenis' => 'Ahli Waris', 'tanggal' => '2023-10-25', 'status' => 'Diproses'],
-                ['jenis' => 'Jual Beli Tanah', 'tanggal' => '2023-10-20', 'status' => 'Selesai'],
-            ],
+            'total_pengajuan' => 2 + $total_peminjaman, // 2 dummy
+            'diproses' => 0 + $diproses_peminjaman,
+            'selesai' => 1 + $selesai_peminjaman,
+            'perlu_diperbaiki' => 1 + $perlu_diperbaiki_peminjaman,
+            'pengajuan_terbaru' => $pengajuan_terbaru,
             'notifikasi' => [
-                ['pesan' => 'Pengajuan Ahli Waris sedang diproses petugas.', 'waktu' => '2 jam yang lalu'],
+                ['pesan' => 'Pengajuan Peminjaman Aula berhasil dibuat.', 'waktu' => 'Baru saja'],
                 ['pesan' => 'Dokumen pengajuan UMKM perlu perbaikan.', 'waktu' => '1 hari yang lalu'],
             ]
         ];
@@ -40,7 +55,7 @@ class MasyarakatController extends Controller
     {
         $user = Auth::user();
 
-        // Validasi data profil (users table & masyarakats table)
+        // Validasi data profil
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -58,7 +73,6 @@ class MasyarakatController extends Controller
             'status_perkawinan' => 'nullable|string|max:50',
         ]);
 
-        // Update Users table
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -66,7 +80,6 @@ class MasyarakatController extends Controller
             'no_hp' => $request->no_hp,
         ]);
 
-        // Update or Create Masyarakats table
         $profilData = $request->only([
             'no_kk', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin',
             'alamat', 'rt', 'rw', 'desa', 'pekerjaan', 'status_perkawinan'
@@ -88,25 +101,47 @@ class MasyarakatController extends Controller
 
     public function riwayat()
     {
-        // Data dummy untuk riwayat
-        $riwayat = [
-            ['nomor' => 'REG-001', 'jenis' => 'Ahli Waris', 'tanggal' => '2023-10-25', 'status' => 'Diproses', 'catatan' => 'Menunggu verifikasi lapangan', 'updated_at' => '2023-10-26'],
-            ['nomor' => 'REG-002', 'jenis' => 'Jual Beli Tanah', 'tanggal' => '2023-10-20', 'status' => 'Selesai', 'catatan' => 'Sertifikat siap diambil', 'updated_at' => '2023-10-24'],
-            ['nomor' => 'REG-003', 'jenis' => 'UMKM', 'tanggal' => '2023-10-15', 'status' => 'Perlu Perbaikan', 'catatan' => 'KTP buram, harap upload ulang', 'updated_at' => '2023-10-16'],
-            ['nomor' => 'REG-004', 'jenis' => 'Bantuan Sosial', 'tanggal' => '2023-10-01', 'status' => 'Ditolak', 'catatan' => 'Tidak memenuhi syarat', 'updated_at' => '2023-10-05'],
-        ];
+        $riwayat = [];
+        
+        // Fetch real PeminjamanAula data
+        $peminjamanAulas = \App\Models\PeminjamanAula::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        foreach($peminjamanAulas as $p) {
+            $riwayat[] = [
+                'nomor' => $p->nomor_pengajuan,
+                'jenis' => 'Peminjaman Aula',
+                'tanggal' => \Carbon\Carbon::parse($p->created_at)->format('Y-m-d'),
+                'status' => $p->status,
+                'catatan' => $p->catatan_petugas ?? 'Menunggu verifikasi',
+                'updated_at' => \Carbon\Carbon::parse($p->updated_at)->format('Y-m-d'),
+                'id' => $p->id // for link to detail later
+            ];
+        }
+
+        // Data dummy untuk riwayat (selain Aula)
+        $riwayat[] = ['nomor' => 'REG-002', 'jenis' => 'Jual Beli Tanah', 'tanggal' => '2023-10-20', 'status' => 'Selesai', 'catatan' => 'Sertifikat siap diambil', 'updated_at' => '2023-10-24'];
+        $riwayat[] = ['nomor' => 'REG-003', 'jenis' => 'UMKM', 'tanggal' => '2023-10-15', 'status' => 'Perlu Perbaikan', 'catatan' => 'KTP buram, harap upload ulang', 'updated_at' => '2023-10-16'];
+
         return view('masyarakat.riwayat', compact('riwayat'));
     }
 
     public function notifikasi()
     {
+        $notifikasi = [];
+        
+        $peminjamanAulas = \App\Models\PeminjamanAula::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
+        foreach($peminjamanAulas as $p) {
+            $notifikasi[] = [
+                'judul' => 'Status Peminjaman Aula: ' . $p->status,
+                'pesan' => 'Pengajuan Peminjaman Aula untuk kegiatan "' . $p->nama_kegiatan . '" saat ini berstatus ' . $p->status . '.',
+                'waktu' => \Carbon\Carbon::parse($p->updated_at)->diffForHumans(),
+                'dibaca' => false
+            ];
+        }
+
         // Data dummy notifikasi
-        $notifikasi = [
-            ['judul' => 'Pengajuan Diproses', 'pesan' => 'Pengajuan Ahli Waris Anda sedang diproses oleh petugas.', 'waktu' => '2 jam yang lalu', 'dibaca' => false],
-            ['judul' => 'Perlu Perbaikan', 'pesan' => 'Dokumen pengajuan UMKM perlu perbaikan (KTP buram).', 'waktu' => '1 hari yang lalu', 'dibaca' => true],
-            ['judul' => 'Pengajuan Selesai', 'pesan' => 'Pengajuan Jual Beli Tanah telah selesai. Silakan ambil sertifikat di kantor.', 'waktu' => '3 hari yang lalu', 'dibaca' => true],
-            ['judul' => 'Pengaduan Diterima', 'pesan' => 'Pengaduan jalan rusak telah diterima dan diteruskan ke dinas terkait.', 'waktu' => '1 minggu yang lalu', 'dibaca' => true],
-        ];
+        $notifikasi[] = ['judul' => 'Perlu Perbaikan', 'pesan' => 'Dokumen pengajuan UMKM perlu perbaikan (KTP buram).', 'waktu' => '1 hari yang lalu', 'dibaca' => true];
+        $notifikasi[] = ['judul' => 'Pengajuan Selesai', 'pesan' => 'Pengajuan Jual Beli Tanah telah selesai. Silakan ambil sertifikat di kantor.', 'waktu' => '3 hari yang lalu', 'dibaca' => true];
+        
         return view('masyarakat.notifikasi', compact('notifikasi'));
     }
 }

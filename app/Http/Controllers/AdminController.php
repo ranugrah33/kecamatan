@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PeminjamanAula;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $total_permohonan = PeminjamanAula::count();
+        $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan'])->count();
+        $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak'])->count();
+
+        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai'));
     }
 }

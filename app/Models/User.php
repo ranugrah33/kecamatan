@@ -69,4 +69,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Masyarakat::class);
     }
+
+    /**
+     * Get the peminjaman aulas associated with the user.
+     */
+    public function peminjamanAulas()
+    {
+        return $this->hasMany(PeminjamanAula::class);
+    }
 }

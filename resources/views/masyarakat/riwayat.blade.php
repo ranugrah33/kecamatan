@@ -17,6 +17,7 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Catatan Petugas</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diperbarui</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -44,6 +45,17 @@
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title="{{ $item['catatan'] }}">{{ $item['catatan'] }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item['updated_at'] }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        @if(isset($item['id']))
+                            <a href="{{ route('masyarakat.peminjaman_aula.show', $item['id']) }}" class="text-blue-600 hover:text-blue-900 flex items-center gap-1">
+                                <i class="ph ph-eye"></i> Detail
+                            </a>
+                        @else
+                            <a href="#" class="text-blue-600 hover:text-blue-900 flex items-center gap-1">
+                                <i class="ph ph-eye"></i> Detail
+                            </a>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>

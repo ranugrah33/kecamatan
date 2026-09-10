@@ -24,7 +24,10 @@
     <div class="w-64 bg-white rounded-xl shadow-sm border border-gray-100 p-4 mr-6 hidden md:block">
         <ul class="space-y-2">
             <li>
-                <a href="#" class="block px-4 py-2 bg-blue-50 text-blue-700 rounded-lg font-medium">Dashboard</a>
+                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg">Dashboard</a>
+            </li>
+            <li>
+                <a href="{{ route('admin.peminjaman_aula.index') ?? '#' }}" class="block px-4 py-2 {{ request()->routeIs('admin.peminjaman_aula.*') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50' }} rounded-lg">Peminjaman Aula</a>
             </li>
             <li>
                 <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">Data Masyarakat</a>
@@ -44,15 +47,15 @@
 
         <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center">
-                <div class="text-3xl font-bold text-blue-600">0</div>
+                <div class="text-3xl font-bold text-blue-600">{{ $total_permohonan }}</div>
                 <div class="text-sm text-gray-500 mt-1">Total Permohonan</div>
             </div>
             <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-100 text-center">
-                <div class="text-3xl font-bold text-yellow-600">0</div>
+                <div class="text-3xl font-bold text-yellow-600">{{ $menunggu_review }}</div>
                 <div class="text-sm text-gray-500 mt-1">Menunggu Review</div>
             </div>
             <div class="bg-green-50 p-6 rounded-lg border border-green-100 text-center">
-                <div class="text-3xl font-bold text-green-600">0</div>
+                <div class="text-3xl font-bold text-green-600">{{ $selesai }}</div>
                 <div class="text-sm text-gray-500 mt-1">Selesai</div>
             </div>
         </div>
