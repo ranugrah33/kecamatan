@@ -110,9 +110,10 @@
             <!-- Decorative Glow / Abstract Shape behind illustration -->
             <div class="absolute bottom-20 left-1/2 -translate-x-1/2 w-32 h-32 bg-blue-400 rounded-full blur-[40px] opacity-10 pointer-events-none"></div>
 
-            <!-- Illustration: Gedung Kecamatan (Line Art Style) -->
-            <div class="relative w-full h-28 mb-4 flex items-end justify-center overflow-hidden rounded-2xl bg-gradient-to-t from-blue-400/10 to-transparent border border-white/5">
-                <i class="ph ph-buildings text-[90px] text-blue-300/30 mb-[-10px] drop-shadow-md"></i>
+            <!-- Illustration: Gedung Kecamatan (Image Style) -->
+            <div class="relative w-full h-32 mb-4 flex items-center justify-center overflow-hidden rounded-2xl border border-white/5 group">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0F1C3F]/80 via-transparent to-transparent z-10 pointer-events-none"></div>
+                <img src="{{ asset('images/sidebar-bg.jpg') }}" alt="Gedung Kecamatan" class="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-in-out opacity-90">
             </div>
 
             <div class="border-t border-white/10 pt-4 mb-4">
