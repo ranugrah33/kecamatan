@@ -2,29 +2,61 @@
 
 @section('content')
 <div class="min-h-screen flex w-full relative overflow-hidden">
-    {{-- Kolom Kiri: Branding & Image (TETAP SAMA) --}}
+    {{-- Kolom Kiri: Branding & Image --}}
     <div class="hidden lg:flex w-[45%] relative items-center justify-center bg-blue-900">
         <!-- Background Image -->
         <div class="absolute inset-0">
-            <img src="{{ asset('images/login-bg.jpg') }}" alt="Kecamatan Cikampek" class="w-full h-full object-cover" />
-            <!-- Dark Blue Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-b from-blue-900/80 to-blue-900/95"></div>
+            <img src="{{ asset('images/gambar-kecamatan.png') }}" alt="Kecamatan Cikampek" class="w-full h-full object-cover object-center" />
+            <!-- Overlay: biru transparan tetap terlihat, teks tetap terbaca -->
+            <div class="absolute inset-0" style="background: linear-gradient(160deg, rgba(23,37,84,0.82) 0%, rgba(30,58,138,0.78) 50%, rgba(23,37,84,0.90) 100%);"></div>
         </div>
 
-        <!-- Content Kiri -->
-        <div class="relative z-10 px-12 text-white flex flex-col justify-center h-full max-w-xl">
-            <!-- Logo/Icon -->
-            <div class="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-8 border border-white/20">
-                <i class="ph ph-buildings text-3xl text-white"></i>
-            </div>
-            
-            <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight mb-3">Kecamatan Cikampek</h1>
-            <h2 class="text-xl lg:text-2xl text-blue-100 font-medium mb-6">Sistem Pelayanan Masyarakat</h2>
-            
-            <div class="w-12 h-1 bg-blue-400 rounded-full mb-6"></div>
-            
-            <p class="text-blue-50/80 text-lg leading-relaxed">
-                Pelayanan publik yang mudah, cepat, dan transparan.
+        <!-- Content Kiri: satu vertical block, tengah vertikal, padding horizontal ~9% -->
+        <div class="relative z-10 flex flex-col justify-center h-full text-white"
+             style="padding-left: 9%; padding-right: 8%; max-width: 560px; width: 100%;">
+
+            <!-- Judul utama: paling dominan, dua baris compact -->
+            <h1 style="
+                font-size: clamp(40px, 4vw, 58px);
+                font-weight: 800;
+                line-height: 1.00;
+                letter-spacing: -0.02em;
+                color: #ffffff;
+                margin: 0 0 0 0;
+            ">
+                Kecamatan<br>Cikampek
+            </h1>
+
+            <!-- Subtitle -->
+            <h2 style="
+                font-size: clamp(18px, 1.8vw, 26px);
+                font-weight: 500;
+                line-height: 1.4;
+                color: rgba(219, 234, 254, 0.92);
+                margin: 22px 0 0 0;
+                letter-spacing: 0.01em;
+            ">
+                Sistem Pelayanan Masyarakat
+            </h2>
+
+            <!-- Garis aksen biru muda -->
+            <div style="
+                width: 60px;
+                height: 4px;
+                background: #60a5fa;
+                border-radius: 999px;
+                margin: 30px 0 0 0;
+            "></div>
+
+            <!-- Deskripsi: ringan, mudah dibaca -->
+            <p style="
+                font-size: clamp(15px, 1.25vw, 18px);
+                font-weight: 400;
+                line-height: 1.65;
+                color: rgba(219, 234, 254, 0.75);
+                margin: 30px 0 0 0;
+            ">
+                Pelayanan publik yang mudah,<br>cepat, dan transparan.
             </p>
         </div>
     </div>
@@ -57,10 +89,7 @@
                 <!-- Decorative Abstract Shape inside card (Pojok kanan atas) -->
                 <div class="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl rotate-12 opacity-80 blur-[1px] -z-10"></div>
             <div class="mb-8 text-center sm:text-left">
-                <!-- Mobile Logo -->
-                <div class="lg:hidden w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-inner">
-                    <i class="ph ph-buildings text-3xl text-blue-600"></i>
-                </div>
+
                 
                 <h2 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Selamat Datang 👋</h2>
                 <p class="text-[15px] text-slate-500 font-medium">Masuk untuk mengakses layanan Kecamatan Cikampek</p>
