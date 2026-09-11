@@ -55,10 +55,10 @@
             </button>
         </form>
 
-        <div class="text-center">
+        <div class="mt-4 text-center">
             <p class="text-sm text-black drop-shadow">
                 Sudah memiliki akun?
-                <a href="{{ route('login') }}" class="font-medium text-black hover:text-blue-700 hover:underline">Login di sini</a>
+                <a href="{{ route('login') }}" class="font-medium text-blue-700 hover:text-blue-900 hover:underline">Login di sini</a>
             </p>
         </div>
     </div>

@@ -1,196 +1,63 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex w-full relative overflow-hidden">
-    {{-- Kolom Kiri: Branding & Image --}}
-    <div class="hidden lg:flex w-[45%] relative items-center justify-center bg-blue-900">
-        <!-- Background Image -->
-        <div class="absolute inset-0">
-            <img src="{{ asset('images/gambar-kecamatan.png') }}" alt="Kecamatan Cikampek" class="w-full h-full object-cover object-center" />
-            <!-- Overlay: biru transparan tetap terlihat, teks tetap terbaca -->
-            <div class="absolute inset-0" style="background: linear-gradient(160deg, rgba(23,37,84,0.82) 0%, rgba(30,58,138,0.78) 50%, rgba(23,37,84,0.90) 100%);"></div>
+<div class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6">
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/gambar-kecamatan.png') }}" alt="Kecamatan Cikampek" class="h-full w-full object-cover object-center">
+        <div class="absolute inset-0 bg-blue-950/35"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-lg rounded-2xl border border-white/40 bg-blue-50/25 p-6 shadow-2xl shadow-blue-950/30 backdrop-blur-xl sm:p-8">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold text-black drop-shadow-md">Selamat Datang</h1>
+            <p class="mt-2 text-sm text-black drop-shadow">Masyarakat Kecamatan Cikampek</p>
         </div>
 
-        <!-- Content Kiri: satu vertical block, tengah vertikal, padding horizontal ~9% -->
-        <div class="relative z-10 flex flex-col justify-center h-full text-white"
-             style="padding-left: 9%; padding-right: 8%; max-width: 560px; width: 100%;">
+        @if ($errors->any())
+            <div class="mb-4 rounded-lg border border-red-200/50 bg-red-950/40 p-4 text-sm text-white" role="alert">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            <!-- Judul utama: paling dominan, dua baris compact -->
-            <h1 style="
-                font-size: clamp(40px, 4vw, 58px);
-                font-weight: 800;
-                line-height: 1.00;
-                letter-spacing: -0.02em;
-                color: #ffffff;
-                margin: 0 0 0 0;
-            ">
-                Kecamatan<br>Cikampek
-            </h1>
+        <form class="space-y-4" action="{{ route('login') }}" method="POST">
+            @csrf
+            <div>
+                <label for="email" class="block text-sm font-medium text-black drop-shadow">Email</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Masukkan email Anda" required>
+            </div>
+            <div x-data="{ show: false }">
+                <label for="password" class="block text-sm font-medium text-black drop-shadow">Password</label>
+                <div class="relative">
+                    <input :type="show ? 'text' : 'password'" name="password" id="password" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 pr-12 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Masukkan password" required>
+                    <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center px-4 text-black/70 transition hover:text-blue-700 focus:outline-none" :aria-label="show ? 'Sembunyikan password' : 'Tampilkan password'">
+                        <i class="ph text-lg" :class="show ? 'ph-eye-slash' : 'ph-eye'"></i>
+                    </button>
+                </div>
+            </div>
 
-            <!-- Subtitle -->
-            <h2 style="
-                font-size: clamp(18px, 1.8vw, 26px);
-                font-weight: 500;
-                line-height: 1.4;
-                color: rgba(219, 234, 254, 0.92);
-                margin: 22px 0 0 0;
-                letter-spacing: 0.01em;
-            ">
-                Sistem Pelayanan Masyarakat
-            </h2>
+            <div class="flex items-center justify-between gap-4 py-1 text-sm">
+                <label class="flex items-center gap-2 text-black">
+                    <input type="checkbox" name="remember" class="h-4 w-4 rounded border-black/30 text-blue-600 focus:ring-blue-500/40">
+                    <span>Ingat saya</span>
+                </label>
+                <a href="{{ route('password.request') }}" class="font-medium text-black hover:text-blue-700 hover:underline">Lupa password?</a>
+            </div>
 
-            <!-- Garis aksen biru muda -->
-            <div style="
-                width: 60px;
-                height: 4px;
-                background: #60a5fa;
-                border-radius: 999px;
-                margin: 30px 0 0 0;
-            "></div>
+            <button type="submit" class="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-950/25 transition duration-150 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/60">
+                Masuk
+            </button>
+        </form>
 
-            <!-- Deskripsi: ringan, mudah dibaca -->
-            <p style="
-                font-size: clamp(15px, 1.25vw, 18px);
-                font-weight: 400;
-                line-height: 1.65;
-                color: rgba(219, 234, 254, 0.75);
-                margin: 30px 0 0 0;
-            ">
-                Pelayanan publik yang mudah,<br>cepat, dan transparan.
+        <div class="mt-4 text-center">
+            <p class="text-sm text-black drop-shadow">
+                Belum memiliki akun?
+                <a href="{{ route('register') }}" class="font-medium text-blue-700 hover:text-blue-900 hover:underline">Daftar sekarang</a>
             </p>
         </div>
     </div>
-
-    {{-- Kolom Kanan: Form Login (REDESIGN) --}}
-    <div class="flex-1 flex items-center justify-center relative bg-[#F8FAFC]">
-        
-        <!-- ================= DECORATIVE BACKGROUND ELEMENTS ================= -->
-        <!-- Subtle Blue Blob Bottom Left -->
-        <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.08] pointer-events-none"></div>
-        
-        <!-- Subtle Indigo Blob Top Right -->
-        <div class="absolute -top-32 -right-32 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.08] pointer-events-none"></div>
-        
-        <!-- Large Transparent Circle Outline (Dipertegas) -->
-        <div class="absolute top-10 right-10 w-72 h-72 border-2 border-blue-200 rounded-full opacity-40 pointer-events-none"></div>
-        <div class="absolute top-28 right-0 w-36 h-36 border-2 border-blue-300 rounded-full opacity-30 pointer-events-none"></div>
-        
-        <!-- Subtle Dotted Pattern (SVG background) -->
-        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#2563EB 1px, transparent 1px); background-size: 24px 24px;"></div>
-        <!-- ================================================================ -->
-
-
-        <!-- Floating Login Panel & Decorative Elements Container -->
-        <div class="relative z-10 w-full max-w-[440px] mx-4 sm:mx-0">
-            
-            <!-- Main Card -->
-            <div class="w-full px-8 py-10 bg-white/95 backdrop-blur-sm sm:rounded-[24px] sm:shadow-[0_8px_40px_rgb(37,99,235,0.08)] border border-white/80 relative">
-                
-                <!-- Decorative Abstract Shape inside card (Pojok kanan atas) -->
-                <div class="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl rotate-12 opacity-80 blur-[1px] -z-10"></div>
-            <div class="mb-8 text-center sm:text-left">
-
-                
-                <h2 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Selamat Datang 👋</h2>
-                <p class="text-[15px] text-slate-500 font-medium">Masuk untuk mengakses layanan Kecamatan Cikampek</p>
-                <div class="w-10 h-1 bg-blue-600 rounded-full mt-5 mx-auto sm:mx-0 opacity-80"></div>
-            </div>
-
-            <!-- Error Alert -->
-            @if ($errors->any())
-                <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3">
-                    <i class="ph ph-warning-circle text-red-500 text-lg mt-0.5"></i>
-                    <div class="text-sm text-red-700 font-medium">
-                        <ul class="list-disc pl-4 space-y-1">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            @endif
-
-            <!-- Form -->
-            <form action="{{ route('login') }}" method="POST" class="space-y-5">
-                @csrf
-                
-                <!-- Email Input -->
-                <div class="space-y-2">
-                    <label for="email" class="block text-sm font-semibold text-slate-700">Email</label>
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors duration-300">
-                            <i class="ph ph-envelope-simple text-[20px]"></i>
-                        </div>
-                        <input type="email" name="email" id="email" value="{{ old('email') }}" 
-                            class="w-full pl-11 pr-4 py-3 bg-[#F8FAFC] border border-slate-200 rounded-xl text-[15px] text-slate-700 font-medium transition-all duration-300 outline-none focus:bg-white focus:border-blue-500 focus:ring-[4px] focus:ring-blue-500/15 placeholder-slate-400 hover:border-slate-300" 
-                            placeholder="Masukkan email Anda" required>
-                    </div>
-                </div>
-
-                <!-- Password Input -->
-                <div class="space-y-2" x-data="{ show: false }">
-                    <label for="password" class="block text-sm font-semibold text-slate-700">Password</label>
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors duration-300">
-                            <i class="ph ph-lock-key text-[20px]"></i>
-                        </div>
-                        <input :type="show ? 'text' : 'password'" name="password" id="password" 
-                            class="w-full pl-11 pr-11 py-3 bg-[#F8FAFC] border border-slate-200 rounded-xl text-[15px] text-slate-700 font-medium transition-all duration-300 outline-none focus:bg-white focus:border-blue-500 focus:ring-[4px] focus:ring-blue-500/15 placeholder-slate-400 hover:border-slate-300" 
-                            placeholder="Masukkan password" required>
-                        <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none transition-colors">
-                            <i class="ph text-[20px]" :class="show ? 'ph-eye-slash' : 'ph-eye'"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between pt-1 pb-2">
-                    <label class="flex items-center gap-2.5 cursor-pointer group">
-                        <div class="relative flex items-center justify-center">
-                            <input type="checkbox" name="remember" class="peer appearance-none w-4.5 h-4.5 border-2 border-slate-300 rounded-[4px] checked:bg-blue-600 checked:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all cursor-pointer">
-                            <i class="ph ph-check text-white text-xs absolute opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></i>
-                        </div>
-                        <span class="text-[14px] font-medium text-slate-600 group-hover:text-slate-800 transition-colors">Ingat saya</span>
-                    </label>
-                    <a href="{{ route('password.request') }}" class="text-[14px] font-semibold text-blue-600 hover:text-blue-700 hover:underline transition-colors">
-                        Lupa password?
-                    </a>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="pt-1">
-                    <button type="submit" 
-                        class="w-full relative flex items-center justify-center py-3.5 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-[15px] rounded-xl shadow-[0_4px_12px_rgb(37,99,235,0.2)] hover:shadow-[0_6px_20px_rgb(37,99,235,0.3)] focus:outline-none focus:ring-[4px] focus:ring-blue-500/30 transition-all duration-300 transform hover:-translate-y-[1px] active:translate-y-0 overflow-hidden group">
-                        <!-- Loading State (hidden by default) -->
-                        <div class="absolute inset-0 flex items-center justify-center bg-blue-700 transition-opacity duration-300 opacity-0" id="loading-overlay">
-                            <i class="ph ph-spinner animate-spin text-[22px]"></i>
-                        </div>
-                        <span class="transition-transform duration-300 group-active:scale-[0.98]" id="btn-text">Masuk</span>
-                    </button>
-                </div>
-            </form>
-
-            <!-- Register Link -->
-            <div class="mt-8 text-center">
-                <p class="text-[14px] font-medium text-slate-600">
-                    Belum memiliki akun? 
-                    <a href="{{ route('register') }}" class="font-bold text-blue-600 hover:text-blue-700 hover:underline transition-colors ml-1">
-                        Daftar sekarang
-                    </a>
-                </p>
-            </div>
-
-        </div>
-    </div>
 </div>
-
-<!-- Simple script to show loading on form submit -->
-<script>
-    document.querySelector('form').addEventListener('submit', function() {
-        const btn = this.querySelector('button[type="submit"]');
-        btn.classList.add('cursor-wait');
-        btn.querySelector('#loading-overlay').classList.remove('opacity-0');
-        btn.querySelector('#btn-text').classList.add('opacity-0');
-    });
-</script>
 @endsection
