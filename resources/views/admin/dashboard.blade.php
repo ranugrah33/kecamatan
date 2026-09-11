@@ -165,18 +165,6 @@
     </a>
 
     <a href="#"
-       class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-green-200 hover:shadow-md transition-all group flex items-center gap-4">
-        <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-100 transition">
-            <i class="ph ph-users text-xl text-green-500"></i>
-        </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-sm font-semibold text-gray-800">Data Masyarakat</p>
-            <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Kelola data masyarakat dan pendaftaran</p>
-        </div>
-        <i class="ph ph-arrow-right text-gray-300 group-hover:text-green-400 transition flex-shrink-0"></i>
-    </a>
-
-    <a href="#"
        class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-purple-200 hover:shadow-md transition-all group flex items-center gap-4">
         <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition">
             <i class="ph ph-chart-bar text-xl text-purple-500"></i>
