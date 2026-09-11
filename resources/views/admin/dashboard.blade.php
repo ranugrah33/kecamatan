@@ -114,36 +114,34 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
+                    @forelse($pengajuan_terbaru as $index => $item)
                     @php
-                    $pengajuanAdmin = [
-                        ['no'=>1,'jenis'=>'Peminjaman Aula','pemohon'=>'Siti Nurhaliza','tgl'=>'15 Sep 2025','status'=>'Diproses','color'=>'blue'],
-                        ['no'=>2,'jenis'=>'Arsip UMKM','pemohon'=>'Budi Santoso','tgl'=>'14 Sep 2025','status'=>'Selesai','color'=>'green'],
-                        ['no'=>3,'jenis'=>'Bantuan Sosial','pemohon'=>'Rina Astuti','tgl'=>'13 Sep 2025','status'=>'Diterima','color'=>'yellow'],
-                        ['no'=>4,'jenis'=>'Jual Beli Tanah','pemohon'=>'Ahmad Fauzi','tgl'=>'12 Sep 2025','status'=>'Perlu Diperbaiki','color'=>'red'],
-                    ];
+                        $color = 'blue';
+                        if ($item->status == 'Selesai' || $item->status == 'Disetujui') $color = 'green';
+                        if ($item->status == 'Perlu Perbaikan') $color = 'yellow';
+                        if ($item->status == 'Ditolak' || $item->status == 'Dibatalkan') $color = 'red';
                     @endphp
-                    @foreach($pengajuanAdmin as $item)
                     <tr class="hover:bg-gray-50/80 transition">
-                        <td class="px-4 py-3 text-xs text-gray-400">{{ $item['no'] }}</td>
-                        <td class="px-4 py-3 text-xs font-medium text-gray-800">{{ $item['jenis'] }}</td>
-                        <td class="px-4 py-3 text-xs text-gray-500">{{ $item['pemohon'] }}</td>
-                        <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">{{ $item['tgl'] }}</td>
+                        <td class="px-4 py-3 text-xs text-gray-400">{{ $index + 1 }}</td>
+                        <td class="px-4 py-3 text-xs font-medium text-gray-800">Peminjaman Aula</td>
+                        <td class="px-4 py-3 text-xs text-gray-500">{{ $item->user->name }}</td>
+                        <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                         <td class="px-4 py-3">
-                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap
-                                {{ $item['color'] === 'green' ? 'bg-green-100 text-green-700' : '' }}
-                                {{ $item['color'] === 'blue' ? 'bg-blue-100 text-blue-700' : '' }}
-                                {{ $item['color'] === 'yellow' ? 'bg-yellow-100 text-yellow-700' : '' }}
-                                {{ $item['color'] === 'red' ? 'bg-red-100 text-red-700' : '' }}">
-                                {{ $item['status'] }}
+                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap bg-{{$color}}-100 text-{{$color}}-700">
+                                {{ $item->status }}
                             </span>
                         </td>
                         <td class="px-4 py-3">
-                            <a href="{{ route('admin.peminjaman_aula.index') }}" class="text-gray-300 hover:text-blue-500 transition">
+                            <a href="{{ route('admin.peminjaman_aula.show', $item->id) }}" class="text-gray-300 hover:text-blue-500 transition">
                                 <i class="ph ph-caret-right text-sm"></i>
                             </a>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-4 py-8 text-center text-xs text-gray-500">Belum ada data pengajuan.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

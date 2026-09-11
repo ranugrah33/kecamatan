@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'lokasi' => 'Kecamatan Cikampek',
             'kapasitas' => 100,
             'jam_buka' => '08:00:00',
-            'jam_tutup' => '16:00:00',
+            'jam_tutup' => '22:00:00',
             'fasilitas' => ['Meja', 'Kursi', 'Sound System', 'Toilet', 'Mic', 'Kipas'],
             'ketentuan' => '1. Menjaga kebersihan aula. 2. Tidak merusak fasilitas. 3. Mematuhi jam operasional.'
         ]);

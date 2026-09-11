@@ -14,7 +14,9 @@ class AdminController extends Controller
         $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak'])->count();
         $perlu_diperbaiki = PeminjamanAula::where('status', 'Perlu Perbaikan')->count();
 
-        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki'));
+        $pengajuan_terbaru = PeminjamanAula::with('user')->orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki', 'pengajuan_terbaru'));
     }
 }
 

@@ -111,82 +111,14 @@
             {{-- Jam Mulai --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700">Jam Mulai <span class="text-red-500">*</span></label>
-                <div class="flex items-center gap-2 mt-1">
-                    <select x-model="jamMulaiJam"
-                            @change="formData.jam_mulai = (jamMulaiJam && jamMulaiMenit) ? jamMulaiJam + ':' + jamMulaiMenit : ''"
-                            class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
-                        <option value="">Jam</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                    </select>
-                    <span class="text-gray-500 font-semibold text-lg">:</span>
-                    <select x-model="jamMulaiMenit"
-                            @change="formData.jam_mulai = (jamMulaiJam && jamMulaiMenit) ? jamMulaiJam + ':' + jamMulaiMenit : ''"
-                            class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
-                        <option value="">Menit</option>
-                        <option value="00">00</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                </div>
-                <input type="hidden" name="jam_mulai" :value="formData.jam_mulai">
+                <input type="time" name="jam_mulai" x-model="formData.jam_mulai" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
                 <p class="text-xs text-gray-500 mt-1">Jam operasional: {{ substr($aula->jam_buka, 0, 5) }} – {{ substr($aula->jam_tutup, 0, 5) }}</p>
             </div>
 
             {{-- Jam Selesai --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700">Jam Selesai <span class="text-red-500">*</span></label>
-                <div class="flex items-center gap-2 mt-1">
-                    <select x-model="jamSelesaiJam"
-                            @change="formData.jam_selesai = (jamSelesaiJam && jamSelesaiMenit) ? jamSelesaiJam + ':' + jamSelesaiMenit : ''"
-                            class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
-                        <option value="">Jam</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                    </select>
-                    <span class="text-gray-500 font-semibold text-lg">:</span>
-                    <select x-model="jamSelesaiMenit"
-                            @change="formData.jam_selesai = (jamSelesaiJam && jamSelesaiMenit) ? jamSelesaiJam + ':' + jamSelesaiMenit : ''"
-                            class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
-                        <option value="">Menit</option>
-                        <option value="00">00</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                </div>
-                <input type="hidden" name="jam_selesai" :value="formData.jam_selesai">
+                <input type="time" name="jam_selesai" x-model="formData.jam_selesai" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
                 <p class="text-xs text-gray-500 mt-1">Jam operasional: {{ substr($aula->jam_buka, 0, 5) }} – {{ substr($aula->jam_tutup, 0, 5) }}</p>
             </div>
         </div>
@@ -323,11 +255,6 @@ function peminjamanForm() {
         showConfirmation: false,
         isConfirmed: false,
         fileName: '',
-        // State untuk custom time selects
-        jamMulaiJam: '',
-        jamMulaiMenit: '',
-        jamSelesaiJam: '',
-        jamSelesaiMenit: '',
         formData: {
             nama: "{{ $user->name }}",
             nik: "{{ $user->nik }}",
@@ -352,18 +279,14 @@ function peminjamanForm() {
             this.fileName = e.target.files.length > 0 ? e.target.files[0].name : '';
         },
         previewData() {
-            // Validasi jam dipilih
-            if (!this.jamMulaiJam || !this.jamMulaiMenit) {
-                alert("Silakan pilih jam dan menit untuk Jam Mulai.");
+            if (!this.formData.jam_mulai) {
+                alert("Silakan pilih Jam Mulai.");
                 return;
             }
-            if (!this.jamSelesaiJam || !this.jamSelesaiMenit) {
-                alert("Silakan pilih jam dan menit untuk Jam Selesai.");
+            if (!this.formData.jam_selesai) {
+                alert("Silakan pilih Jam Selesai.");
                 return;
             }
-            // Pastikan formData jam tersync
-            this.formData.jam_mulai = this.jamMulaiJam + ':' + this.jamMulaiMenit;
-            this.formData.jam_selesai = this.jamSelesaiJam + ':' + this.jamSelesaiMenit;
 
             if(this.formData.jam_mulai >= this.formData.jam_selesai) {
                 alert("Jam selesai harus lebih besar daripada jam mulai.");
@@ -383,14 +306,7 @@ function peminjamanForm() {
         },
         submitForm() {
             if (this.isConfirmed) {
-                // Pastikan hidden inputs mendapat nilai yang benar sebelum submit
-                const form = document.getElementById('mainForm');
-                // Set jam_mulai & jam_selesai secara eksplisit
-                const mulaiInput = form.querySelector('input[name="jam_mulai"]');
-                const selesaiInput = form.querySelector('input[name="jam_selesai"]');
-                if (mulaiInput) mulaiInput.value = this.jamMulaiJam + ':' + this.jamMulaiMenit;
-                if (selesaiInput) selesaiInput.value = this.jamSelesaiJam + ':' + this.jamSelesaiMenit;
-                form.submit();
+                document.getElementById('mainForm').submit();
             }
         }
     }

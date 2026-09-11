@@ -106,18 +106,30 @@
         </nav>
 
         <!-- Sidebar Bottom -->
-        <div class="flex-shrink-0 px-3 pt-4 pb-5 border-t border-white/10">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                        class="menu-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition text-left">
-                    <i class="ph ph-sign-out text-lg"></i>
-                    Keluar
-                </button>
-            </form>
-            <div class="mt-4 mx-1 p-3 rounded-xl bg-white/5 border border-white/10">
-                <p class="text-blue-300 text-xs font-semibold leading-tight">Mudah, Cepat, Transparan</p>
-                <p class="text-slate-400 text-xs mt-1 leading-tight">Pelayanan Kecamatan untuk Anda</p>
+        <div class="flex-shrink-0 px-4 pt-6 pb-6 relative z-10">
+            <!-- Decorative Glow / Abstract Shape behind illustration -->
+            <div class="absolute bottom-20 left-1/2 -translate-x-1/2 w-32 h-32 bg-blue-400 rounded-full blur-[40px] opacity-10 pointer-events-none"></div>
+
+            <!-- Illustration: Gedung Kecamatan (Line Art Style) -->
+            <div class="relative w-full h-28 mb-4 flex items-end justify-center overflow-hidden rounded-2xl bg-gradient-to-t from-blue-400/10 to-transparent border border-white/5">
+                <i class="ph ph-buildings text-[90px] text-blue-300/30 mb-[-10px] drop-shadow-md"></i>
+            </div>
+
+            <div class="border-t border-white/10 pt-4 mb-4">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                            class="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-[13px] font-bold text-red-400 border border-red-400/20 bg-red-400/5 hover:bg-red-500 hover:text-white transition-all duration-300">
+                        <i class="ph ph-sign-out text-lg"></i>
+                        Keluar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tagline -->
+            <div class="text-center px-2">
+                <p class="text-blue-200/60 text-[11px] font-medium italic tracking-wide">"Melayani dengan Hati"</p>
+                <p class="text-blue-300/40 text-[10px] mt-0.5">untuk Cikampek yang Lebih Baik</p>
             </div>
         </div>
     </aside>
