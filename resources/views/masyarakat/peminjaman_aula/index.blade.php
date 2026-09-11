@@ -99,11 +99,15 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Jam Mulai</label>
-                        <input type="time" x-model="jam_mulai" class="w-full px-4 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
+                        <input type="text" x-model="jam_mulai" 
+                               x-init="flatpickr($el, { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true, onChange: (sel, str) => { jam_mulai = str; } })"
+                               class="w-full px-4 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white" placeholder="--:--">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Jam Selesai</label>
-                        <input type="time" x-model="jam_selesai" class="w-full px-4 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
+                        <input type="text" x-model="jam_selesai" 
+                               x-init="flatpickr($el, { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true, onChange: (sel, str) => { jam_selesai = str; } })"
+                               class="w-full px-4 py-2 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white" placeholder="--:--">
                     </div>
                 </div>
                 <button @click="cekKetersediaan" type="button" class="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition text-sm mb-4">
@@ -224,4 +228,8 @@
         </table>
     </div>
 </div>
+<!-- Tambahkan CSS & JS Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 @endsection

@@ -111,14 +111,18 @@
             {{-- Jam Mulai --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700">Jam Mulai <span class="text-red-500">*</span></label>
-                <input type="time" name="jam_mulai" x-model="formData.jam_mulai" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
+                <input type="text" name="jam_mulai" x-model="formData.jam_mulai" 
+                       x-init="flatpickr($el, { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true, onChange: (sel, str) => { formData.jam_mulai = str; } })"
+                       class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white" required placeholder="--:--">
                 <p class="text-xs text-gray-500 mt-1">Jam operasional: {{ substr($aula->jam_buka, 0, 5) }} – {{ substr($aula->jam_tutup, 0, 5) }}</p>
             </div>
 
             {{-- Jam Selesai --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700">Jam Selesai <span class="text-red-500">*</span></label>
-                <input type="time" name="jam_selesai" x-model="formData.jam_selesai" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
+                <input type="text" name="jam_selesai" x-model="formData.jam_selesai" 
+                       x-init="flatpickr($el, { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true, onChange: (sel, str) => { formData.jam_selesai = str; } })"
+                       class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none bg-white" required placeholder="--:--">
                 <p class="text-xs text-gray-500 mt-1">Jam operasional: {{ substr($aula->jam_buka, 0, 5) }} – {{ substr($aula->jam_tutup, 0, 5) }}</p>
             </div>
         </div>
@@ -312,4 +316,9 @@ function peminjamanForm() {
     }
 }
 </script>
+
+<!-- Tambahkan CSS & JS Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 @endsection
