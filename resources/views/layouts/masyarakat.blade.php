@@ -51,8 +51,8 @@
         <!-- Brand -->
         <div class="flex items-center gap-3 px-5 py-[18px] border-b border-white/10 flex-shrink-0">
             <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
-                <img src="/images/logo-karawang.png" alt="Logo Kabupaten Karawang"
-                     class="w-9 h-9 object-contain"
+                <img src="{{ asset('images/Kabupaten-Karawang-Logo.jpg') }}" alt="Logo Kabupaten Karawang"
+                     class="w-8 h-8 object-contain"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div style="display:none" class="w-full h-full items-center justify-center bg-blue-700 rounded-xl">
                     <i class="ph ph-shield-star text-white text-lg"></i>
