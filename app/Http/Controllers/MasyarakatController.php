@@ -13,8 +13,8 @@ class MasyarakatController extends Controller
         $peminjamanAulas = \App\Models\PeminjamanAula::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         
         $total_peminjaman = $peminjamanAulas->count();
-        $diproses_peminjaman = $peminjamanAulas->whereIn('status', ['Menunggu Verifikasi', 'Diproses'])->count();
-        $selesai_peminjaman = $peminjamanAulas->where('status', 'Disetujui')->count();
+        $diproses_peminjaman = $peminjamanAulas->whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses'])->count();
+        $selesai_peminjaman = $peminjamanAulas->whereIn('status', ['Disetujui', 'Surat Tersedia'])->count();
         $perlu_diperbaiki_peminjaman = $peminjamanAulas->where('status', 'Perlu Perbaikan')->count();
 
         $pengajuan_terbaru = [];
@@ -113,13 +113,10 @@ class MasyarakatController extends Controller
                 'status' => $p->status,
                 'catatan' => $p->catatan_petugas ?? 'Menunggu verifikasi',
                 'updated_at' => \Carbon\Carbon::parse($p->updated_at)->format('Y-m-d'),
-                'id' => $p->id // for link to detail later
+                'id' => $p->id, // for link to detail later
+                'file_surat_final' => $p->file_surat_final
             ];
         }
-
-        // Data dummy untuk riwayat (selain Aula)
-        $riwayat[] = ['nomor' => 'REG-002', 'jenis' => 'Jual Beli Tanah', 'tanggal' => '2023-10-20', 'status' => 'Selesai', 'catatan' => 'Sertifikat siap diambil', 'updated_at' => '2023-10-24'];
-        $riwayat[] = ['nomor' => 'REG-003', 'jenis' => 'UMKM', 'tanggal' => '2023-10-15', 'status' => 'Perlu Perbaikan', 'catatan' => 'KTP buram, harap upload ulang', 'updated_at' => '2023-10-16'];
 
         return view('masyarakat.riwayat', compact('riwayat'));
     }

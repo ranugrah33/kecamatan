@@ -17,7 +17,7 @@ class PeminjamanAulaController extends Controller
                                  ->orderBy('created_at', 'desc')
                                  ->get();
                                  
-        $jadwal_disetujui = PeminjamanAula::where('status', 'Disetujui')
+        $jadwal_disetujui = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Diproses', 'Surat Tersedia'])
                                           ->where('tanggal', '>=', date('Y-m-d'))
                                           ->orderBy('tanggal', 'asc')
                                           ->orderBy('jam_mulai', 'asc')
@@ -54,7 +54,6 @@ class PeminjamanAulaController extends Controller
             'tanggal' => 'required|date|after_or_equal:today',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
-            'dokumen' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
         // Cek jam operasional
@@ -63,7 +62,7 @@ class PeminjamanAulaController extends Controller
         }
 
         // Cek jadwal bentrok
-        $bentrok = PeminjamanAula::where('status', 'Disetujui')
+        $bentrok = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Diproses', 'Surat Tersedia'])
             ->where('tanggal', $request->tanggal)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('jam_mulai', [$request->jam_mulai, $request->jam_selesai])
@@ -110,21 +109,9 @@ class PeminjamanAulaController extends Controller
             'jam_selesai' => $request->jam_selesai,
             'fasilitas_dibutuhkan' => $fasilitas,
             'catatan_tambahan' => $request->catatan_tambahan,
-            'status' => 'Menunggu Verifikasi',
+            'nomor_surat_permohonan' => $request->nomor_surat_permohonan,
+            'status' => 'Surat Diproses',
         ]);
-
-        // Upload Dokumen
-        if ($request->hasFile('dokumen')) {
-            $file = $request->file('dokumen');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('dokumen_aula', $filename, 'public');
-            
-            \App\Models\PeminjamanAulaDokumen::create([
-                'peminjaman_aula_id' => $peminjaman->id,
-                'nama_dokumen' => 'Surat Permohonan / Proposal',
-                'path_dokumen' => $path,
-            ]);
-        }
 
         return redirect()->route('masyarakat.peminjaman_aula.sukses', $peminjaman->id);
     }

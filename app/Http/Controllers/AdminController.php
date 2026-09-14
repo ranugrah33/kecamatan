@@ -10,8 +10,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $total_permohonan = PeminjamanAula::count();
-        $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan'])->count();
-        $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak'])->count();
+        $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count();
+        $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak', 'Surat Tersedia'])->count();
         $perlu_diperbaiki = PeminjamanAula::where('status', 'Perlu Perbaikan')->count();
 
         $pengajuan_terbaru = PeminjamanAula::with('user')->orderBy('created_at', 'desc')->take(5)->get();

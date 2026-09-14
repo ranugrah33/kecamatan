@@ -210,6 +210,22 @@
             </div>
         @endif
 
+        <!-- Surat Izin Tersedia -->
+        @if($peminjaman->status === 'Surat Tersedia' && $peminjaman->file_surat_final)
+        <div class="bg-green-50 rounded-xl shadow-sm border border-green-200 overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="ph-fill ph-check-circle text-green-600 text-2xl"></i>
+                    <h3 class="font-bold text-green-900">Surat Izin Tersedia</h3>
+                </div>
+                <p class="text-sm text-green-800 mb-5">✅ Surat Perizinan Peminjaman Aula telah tersedia dan dapat didownload.</p>
+                <a href="{{ asset('storage/' . $peminjaman->file_surat_final) }}" target="_blank" class="w-full flex items-center justify-center gap-2 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition shadow-sm">
+                    <i class="ph ph-download-simple text-lg"></i> Download Surat
+                </a>
+            </div>
+        </div>
+        @endif
+
         <!-- Aula Details -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">

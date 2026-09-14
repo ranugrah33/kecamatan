@@ -153,15 +153,17 @@
             </div>
         </div>
 
-        <!-- Bagian E: Dokumen Pendukung -->
+        <!-- Bagian E: Surat Permohonan -->
         <h2 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2 flex items-center gap-2">
             <span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-sm">E</span>
-            Dokumen Pendukung
+            Surat Permohonan
         </h2>
         <div class="mb-8">
-            <label class="block text-sm font-medium text-gray-700">Upload Surat Permohonan / Proposal (Opsional)</label>
-            <input type="file" name="dokumen" @change="updateFileName" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg bg-gray-50 focus:outline-none">
-            <p class="text-xs text-gray-500 mt-1">Format diperbolehkan: PDF, JPG, PNG. Maksimal 2MB.</p>
+            <div class="w-full">
+                <label class="block text-sm font-medium text-gray-700">Nomor Surat Permohonan <span class="text-gray-400 font-normal">(Opsional)</span></label>
+                <input type="text" name="nomor_surat_permohonan" x-model="formData.nomor_surat_permohonan" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Contoh: 123/ORG/2026">
+                <p class="text-xs text-gray-500 mt-1">Masukkan nomor surat resmi dari instansi/organisasi Anda jika ada.</p>
+            </div>
         </div>
 
         <!-- Bagian F: Keterangan -->
@@ -225,12 +227,6 @@
                 </div>
             </div>
             
-            <div class="border rounded-lg overflow-hidden">
-                <div class="bg-gray-50 px-4 py-2 border-b font-medium text-gray-700">DOKUMEN PENDUKUNG</div>
-                <div class="p-4 text-sm font-medium">
-                    <span x-text="fileName ? fileName : 'Tidak ada dokumen yang dilampirkan'"></span>
-                </div>
-            </div>
         </div>
 
         <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
@@ -258,7 +254,6 @@ function peminjamanForm() {
         today: new Date().toISOString().split('T')[0],
         showConfirmation: false,
         isConfirmed: false,
-        fileName: '',
         formData: {
             nama: "{{ $user->name }}",
             nik: "{{ $user->nik }}",
@@ -277,10 +272,8 @@ function peminjamanForm() {
             fasilitas: [],
             fasilitas_lainnya_check: false,
             fasilitas_lainnya_text: "",
+            nomor_surat_permohonan: "",
             catatan_tambahan: ""
-        },
-        updateFileName(e) {
-            this.fileName = e.target.files.length > 0 ? e.target.files[0].name : '';
         },
         previewData() {
             if (!this.formData.jam_mulai) {

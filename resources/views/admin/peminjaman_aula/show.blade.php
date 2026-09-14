@@ -14,9 +14,9 @@
                 </div>
             </div>
             <div>
-                @if($peminjaman->status == 'Disetujui' || $peminjaman->status == 'Selesai')
+                @if(in_array($peminjaman->status, ['Disetujui', 'Selesai', 'Surat Tersedia']))
                     <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-green-100 text-green-800">{{ $peminjaman->status }}</span>
-                @elseif($peminjaman->status == 'Menunggu Verifikasi' || $peminjaman->status == 'Diproses')
+                @elseif(in_array($peminjaman->status, ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses']))
                     <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-blue-100 text-blue-800">{{ $peminjaman->status }}</span>
                 @elseif($peminjaman->status == 'Perlu Perbaikan')
                     <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ $peminjaman->status }}</span>
@@ -161,8 +161,8 @@
             </div>
             
             <!-- Sidebar Aksi Verifikasi -->
-            <div>
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-6">
+            <div class="space-y-6 sticky top-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                         <h3 class="font-medium text-gray-900">Tindakan Admin</h3>
                     </div>
@@ -174,7 +174,9 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ubah Status</label>
                             <select name="status" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 outline-none">
                                 <option value="Menunggu Verifikasi" {{ $peminjaman->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
+                                <option value="Surat Diproses" {{ $peminjaman->status == 'Surat Diproses' ? 'selected' : '' }}>Surat Diproses (Draft)</option>
                                 <option value="Disetujui" {{ $peminjaman->status == 'Disetujui' ? 'selected' : '' }}>Setujui Pengajuan</option>
+                                <option value="Surat Tersedia" {{ $peminjaman->status == 'Surat Tersedia' ? 'selected' : '' }}>Surat Tersedia (Final)</option>
                                 <option value="Ditolak" {{ $peminjaman->status == 'Ditolak' ? 'selected' : '' }}>Tolak Pengajuan</option>
                                 <option value="Perlu Perbaikan" {{ $peminjaman->status == 'Perlu Perbaikan' ? 'selected' : '' }}>Perlu Perbaikan</option>
                             </select>
@@ -191,6 +193,42 @@
                         </button>
                     </form>
                 </div>
+
+                <!-- Proses Surat Perizinan -->
+                @if(in_array($peminjaman->status, ['Disetujui', 'Surat Diproses', 'Surat Tersedia']))
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
+                        <h3 class="font-medium text-gray-900">Proses Surat Perizinan</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <p class="text-sm text-gray-600 mb-2">Download draft surat untuk dicetak dan dimintakan tanda tangan Camat.</p>
+                        <a href="{{ route('admin.peminjaman_aula.cetakSurat', $peminjaman->id) }}" target="_blank" class="w-full flex items-center justify-center gap-2 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition">
+                            <i class="ph ph-printer text-lg"></i> Download Surat (Draft)
+                        </a>
+
+                        <hr class="my-4 border-gray-100">
+
+                        <form action="{{ route('admin.peminjaman_aula.uploadSuratFinal', $peminjaman->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                            @csrf
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Upload Surat Ditandatangani</label>
+                                <input type="file" name="file_surat_final" accept=".pdf,.jpg,.jpeg,.png" required class="w-full px-3 py-2 border rounded-lg text-sm text-gray-700 bg-gray-50">
+                                <p class="text-xs text-gray-500 mt-1">Format: PDF, JPG, PNG (Maks 2MB).</p>
+                            </div>
+                            <button type="submit" class="w-full flex items-center justify-center gap-2 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
+                                <i class="ph ph-upload-simple text-lg"></i> Upload Surat Ditandatangani
+                            </button>
+                        </form>
+                        
+                        @if($peminjaman->file_surat_final)
+                        <div class="mt-4 p-3 bg-green-50 border border-green-100 rounded-lg flex items-center justify-between">
+                            <span class="text-sm text-green-800 font-medium">Surat Final Tersedia</span>
+                            <a href="{{ asset('storage/' . $peminjaman->file_surat_final) }}" target="_blank" class="text-sm text-green-700 hover:text-green-900 font-semibold underline">Lihat File</a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>

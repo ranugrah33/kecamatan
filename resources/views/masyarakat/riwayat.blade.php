@@ -34,8 +34,10 @@
                                 case 'Menunggu Verifikasi': $badgeClass = 'bg-yellow-100 text-yellow-800'; break;
                                 case 'Perlu Perbaikan': $badgeClass = 'bg-red-100 text-red-800'; break;
                                 case 'Diverifikasi': $badgeClass = 'bg-indigo-100 text-indigo-800'; break;
-                                case 'Diproses': $badgeClass = 'bg-blue-100 text-blue-800'; break;
-                                case 'Selesai': $badgeClass = 'bg-green-100 text-green-800'; break;
+                                case 'Diproses': 
+                                case 'Surat Diproses': $badgeClass = 'bg-blue-100 text-blue-800'; break;
+                                case 'Selesai': 
+                                case 'Surat Tersedia': $badgeClass = 'bg-green-100 text-green-800'; break;
                                 case 'Ditolak': $badgeClass = 'bg-rose-100 text-rose-800'; break;
                             }
                         @endphp
@@ -45,7 +47,7 @@
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title="{{ $item['catatan'] }}">{{ $item['catatan'] }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item['updated_at'] }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-3 items-center">
                         @if(isset($item['id']))
                             <a href="{{ route('masyarakat.peminjaman_aula.show', $item['id']) }}" class="text-blue-600 hover:text-blue-900 flex items-center gap-1">
                                 <i class="ph ph-eye"></i> Detail
@@ -53,6 +55,12 @@
                         @else
                             <a href="#" class="text-blue-600 hover:text-blue-900 flex items-center gap-1">
                                 <i class="ph ph-eye"></i> Detail
+                            </a>
+                        @endif
+                        
+                        @if($item['status'] === 'Surat Tersedia' && !empty($item['file_surat_final']))
+                            <a href="{{ asset('storage/' . $item['file_surat_final']) }}" target="_blank" class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-xs flex items-center gap-1 shadow-sm transition">
+                                <i class="ph ph-download-simple"></i> Surat Izin
                             </a>
                         @endif
                     </td>

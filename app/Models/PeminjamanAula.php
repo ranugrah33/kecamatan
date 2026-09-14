@@ -23,7 +23,10 @@ class PeminjamanAula extends Model
         'fasilitas_dibutuhkan',
         'catatan_tambahan',
         'status',
-        'catatan_petugas'
+        'catatan_petugas',
+        'nomor_surat_permohonan',
+        'nomor_surat_izin',
+        'file_surat_final'
     ];
 
     protected $casts = [
