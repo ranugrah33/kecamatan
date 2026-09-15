@@ -7,6 +7,17 @@
         <div class="absolute inset-0 bg-blue-950/35"></div>
     </div>
 
+    <!-- Top Right Header -->
+    <div class="absolute top-6 right-6 lg:top-8 lg:right-10 z-20 flex items-center gap-3 md:gap-4">
+        <div class="hidden sm:block text-right">
+            <h2 class="text-sm md:text-base font-extrabold text-white drop-shadow-md shadow-black leading-tight tracking-wide uppercase" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Pemerintah Kabupaten Karawang</h2>
+            <p class="text-[11px] md:text-xs font-medium text-white/90 drop-shadow mt-0.5 tracking-wider uppercase" style="text-shadow: 0 1px 3px rgba(0,0,0,0.8);">Provinsi Jawa Barat, Indonesia</p>
+        </div>
+        <div class="shrink-0">
+            <img src="{{ asset('images/kop-surat.png') }}" alt="Logo Karawang" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-lg filter" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));">
+        </div>
+    </div>
+
     <div class="relative z-10 w-full max-w-lg rounded-2xl border border-white/40 bg-blue-50/25 p-6 shadow-2xl shadow-blue-950/30 backdrop-blur-xl sm:p-8">
         <div class="text-center">
             <h1 class="text-2xl font-bold text-black drop-shadow-md">Selamat Datang</h1>
