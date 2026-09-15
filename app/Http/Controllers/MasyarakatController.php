@@ -12,33 +12,56 @@ class MasyarakatController extends Controller
         // Fetch real PeminjamanAula for the user
         $peminjamanAulas = \App\Models\PeminjamanAula::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         
-        $total_peminjaman = $peminjamanAulas->count();
-        $diproses_peminjaman = $peminjamanAulas->whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses'])->count();
-        $selesai_peminjaman = $peminjamanAulas->whereIn('status', ['Disetujui', 'Surat Tersedia'])->count();
-        $perlu_diperbaiki_peminjaman = $peminjamanAulas->where('status', 'Perlu Perbaikan')->count();
+        $riwayatDisplay = [];
+        $notifDisplay = [];
 
-        $pengajuan_terbaru = [];
         foreach($peminjamanAulas->take(3) as $p) {
-            $pengajuan_terbaru[] = [
-                'jenis' => 'Peminjaman Aula',
-                'tanggal' => $p->tanggal,
-                'status' => $p->status
+            // Mapping for Riwayat
+            $statusColor = 'blue';
+            if(in_array($p->status, ['Disetujui', 'Surat Tersedia', 'Selesai'])) {
+                $statusColor = 'emerald';
+            } elseif(in_array($p->status, ['Ditolak', 'Dibatalkan'])) {
+                $statusColor = 'rose';
+            } elseif($p->status == 'Perlu Perbaikan') {
+                $statusColor = 'amber';
+            }
+
+            $riwayatDisplay[] = [
+                'icon' => 'ph-door-open', 
+                'iconBg' => 'blue', 
+                'jenis' => 'Peminjaman Aula', 
+                'tgl' => \Carbon\Carbon::parse($p->created_at)->translatedFormat('d M Y, H:i'), 
+                'status' => $p->status, 
+                'statusColor' => $statusColor, 
+                'route' => 'masyarakat.peminjaman_aula.show',
+                'id' => $p->id
+            ];
+
+            // Mapping for Notifikasi
+            $notifIcon = 'ph-info';
+            $notifColor = 'blue';
+            if(in_array($p->status, ['Disetujui', 'Surat Tersedia'])) {
+                $notifIcon = 'ph-check-circle';
+                $notifColor = 'emerald';
+            } elseif(in_array($p->status, ['Ditolak', 'Dibatalkan'])) {
+                $notifIcon = 'ph-x-circle';
+                $notifColor = 'rose';
+            } elseif($p->status == 'Perlu Perbaikan') {
+                $notifIcon = 'ph-warning-circle';
+                $notifColor = 'amber';
+            }
+
+            $notifDisplay[] = [
+                'icon' => $notifIcon, 
+                'color' => $notifColor, 
+                'msg' => 'Status Peminjaman Aula: ' . $p->status, 
+                'time' => 'Pada ' . \Carbon\Carbon::parse($p->updated_at)->translatedFormat('d M Y, H:i')
             ];
         }
 
-        // Dummy data for others
-        $pengajuan_terbaru[] = ['jenis' => 'Jual Beli Tanah', 'tanggal' => '2023-10-20', 'status' => 'Selesai'];
-
         $data = [
-            'total_pengajuan' => 2 + $total_peminjaman, // 2 dummy
-            'diproses' => 0 + $diproses_peminjaman,
-            'selesai' => 1 + $selesai_peminjaman,
-            'perlu_diperbaiki' => 1 + $perlu_diperbaiki_peminjaman,
-            'pengajuan_terbaru' => $pengajuan_terbaru,
-            'notifikasi' => [
-                ['pesan' => 'Pengajuan Peminjaman Aula berhasil dibuat.', 'waktu' => 'Baru saja'],
-                ['pesan' => 'Dokumen pengajuan UMKM perlu perbaikan.', 'waktu' => '1 hari yang lalu'],
-            ]
+            'riwayatDisplay' => $riwayatDisplay,
+            'notifDisplay' => $notifDisplay,
         ];
 
         return view('masyarakat.dashboard', $data);

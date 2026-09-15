@@ -121,9 +121,9 @@
                         class="md:hidden text-gray-500 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition">
                     <i class="ph ph-list text-xl"></i>
                 </button>
-                <div>
-                    <h1 class="text-sm font-bold text-gray-900 leading-tight">Dashboard Admin Kecamatan</h1>
-                    <p class="text-xs text-gray-500 hidden sm:block leading-tight">Selamat datang di Sistem Informasi Pelayanan Kecamatan Cikampek.</p>
+                <div class="hidden sm:block">
+                    <h1 class="text-sm font-bold text-gray-900 leading-tight">@yield('title', 'Portal Admin')</h1>
+                    <p class="text-[11px] text-gray-500 mt-0.5 leading-tight">Sistem Informasi Pelayanan Kecamatan Cikampek.</p>
                 </div>
             </div>
 

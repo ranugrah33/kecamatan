@@ -16,7 +16,28 @@ class AdminController extends Controller
 
         $pengajuan_terbaru = PeminjamanAula::with('user')->orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki', 'pengajuan_terbaru'));
+        // Prepare chart data for last 7 days
+        $chartLabels = [];
+        $chartDataDiterima = [];
+        $chartDataSelesai = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = \Carbon\Carbon::now()->subDays($i);
+            $chartLabels[] = $date->translatedFormat('j M');
+            
+            // Total pengajuan masuk pada tanggal tersebut
+            $masuk = PeminjamanAula::whereDate('created_at', $date->toDateString())->count();
+            
+            // Total pengajuan yang diproses/selesai pada tanggal tersebut
+            $selesaiHariIni = PeminjamanAula::whereDate('updated_at', $date->toDateString())
+                                            ->whereIn('status', ['Disetujui', 'Surat Tersedia', 'Selesai'])
+                                            ->count();
+
+            $chartDataDiterima[] = $masuk;
+            $chartDataSelesai[] = $selesaiHariIni;
+        }
+
+        return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki', 'pengajuan_terbaru', 'chartLabels', 'chartDataDiterima', 'chartDataSelesai'));
     }
 }
 

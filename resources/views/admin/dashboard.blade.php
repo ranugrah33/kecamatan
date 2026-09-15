@@ -201,18 +201,18 @@ document.addEventListener('DOMContentLoaded', function() {
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['9 Sep', '10 Sep', '11 Sep', '12 Sep', '13 Sep', '14 Sep', '15 Sep'],
+            labels: {!! json_encode($chartLabels) !!},
             datasets: [
                 {
                     label: 'Diterima',
-                    data: [3, 5, 8, 4, 6, 3, 5],
+                    data: {!! json_encode($chartDataDiterima) !!},
                     backgroundColor: 'rgba(96, 165, 250, 0.85)',
                     borderRadius: 5,
                     borderSkipped: false,
                 },
                 {
                     label: 'Selesai',
-                    data: [2, 3, 6, 3, 4, 2, 4],
+                    data: {!! json_encode($chartDataSelesai) !!},
                     backgroundColor: 'rgba(74, 222, 128, 0.85)',
                     borderRadius: 5,
                     borderSkipped: false,
@@ -247,8 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     grid: { color: '#f3f4f6' },
                     ticks: { font: { size: 10, family: 'Inter' }, color: '#9ca3af', stepSize: 2 },
                     border: { display: false },
-                    beginAtZero: true,
-                    max: 10
+                    beginAtZero: true
                 }
             },
             barPercentage: 0.6,

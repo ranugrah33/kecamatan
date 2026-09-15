@@ -39,50 +39,7 @@
             </div>
         </div>
 
-        {{-- Stat Cards --}}
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
 
-            {{-- Total Pengajuan --}}
-            <div class="bg-white rounded-[18px] p-5 border-l-4 border-l-blue-500 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgb(37,99,235,0.08)] hover:-translate-y-1 transition-all duration-300 group cursor-default relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full opacity-50 pointer-events-none"></div>
-                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-[14px] flex items-center justify-center mb-4 shadow-md shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                    <i class="ph ph-files text-[24px] text-white"></i>
-                </div>
-                <p class="text-[28px] font-black text-slate-800 leading-none tracking-tight">{{ $total_pengajuan }}</p>
-                <p class="text-[13px] text-slate-500 mt-1.5 font-medium">Total Pengajuan</p>
-            </div>
-
-            {{-- Sedang Diproses --}}
-            <div class="bg-white rounded-[18px] p-5 border-l-4 border-l-amber-500 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgb(245,158,11,0.08)] hover:-translate-y-1 transition-all duration-300 group cursor-default relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-50 to-transparent rounded-bl-full opacity-50 pointer-events-none"></div>
-                <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-[14px] flex items-center justify-center mb-4 shadow-md shadow-amber-500/30 group-hover:scale-110 transition-transform duration-300">
-                    <i class="ph ph-arrow-clockwise text-[24px] text-white"></i>
-                </div>
-                <p class="text-[28px] font-black text-slate-800 leading-none tracking-tight">{{ $diproses }}</p>
-                <p class="text-[13px] text-slate-500 mt-1.5 font-medium">Sedang Diproses</p>
-            </div>
-
-            {{-- Selesai --}}
-            <div class="bg-white rounded-[18px] p-5 border-l-4 border-l-emerald-500 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgb(16,185,129,0.08)] hover:-translate-y-1 transition-all duration-300 group cursor-default relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-50 to-transparent rounded-bl-full opacity-50 pointer-events-none"></div>
-                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-500 rounded-[14px] flex items-center justify-center mb-4 shadow-md shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
-                    <i class="ph ph-check-circle text-[24px] text-white"></i>
-                </div>
-                <p class="text-[28px] font-black text-slate-800 leading-none tracking-tight">{{ $selesai }}</p>
-                <p class="text-[13px] text-slate-500 mt-1.5 font-medium">Selesai</p>
-            </div>
-
-            {{-- Perlu Diperbaiki --}}
-            <div class="bg-white rounded-[18px] p-5 border-l-4 border-l-rose-500 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgb(225,29,72,0.08)] hover:-translate-y-1 transition-all duration-300 group cursor-default relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-rose-50 to-transparent rounded-bl-full opacity-50 pointer-events-none"></div>
-                <div class="w-12 h-12 bg-gradient-to-br from-rose-400 to-red-500 rounded-[14px] flex items-center justify-center mb-4 shadow-md shadow-rose-500/30 group-hover:scale-110 transition-transform duration-300">
-                    <i class="ph ph-warning-circle text-[24px] text-white"></i>
-                </div>
-                <p class="text-[28px] font-black text-slate-800 leading-none tracking-tight">{{ $perlu_diperbaiki }}</p>
-                <p class="text-[13px] text-slate-500 mt-1.5 font-medium">Perlu Diperbaiki</p>
-            </div>
-
-        </div>
 
         {{-- Layanan Populer --}}
         <div class="bg-white rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] overflow-hidden">
@@ -188,13 +145,7 @@
             </div>
             <div class="divide-y divide-gray-50">
 
-                @php
-                $notifDisplay = [
-                    ['icon' => 'ph-check-circle', 'color' => 'emerald', 'msg' => 'Pengajuan Peminjaman Aula disetujui', 'time' => 'Pada 11 Sep 2025, 11:45'],
-                    ['icon' => 'ph-info', 'color' => 'blue', 'msg' => 'Dokumen Anda sedang diverifikasi', 'time' => 'Pada 08 Sep 2025, 15:10'],
-                    ['icon' => 'ph-bell-ringing', 'color' => 'amber', 'msg' => 'Jadwal pelayanan berubah', 'time' => 'Pada 05 Sep 2025, 08:20'],
-                ];
-                @endphp
+                @if(count($notifDisplay) > 0)
 
                 @foreach($notifDisplay as $n)
                 <div class="px-6 py-4 flex items-start gap-3.5 hover:bg-slate-50 transition-colors cursor-pointer group">
@@ -209,6 +160,11 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                <div class="px-6 py-8 text-center">
+                    <p class="text-[13px] text-slate-400 font-medium">Belum ada notifikasi saat ini.</p>
+                </div>
+                @endif
 
             </div>
         </div>
@@ -226,16 +182,9 @@
             </div>
             <div class="divide-y divide-gray-50">
 
-                @php
-                $riwayatDisplay = [
-                    ['icon' => 'ph-door-open', 'iconBg' => 'blue', 'jenis' => 'Peminjaman Aula', 'tgl' => '11 Sep 2025, 10:30', 'status' => 'Diproses', 'statusColor' => 'blue', 'route' => 'masyarakat.riwayat'],
-                    ['icon' => 'ph-storefront', 'iconBg' => 'emerald', 'jenis' => 'Arsip UMKM', 'tgl' => '08 Sep 2025, 14:20', 'status' => 'Selesai', 'statusColor' => 'emerald', 'route' => 'masyarakat.riwayat'],
-                    ['icon' => 'ph-hand-heart', 'iconBg' => 'amber', 'jenis' => 'Bantuan Sosial', 'tgl' => '05 Sep 2025, 09:15', 'status' => 'Diterima', 'statusColor' => 'amber', 'route' => 'masyarakat.riwayat'],
-                ];
-                @endphp
-
+                @if(count($riwayatDisplay) > 0)
                 @foreach($riwayatDisplay as $r)
-                <a href="{{ route($r['route']) }}" class="px-6 py-4 flex flex-col hover:bg-slate-50 transition-colors group">
+                <a href="{{ route($r['route'], $r['id']) }}" class="px-6 py-4 flex flex-col hover:bg-slate-50 transition-colors group">
                     <div class="flex items-center gap-3.5 mb-3">
                         <div class="w-10 h-10 bg-{{ $r['iconBg'] }}-50 rounded-[12px] flex items-center justify-center flex-shrink-0 border border-{{ $r['iconBg'] }}-100 group-hover:bg-{{ $r['iconBg'] }}-500 transition-colors duration-300">
                             <i class="ph {{ $r['icon'] }} text-{{ $r['iconBg'] }}-600 text-[20px] group-hover:text-white transition-colors duration-300"></i>
@@ -253,10 +202,16 @@
                             {{ $r['statusColor'] === 'emerald' ? 'bg-gradient-to-r from-emerald-400 to-emerald-500 text-white' : '' }}
                             {{ $r['statusColor'] === 'blue' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white' : '' }}
                             {{ $r['statusColor'] === 'amber' ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' : '' }}
+                            {{ $r['statusColor'] === 'rose' ? 'bg-gradient-to-r from-rose-400 to-rose-500 text-white' : '' }}
                             whitespace-nowrap">{{ $r['status'] }}</span>
                     </div>
                 </a>
                 @endforeach
+                @else
+                <div class="px-6 py-8 text-center">
+                    <p class="text-[13px] text-slate-400 font-medium">Belum ada riwayat pengajuan.</p>
+                </div>
+                @endif
 
             </div>
         </div>

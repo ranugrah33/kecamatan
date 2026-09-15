@@ -142,9 +142,13 @@
         <header class="h-16 bg-white border-b border-gray-200/80 flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-30 shadow-sm">
             <div class="flex items-center gap-3">
                 <button @click="sidebarOpen = !sidebarOpen"
-                        class="md:hidden text-gray-500 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition">
+                        class="md:hidden text-gray-500 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition flex-shrink-0">
                     <i class="ph ph-list text-xl"></i>
                 </button>
+                <div class="hidden sm:block">
+                    <h1 class="text-sm font-bold text-gray-900 leading-tight">@yield('title', 'Portal Layanan')</h1>
+                    <p class="text-[11px] text-gray-500 font-medium mt-0.5">Sistem Informasi Pelayanan Masyarakat Kecamatan Cikampek.</p>
+                </div>
             </div>
 
             <div class="flex items-center gap-1.5" x-data="{ userOpen: false }">
