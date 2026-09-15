@@ -59,40 +59,40 @@
             border-top: 3px solid #000;
             border-bottom: 1px solid #000;
             height: 2px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             margin-top: 5px;
         }
 
         /* Tanggal & Tempat */
         .tanggal-surat {
             text-align: right;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
 
         /* Nomor, Sifat, dll */
         .meta-surat {
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .meta-label {
-            width: 100px;
-            padding: 2px 0;
+            width: 80px;
+            padding: 0;
             vertical-align: top;
         }
         .meta-colon {
-            width: 20px;
-            padding: 2px 0;
+            width: 15px;
+            padding: 0;
             vertical-align: top;
         }
         .meta-value {
-            padding: 2px 0;
+            padding: 0;
             font-weight: bold;
             vertical-align: top;
         }
 
         /* Yth */
         .tujuan-surat {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .tujuan-surat p {
             margin: 0;
@@ -103,33 +103,33 @@
             text-align: justify;
         }
         .isi-surat p {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-indent: 40px;
         }
 
         /* Detail Kegiatan */
         .detail-kegiatan {
             width: 90%;
-            margin: 0 auto 20px 40px;
+            margin: 0 auto 15px 40px;
         }
         .detail-label {
-            width: 130px;
-            padding: 4px 0;
+            width: 120px;
+            padding: 2px 0;
             vertical-align: top;
         }
         .detail-colon {
-            width: 20px;
-            padding: 4px 0;
+            width: 15px;
+            padding: 2px 0;
             vertical-align: top;
         }
         .detail-value {
-            padding: 4px 0;
+            padding: 2px 0;
             vertical-align: top;
         }
 
         /* Penutup */
         .penutup {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             text-align: justify;
             text-indent: 40px;
         }
@@ -142,7 +142,7 @@
             float: right;
             text-align: center;
             width: 300px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .tanda-tangan p {
             margin: 0;
@@ -198,14 +198,14 @@
     <div class="kop-surat-border"></div>
 
     <div class="tanggal-surat">
-        Karawang, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+        Karawang, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}
     </div>
 
     <table class="meta-surat">
         <tr>
             <td class="meta-label">Nomor</td>
             <td class="meta-colon">:</td>
-            <td class="meta-value">{{ $peminjaman->nomor_surat_izin ?? '-' }}</td>
+            <td class="meta-value"></td>
         </tr>
         <tr>
             <td class="meta-label">Sifat</td>
@@ -239,7 +239,7 @@
         <tr>
             <td class="detail-label">Hari / Tanggal</td>
             <td class="detail-colon">:</td>
-            <td class="detail-value">{{ \Carbon\Carbon::parse($peminjaman->tanggal)->translatedFormat('l / d F Y') }}</td>
+            <td class="detail-value">{{ \Carbon\Carbon::parse($peminjaman->tanggal)->locale('id')->translatedFormat('l / d F Y') }}</td>
         </tr>
         <tr>
             <td class="detail-label">Waktu</td>
@@ -262,9 +262,6 @@
             <p class="jabatan">CAMAT CIKAMPEK</p>
             
             <img src="{{ public_path('images/tanda-camat.png') }}" alt="Tanda Tangan Camat" style="width: 200px; height: auto; margin: 15px auto; display: block;">
-            
-            <p class="nama-camat" style="text-decoration: underline;">ADI FIRMANSYAH, S.H., M.M.</p>
-            <p>Pembina</p>
         </div>
     </div>
 
