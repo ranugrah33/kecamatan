@@ -151,7 +151,7 @@
                             <i class="ph ph-user-circle text-lg"></i>
                         </div>
                         <div class="hidden sm:block text-left leading-tight">
-                            <p class="text-sm font-semibold text-gray-800">Admin Kecamatan</p>
+                            <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</p>
                             <p class="text-xs text-gray-500">Administrator</p>
                         </div>
                         <i class="ph ph-caret-down text-gray-400 text-xs hidden sm:block"></i>

@@ -164,7 +164,7 @@
         <i class="ph ph-arrow-right text-gray-300 group-hover:text-blue-400 transition flex-shrink-0"></i>
     </a>
 
-    <a href="#"
+    <a href="{{ route('admin.laporan') }}"
        class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-purple-200 hover:shadow-md transition-all group flex items-center gap-4">
         <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition">
             <i class="ph ph-chart-bar text-xl text-purple-500"></i>
@@ -176,7 +176,7 @@
         <i class="ph ph-arrow-right text-gray-300 group-hover:text-purple-400 transition flex-shrink-0"></i>
     </a>
 
-    <a href="#"
+    <a href="{{ route('admin.pengaturan') }}"
        class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:border-gray-300 hover:shadow-md transition-all group flex items-center gap-4">
         <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition">
             <i class="ph ph-gear text-xl text-gray-500"></i>
