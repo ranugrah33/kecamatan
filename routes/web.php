@@ -41,6 +41,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/peminjaman-aula/{id}/status', [AdminPeminjamanAulaController::class, 'updateStatus'])->name('admin.peminjaman_aula.updateStatus');
     Route::get('/admin/peminjaman-aula/{id}/cetak-surat', [AdminPeminjamanAulaController::class, 'cetakSurat'])->name('admin.peminjaman_aula.cetakSurat');
     Route::post('/admin/peminjaman-aula/{id}/upload-surat', [AdminPeminjamanAulaController::class, 'uploadSuratFinal'])->name('admin.peminjaman_aula.uploadSuratFinal');
+    Route::get('/admin/laporan', [AdminController::class, 'laporan'])->name('admin.laporan');
+    Route::get('/admin/pengaturan', [AdminController::class, 'pengaturan'])->name('admin.pengaturan');
 });
 
 Route::middleware(['auth', 'role:masyarakat'])->group(function () {

@@ -251,6 +251,11 @@
             <td class="detail-colon">:</td>
             <td class="detail-value">Aula Kecamatan Cikampek</td>
         </tr>
+        <tr>
+            <td class="detail-label">Penanggung Jawab</td>
+            <td class="detail-colon">:</td>
+            <td class="detail-value">{{ $peminjaman->penanggung_jawab ?? '-' }}</td>
+        </tr>
     </table>
 
     <div class="penutup">

@@ -81,14 +81,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
-                        <i class="ph ph-chart-bar menu-icon text-lg text-slate-400"></i>
+                    <a href="{{ route('admin.laporan') }}" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.laporan') ? 'menu-active' : '' }}">
+                        <i class="ph ph-chart-bar menu-icon text-lg {{ request()->routeIs('admin.laporan') ? 'text-blue-400' : 'text-slate-400' }}"></i>
                         Laporan
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
-                        <i class="ph ph-gear menu-icon text-lg text-slate-400"></i>
+                    <a href="{{ route('admin.pengaturan') }}" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.pengaturan') ? 'menu-active' : '' }}">
+                        <i class="ph ph-gear menu-icon text-lg {{ request()->routeIs('admin.pengaturan') ? 'text-blue-400' : 'text-slate-400' }}"></i>
                         Pengaturan
                     </a>
                 </li>

@@ -13,6 +13,8 @@ class PeminjamanAula extends Model
         'user_id',
         'aula_id',
         'nomor_pengajuan',
+        'instansi',
+        'penanggung_jawab',
         'nama_kegiatan',
         'jenis_kegiatan',
         'deskripsi_kegiatan',
@@ -25,6 +27,7 @@ class PeminjamanAula extends Model
         'status',
         'catatan_petugas',
         'nomor_surat_permohonan',
+        'file_surat_permohonan',
         'nomor_surat_izin',
         'file_surat_final'
     ];

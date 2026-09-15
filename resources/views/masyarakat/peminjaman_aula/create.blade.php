@@ -53,9 +53,13 @@
                 <label class="block text-sm font-medium text-gray-700">Alamat Lengkap</label>
                 <textarea name="alamat" x-model="formData.alamat" rows="2" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg bg-gray-50" readonly></textarea>
             </div>
-            <div class="md:col-span-2">
+            <div class="md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Instansi / Organisasi (Opsional)</label>
-                <input type="text" name="instansi" x-model="formData.instansi" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Masukkan nama instansi atau organisasi Anda jika ada">
+                <input type="text" name="instansi" x-model="formData.instansi" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Nama instansi/organisasi (jika ada)">
+            </div>
+            <div class="md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Penanggung Jawab <span class="text-red-500">*</span></label>
+                <input type="text" name="penanggung_jawab" x-model="formData.penanggung_jawab" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Nama penanggung jawab kegiatan" required>
             </div>
         </div>
 
@@ -158,11 +162,16 @@
             <span class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center text-sm">E</span>
             Surat Permohonan
         </h2>
-        <div class="mb-8">
-            <div class="w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
                 <label class="block text-sm font-medium text-gray-700">Nomor Surat Permohonan <span class="text-gray-400 font-normal">(Opsional)</span></label>
                 <input type="text" name="nomor_surat_permohonan" x-model="formData.nomor_surat_permohonan" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Contoh: 123/ORG/2026">
                 <p class="text-xs text-gray-500 mt-1">Masukkan nomor surat resmi dari instansi/organisasi Anda jika ada.</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Unggah File Surat Permohonan <span class="text-gray-400 font-normal">(Opsional)</span></label>
+                <input type="file" name="file_surat_permohonan" @change="formData.file_surat_permohonan = $event.target.files[0] ? $event.target.files[0].name : ''" accept=".pdf" class="w-full px-4 py-1.5 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white">
+                <p class="text-xs text-gray-500 mt-1">Format: PDF, Maksimal: 2MB.</p>
             </div>
         </div>
 
@@ -189,10 +198,11 @@
         <div class="space-y-6">
             <div class="border rounded-lg overflow-hidden">
                 <div class="bg-gray-50 px-4 py-2 border-b font-medium text-gray-700">DATA PEMOHON</div>
-                <div class="p-4 grid grid-cols-2 gap-4 text-sm">
-                    <div><span class="text-gray-500 block">Nama</span><span x-text="formData.nama" class="font-medium"></span></div>
-                    <div><span class="text-gray-500 block">NIK</span><span x-text="formData.nik" class="font-medium"></span></div>
-                    <div><span class="text-gray-500 block">Instansi</span><span x-text="formData.instansi || '-'" class="font-medium"></span></div>
+                <div class="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div class="col-span-2"><span class="text-gray-500 block">Nama</span><span x-text="formData.nama" class="font-medium"></span></div>
+                    <div class="col-span-2"><span class="text-gray-500 block">NIK</span><span x-text="formData.nik" class="font-medium"></span></div>
+                    <div class="col-span-2"><span class="text-gray-500 block">Instansi</span><span x-text="formData.instansi || '-'" class="font-medium"></span></div>
+                    <div class="col-span-2"><span class="text-gray-500 block">Penanggung Jawab</span><span x-text="formData.penanggung_jawab" class="font-medium"></span></div>
                 </div>
             </div>
 
@@ -229,6 +239,14 @@
             
         </div>
 
+            <div class="border rounded-lg overflow-hidden mt-6">
+                <div class="bg-gray-50 px-4 py-2 border-b font-medium text-gray-700">BERKAS & KETERANGAN TAMBAHAN</div>
+                <div class="p-4 grid grid-cols-2 gap-4 text-sm">
+                    <div><span class="text-gray-500 block">Nomor Surat Permohonan</span><span x-text="formData.nomor_surat_permohonan || '-'" class="font-medium"></span></div>
+                    <div><span class="text-gray-500 block">File Surat Permohonan</span><span x-text="formData.file_surat_permohonan || '-'" class="font-medium"></span></div>
+                </div>
+            </div>
+
         <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
             <label class="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" x-model="isConfirmed" class="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
@@ -261,6 +279,7 @@ function peminjamanForm() {
             email: "{{ $user->email }}",
             alamat: "{{ $profil->alamat ?? '' }}, RT {{ $profil->rt ?? '-' }}/RW {{ $profil->rw ?? '-' }}, {{ $profil->desa ?? '' }}",
             instansi: "",
+            penanggung_jawab: "",
             nama_kegiatan: "",
             jenis_kegiatan: "",
             jenis_kegiatan_lainnya: "",
@@ -273,6 +292,7 @@ function peminjamanForm() {
             fasilitas_lainnya_check: false,
             fasilitas_lainnya_text: "",
             nomor_surat_permohonan: "",
+            file_surat_permohonan: "",
             catatan_tambahan: ""
         },
         previewData() {

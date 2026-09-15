@@ -47,6 +47,8 @@ class PeminjamanAulaController extends Controller
         }
 
         $request->validate([
+            'instansi' => 'nullable|string|max:255',
+            'penanggung_jawab' => 'required|string|max:255',
             'nama_kegiatan' => 'required|string|max:255',
             'jenis_kegiatan' => 'required|string|max:255',
             'deskripsi_kegiatan' => 'required|string',
@@ -54,6 +56,7 @@ class PeminjamanAulaController extends Controller
             'tanggal' => 'required|date|after_or_equal:today',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            'file_surat_permohonan' => 'nullable|mimes:pdf|max:2048',
         ]);
 
         // Cek jam operasional
@@ -78,6 +81,15 @@ class PeminjamanAulaController extends Controller
             return redirect()->back()->withErrors('Aula sudah di-booking pada tanggal dan jam tersebut. Silakan pilih jadwal lain.')->withInput();
         }
 
+        // Handle File Upload
+        $filePath = null;
+        if ($request->hasFile('file_surat_permohonan')) {
+            $file = $request->file('file_surat_permohonan');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/surat_permohonan'), $filename);
+            $filePath = 'uploads/surat_permohonan/' . $filename;
+        }
+
         // Generate Nomor Pengajuan AULA-YYYYMMDD-XXXX
         $dateStr = date('Ymd');
         $lastPeminjaman = PeminjamanAula::where('nomor_pengajuan', 'like', 'AULA-' . $dateStr . '-%')->orderBy('id', 'desc')->first();
@@ -100,6 +112,8 @@ class PeminjamanAulaController extends Controller
             'user_id' => Auth::id(),
             'aula_id' => $aula->id,
             'nomor_pengajuan' => $nomorPengajuan,
+            'instansi' => $request->instansi,
+            'penanggung_jawab' => $request->penanggung_jawab,
             'nama_kegiatan' => $request->nama_kegiatan,
             'jenis_kegiatan' => $request->jenis_kegiatan === 'Lainnya' ? $request->jenis_kegiatan_lainnya : $request->jenis_kegiatan,
             'deskripsi_kegiatan' => $request->deskripsi_kegiatan,
@@ -110,6 +124,7 @@ class PeminjamanAulaController extends Controller
             'fasilitas_dibutuhkan' => $fasilitas,
             'catatan_tambahan' => $request->catatan_tambahan,
             'nomor_surat_permohonan' => $request->nomor_surat_permohonan,
+            'file_surat_permohonan' => $filePath,
             'status' => 'Surat Diproses',
         ]);
 

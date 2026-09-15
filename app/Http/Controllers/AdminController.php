@@ -39,5 +39,21 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki', 'pengajuan_terbaru', 'chartLabels', 'chartDataDiterima', 'chartDataSelesai'));
     }
+    public function laporan()
+    {
+        $total = PeminjamanAula::count();
+        $disetujui = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Tersedia', 'Selesai'])->count();
+        $ditolak = PeminjamanAula::where('status', 'Ditolak')->count();
+        $menunggu = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses', 'Perlu Perbaikan'])->count();
+        
+        $peminjamans = PeminjamanAula::with('user')->orderBy('created_at', 'desc')->get();
+        
+        return view('admin.laporan', compact('total', 'disetujui', 'ditolak', 'menunggu', 'peminjamans'));
+    }
+
+    public function pengaturan()
+    {
+        return view('admin.pengaturan');
+    }
 }
 
