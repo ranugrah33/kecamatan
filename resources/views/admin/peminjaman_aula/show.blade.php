@@ -134,27 +134,25 @@
                         <h3 class="font-medium text-gray-900">Dokumen Pendukung</h3>
                     </div>
                     <div class="p-6">
-                        @if($peminjaman->dokumens->count() > 0)
+                        @if($peminjaman->file_surat_permohonan)
                             <ul class="divide-y divide-gray-100 border rounded-lg">
-                                @foreach($peminjaman->dokumens as $dokumen)
                                 <li class="p-4 flex items-center justify-between hover:bg-gray-50 transition">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center">
                                             <i class="ph ph-file-pdf text-xl"></i>
                                         </div>
                                         <div>
-                                            <p class="text-sm font-medium text-gray-900">{{ $dokumen->nama_dokumen }}</p>
-                                            <p class="text-xs text-gray-500">Lampiran</p>
+                                            <p class="text-sm font-medium text-gray-900">Surat Permohonan Peminjaman Aula</p>
+                                            <p class="text-xs text-gray-500">File Unggahan Pemohon</p>
                                         </div>
                                     </div>
-                                    <a href="{{ asset('storage/' . $dokumen->path_dokumen) }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1">
+                                    <a href="{{ asset($peminjaman->file_surat_permohonan) }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1">
                                         <i class="ph ph-download-simple"></i> Lihat / Unduh
                                     </a>
                                 </li>
-                                @endforeach
                             </ul>
                         @else
-                            <p class="text-sm text-gray-500 text-center py-4">Tidak ada dokumen yang dilampirkan.</p>
+                            <p class="text-sm text-gray-500 text-center py-4">Tidak ada dokumen surat permohonan yang dilampirkan.</p>
                         @endif
                     </div>
                 </div>
