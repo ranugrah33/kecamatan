@@ -61,25 +61,48 @@
                         Dashboard
                     </a>
                 </li>
+            </ul>
+
+            {{-- Layanan Section --}}
+            <div class="mt-5 mb-2 px-3">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Layanan</p>
+            </div>
+            <ul class="space-y-0.5">
                 <li>
                     <a href="{{ route('admin.peminjaman_aula.index') }}"
                        class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.peminjaman_aula.*') ? 'menu-active' : '' }}">
-                        <i class="ph ph-door-open menu-icon text-lg {{ request()->routeIs('admin.peminjaman_aula.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        <i class="ph ph-building menu-icon text-lg {{ request()->routeIs('admin.peminjaman_aula.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
                         Peminjaman Aula
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
-                        <i class="ph ph-hand-heart menu-icon text-lg text-slate-400"></i>
-                        Bantuan Sosial
+                    <a href="{{ route('admin.inventaris.index') }}"
+                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.inventaris.*') ? 'menu-active' : '' }}">
+                        <i class="ph ph-cube menu-icon text-lg {{ request()->routeIs('admin.inventaris.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        Kelola Inventaris
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium">
-                        <i class="ph ph-map-trifold menu-icon text-lg text-slate-400"></i>
-                        Jual Beli Tanah
+                    <a href="{{ route('admin.peminjaman_inventaris.index') }}"
+                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.peminjaman_inventaris.*') ? 'menu-active' : '' }}">
+                        <i class="ph ph-package menu-icon text-lg {{ request()->routeIs('admin.peminjaman_inventaris.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        Pengajuan Inventaris
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.sertifikat.index') }}"
+                       class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.sertifikat.*') ? 'menu-active' : '' }}">
+                        <i class="ph ph-certificate menu-icon text-lg {{ request()->routeIs('admin.sertifikat.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        Sertifikat / Piagam
+                    </a>
+                </li>
+            </ul>
+
+            {{-- Sistem Section --}}
+            <div class="mt-5 mb-2 px-3">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Sistem</p>
+            </div>
+            <ul class="space-y-0.5">
                 <li>
                     <a href="{{ route('admin.laporan') }}" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.laporan') ? 'menu-active' : '' }}">
                         <i class="ph ph-chart-bar menu-icon text-lg {{ request()->routeIs('admin.laporan') ? 'text-blue-400' : 'text-slate-400' }}"></i>

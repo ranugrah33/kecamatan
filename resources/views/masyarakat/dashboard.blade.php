@@ -41,7 +41,7 @@
 
 
 
-        {{-- Layanan Populer --}}
+        {{-- Layanan Populer — 3 Cards --}}
         <div class="bg-white rounded-[20px] border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] overflow-hidden">
             <div class="px-7 py-6 border-b border-gray-50 flex items-center justify-between bg-white relative overflow-hidden">
                 <!-- Subtle bg accent -->
@@ -51,71 +51,56 @@
                         <i class="ph ph-squares-four text-blue-600 text-lg"></i>
                         Layanan Populer
                     </h2>
-                    <p class="text-[13px] text-slate-500 mt-0.5 ml-7">Layanan yang paling sering digunakan masyarakat</p>
+                    <p class="text-[13px] text-slate-500 mt-0.5 ml-7">Layanan utama yang tersedia untuk masyarakat</p>
                 </div>
                 <a href="{{ route('masyarakat.layanan') }}" class="hidden sm:flex text-[13px] text-blue-600 font-bold hover:text-white items-center gap-1.5 transition-colors px-4 py-2 bg-blue-50 hover:bg-blue-600 rounded-xl relative z-10">
                     Semua Layanan <i class="ph ph-arrow-right font-bold"></i>
                 </a>
             </div>
 
-            <div class="p-7 grid grid-cols-1 sm:grid-cols-2 gap-5 bg-slate-50/50">
+            <div class="p-7 grid grid-cols-1 sm:grid-cols-3 gap-5 bg-slate-50/50">
 
                 {{-- Peminjaman Aula --}}
-                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-blue-300 hover:shadow-[0_8px_30px_rgb(37,99,235,0.12)] transition-all duration-300 group cursor-pointer flex gap-4 items-start relative overflow-hidden">
+                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-blue-300 hover:shadow-[0_8px_30px_rgb(37,99,235,0.12)] transition-all duration-300 group cursor-pointer flex flex-col items-start relative overflow-hidden">
                     <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10 w-12 h-12 bg-blue-100 text-blue-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">
-                        <i class="ph ph-door-open text-[24px]"></i>
+                    <div class="relative z-10 w-12 h-12 bg-blue-100 text-blue-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm mb-3">
+                        <i class="ph ph-building text-[24px]"></i>
                     </div>
                     <div class="relative z-10 flex-1">
                         <h3 class="text-[15px] font-bold text-slate-800 mb-1">Peminjaman Aula</h3>
-                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Ajukan peminjaman aula untuk kegiatan Anda</p>
+                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Ajukan peminjaman aula Kecamatan Cikampek untuk kegiatan Anda.</p>
                         <a href="{{ route('masyarakat.peminjaman_aula.index') }}" class="inline-flex items-center text-[12px] font-bold text-blue-600 group-hover:text-blue-800 transition-colors">
                             Mulai Pengajuan <i class="ph ph-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
 
-                {{-- Arsip UMKM --}}
-                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-emerald-300 hover:shadow-[0_8px_30px_rgb(16,185,129,0.12)] transition-all duration-300 group cursor-pointer flex gap-4 items-start relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 shadow-sm">
-                        <i class="ph ph-storefront text-[24px]"></i>
+                {{-- Peminjaman Barang Inventaris --}}
+                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-indigo-300 hover:shadow-[0_8px_30px_rgb(99,102,241,0.12)] transition-all duration-300 group cursor-pointer flex flex-col items-start relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-indigo-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-out z-0"></div>
+                    <div class="relative z-10 w-12 h-12 bg-indigo-100 text-indigo-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 shadow-sm mb-3">
+                        <i class="ph ph-package text-[24px]"></i>
                     </div>
                     <div class="relative z-10 flex-1">
-                        <h3 class="text-[15px] font-bold text-slate-800 mb-1">Arsip UMKM</h3>
-                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Lihat data dan informasi UMKM di wilayah Cikampek</p>
-                        <a href="#" class="inline-flex items-center text-[12px] font-bold text-emerald-600 group-hover:text-emerald-800 transition-colors">
-                            Lihat Arsip <i class="ph ph-arrow-right ml-1"></i>
+                        <h3 class="text-[15px] font-bold text-slate-800 mb-1">Peminjaman Inventaris</h3>
+                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Ajukan peminjaman barang inventaris seperti kursi, sound system, dan PC.</p>
+                        <a href="{{ route('masyarakat.peminjaman_inventaris.index') }}" class="inline-flex items-center text-[12px] font-bold text-indigo-600 group-hover:text-indigo-800 transition-colors">
+                            Mulai Pengajuan <i class="ph ph-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
 
-                {{-- Bantuan Sosial --}}
-                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-amber-300 hover:shadow-[0_8px_30px_rgb(245,158,11,0.12)] transition-all duration-300 group cursor-pointer flex gap-4 items-start relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-amber-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10 w-12 h-12 bg-amber-100 text-amber-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300 shadow-sm">
-                        <i class="ph ph-hand-heart text-[24px]"></i>
-                    </div>
-                    <div class="relative z-10 flex-1">
-                        <h3 class="text-[15px] font-bold text-slate-800 mb-1">Bantuan Sosial</h3>
-                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Cek informasi bantuan sosial yang tersedia</p>
-                        <a href="#" class="inline-flex items-center text-[12px] font-bold text-amber-600 group-hover:text-amber-800 transition-colors">
-                            Cek Bantuan <i class="ph ph-arrow-right ml-1"></i>
-                        </a>
-                    </div>
-                </div>
-
-                {{-- Jual Beli Tanah --}}
-                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-purple-300 hover:shadow-[0_8px_30px_rgb(168,85,247,0.12)] transition-all duration-300 group cursor-pointer flex gap-4 items-start relative overflow-hidden">
+                {{-- Sertifikat / Piagam --}}
+                <div class="bg-white border border-gray-100 rounded-[16px] p-5 hover:border-purple-300 hover:shadow-[0_8px_30px_rgb(168,85,247,0.12)] transition-all duration-300 group cursor-pointer flex flex-col items-start relative overflow-hidden">
                     <div class="absolute -right-4 -top-4 w-16 h-16 bg-purple-50 rounded-full group-hover:scale-[2.5] transition-transform duration-500 ease-out z-0"></div>
-                    <div class="relative z-10 w-12 h-12 bg-purple-100 text-purple-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 shadow-sm">
-                        <i class="ph ph-map-trifold text-[24px]"></i>
+                    <div class="relative z-10 w-12 h-12 bg-purple-100 text-purple-600 rounded-[14px] flex items-center justify-center flex-shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 shadow-sm mb-3">
+                        <i class="ph ph-certificate text-[24px]"></i>
                     </div>
                     <div class="relative z-10 flex-1">
-                        <h3 class="text-[15px] font-bold text-slate-800 mb-1">Jual Beli Tanah</h3>
-                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Informasi dan layanan jual beli tanah</p>
-                        <a href="#" class="inline-flex items-center text-[12px] font-bold text-purple-600 group-hover:text-purple-800 transition-colors">
-                            Lihat Info <i class="ph ph-arrow-right ml-1"></i>
+                        <h3 class="text-[15px] font-bold text-slate-800 mb-1">Sertifikat / Piagam</h3>
+                        <p class="text-[12px] text-slate-500 leading-relaxed mb-3">Ajukan pembuatan sertifikat atau piagam untuk kegiatan Anda.</p>
+                        <a href="{{ route('masyarakat.sertifikat.index') }}" class="inline-flex items-center text-[12px] font-bold text-purple-600 group-hover:text-purple-800 transition-colors">
+                            Mulai Pengajuan <i class="ph ph-arrow-right ml-1"></i>
                         </a>
                     </div>
                 </div>
@@ -203,6 +188,8 @@
                             {{ $r['statusColor'] === 'blue' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white' : '' }}
                             {{ $r['statusColor'] === 'amber' ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' : '' }}
                             {{ $r['statusColor'] === 'rose' ? 'bg-gradient-to-r from-rose-400 to-rose-500 text-white' : '' }}
+                            {{ $r['statusColor'] === 'indigo' ? 'bg-gradient-to-r from-indigo-400 to-indigo-500 text-white' : '' }}
+                            {{ $r['statusColor'] === 'purple' ? 'bg-gradient-to-r from-purple-400 to-purple-500 text-white' : '' }}
                             whitespace-nowrap">{{ $r['status'] }}</span>
                     </div>
                 </a>

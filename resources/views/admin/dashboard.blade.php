@@ -84,8 +84,8 @@
             <select class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white">
                 <option>Semua Layanan</option>
                 <option>Peminjaman Aula</option>
-                <option>Bantuan Sosial</option>
-                <option>Jual Beli Tanah</option>
+                <option>Peminjaman Inventaris</option>
+                <option>Sertifikat / Piagam</option>
             </select>
         </div>
         <div style="height: 200px; position: relative;">
@@ -117,14 +117,14 @@
                     @forelse($pengajuan_terbaru as $index => $item)
                     @php
                         $color = 'blue';
-                        if ($item->status == 'Selesai' || $item->status == 'Disetujui') $color = 'green';
+                        if (in_array($item->status, ['Selesai', 'Disetujui', 'Surat Tersedia', 'Dikembalikan'])) $color = 'green';
                         if ($item->status == 'Perlu Perbaikan') $color = 'yellow';
-                        if ($item->status == 'Ditolak' || $item->status == 'Dibatalkan') $color = 'red';
+                        if (in_array($item->status, ['Ditolak', 'Dibatalkan'])) $color = 'red';
                     @endphp
                     <tr class="hover:bg-gray-50/80 transition">
                         <td class="px-4 py-3 text-xs text-gray-400">{{ $index + 1 }}</td>
-                        <td class="px-4 py-3 text-xs font-medium text-gray-800">Peminjaman Aula</td>
-                        <td class="px-4 py-3 text-xs text-gray-500">{{ $item->user->name }}</td>
+                        <td class="px-4 py-3 text-xs font-medium text-gray-800">{{ $item->jenis }}</td>
+                        <td class="px-4 py-3 text-xs text-gray-500">{{ $item->pemohon }}</td>
                         <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                         <td class="px-4 py-3">
                             <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap bg-{{$color}}-100 text-{{$color}}-700">
@@ -132,7 +132,7 @@
                             </span>
                         </td>
                         <td class="px-4 py-3">
-                            <a href="{{ route('admin.peminjaman_aula.show', $item->id) }}" class="text-gray-300 hover:text-blue-500 transition">
+                            <a href="{{ route($item->route, $item->id) }}" class="text-gray-300 hover:text-blue-500 transition">
                                 <i class="ph ph-caret-right text-sm"></i>
                             </a>
                         </td>

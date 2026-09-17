@@ -77,4 +77,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(PeminjamanAula::class);
     }
+
+    /**
+     * Get the inventory borrowings associated with the user.
+     */
+    public function inventoryBorrowings()
+    {
+        return $this->hasMany(InventoryBorrowing::class);
+    }
+
+    /**
+     * Get the certificate requests associated with the user.
+     */
+    public function certificateRequests()
+    {
+        return $this->hasMany(CertificateRequest::class);
+    }
 }
