@@ -92,10 +92,10 @@
                     <td class="px-6 py-4">
                         @php
                             $statusColor = match($item->status) {
-                                'Menunggu Verifikasi' => 'bg-yellow-100 text-yellow-800',
+                                'Menunggu Verifikasi', 'Diajukan', 'Menunggu Dokumen' => 'bg-yellow-100 text-yellow-800',
                                 'Diproses', 'Surat Diproses' => 'bg-blue-100 text-blue-800',
                                 'Perlu Perbaikan' => 'bg-orange-100 text-orange-800',
-                                'Disetujui', 'Surat Tersedia', 'Selesai' => 'bg-green-100 text-green-800',
+                                'Disetujui', 'Surat Tersedia', 'Selesai', 'Dikembalikan' => 'bg-green-100 text-green-800',
                                 'Ditolak', 'Dibatalkan' => 'bg-red-100 text-red-800',
                                 default => 'bg-gray-100 text-gray-800'
                             };
@@ -105,7 +105,7 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-500">
-                        {{ $item->created_at->translatedFormat('d M Y, H:i') }}
+                        {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d M Y, H:i') }}
                     </td>
                 </tr>
                 @empty
@@ -113,7 +113,7 @@
                     <td colspan="6" class="px-6 py-12 text-center text-gray-500">
                         <div class="flex flex-col items-center justify-center">
                             <i class="ph ph-folder-open text-4xl text-gray-300 mb-2"></i>
-                            <p class="text-sm">Belum ada data pengajuan peminjaman aula.</p>
+                            <p class="text-sm">Belum ada data pengajuan layanan.</p>
                         </div>
                     </td>
                 </tr>

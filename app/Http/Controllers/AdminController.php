@@ -94,12 +94,60 @@ class AdminController extends Controller
 
     public function laporan()
     {
-        $total = PeminjamanAula::count();
-        $disetujui = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Tersedia', 'Selesai'])->count();
-        $ditolak = PeminjamanAula::where('status', 'Ditolak')->count();
-        $menunggu = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses', 'Perlu Perbaikan'])->count();
+        $total = PeminjamanAula::count() + InventoryBorrowing::count() + CertificateRequest::count();
         
-        $peminjamans = PeminjamanAula::with('user')->orderBy('created_at', 'desc')->get();
+        $disetujui = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Tersedia', 'Selesai'])->count()
+            + InventoryBorrowing::whereIn('status', ['Selesai', 'Dikembalikan'])->count()
+            + CertificateRequest::where('status', 'Selesai')->count();
+            
+        $ditolak = PeminjamanAula::where('status', 'Ditolak')->count()
+            + InventoryBorrowing::where('status', 'Ditolak')->count()
+            + CertificateRequest::where('status', 'Ditolak')->count();
+            
+        $menunggu = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses', 'Perlu Perbaikan'])->count()
+            + InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
+        
+        $aula = PeminjamanAula::with('user')->get()->map(function($item) {
+            return (object) [
+                'nomor_pengajuan' => $item->nomor_pengajuan,
+                'user' => $item->user,
+                'nama_kegiatan' => $item->nama_kegiatan,
+                'jenis_kegiatan' => $item->jenis_kegiatan,
+                'tanggal' => $item->tanggal,
+                'status' => $item->status,
+                'created_at' => $item->created_at,
+                'jenis' => 'Aula'
+            ];
+        });
+
+        $inventaris = InventoryBorrowing::with('user')->get()->map(function($item) {
+            return (object) [
+                'nomor_pengajuan' => $item->request_code,
+                'user' => $item->user,
+                'nama_kegiatan' => $item->purpose,
+                'jenis_kegiatan' => 'Peminjaman Inventaris',
+                'tanggal' => $item->borrow_date,
+                'status' => $item->status,
+                'created_at' => $item->created_at,
+                'jenis' => 'Inventaris'
+            ];
+        });
+
+        $sertifikat = CertificateRequest::with('user')->get()->map(function($item) {
+            return (object) [
+                'nomor_pengajuan' => $item->request_code,
+                'user' => $item->user,
+                'nama_kegiatan' => $item->activity_name,
+                'jenis_kegiatan' => $item->document_type,
+                'tanggal' => $item->activity_date,
+                'status' => $item->status,
+                'created_at' => $item->created_at,
+                'jenis' => 'Sertifikat'
+            ];
+        });
+
+        $peminjamans = $aula->concat($inventaris)->concat($sertifikat)->sortByDesc('created_at')->values();
         
         return view('admin.laporan', compact('total', 'disetujui', 'ditolak', 'menunggu', 'peminjamans'));
     }
