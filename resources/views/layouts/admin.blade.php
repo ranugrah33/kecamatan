@@ -218,7 +218,7 @@
         </header>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto overflow-x-hidden bg-[#f5f7fb] p-4 sm:p-6">
+        <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('images/latar0.png') }}');">
             @yield('content')
         </main>
     </div>
