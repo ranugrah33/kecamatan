@@ -430,8 +430,6 @@
         const target = e.target;
         const btn = target.closest('button, input[type="submit"], input[type="button"], a.btn, .menu-item, [role="button"]');
 
-        // Always spawn sparkle burst at click point
-        spawnParticleBurst(e.clientX, e.clientY);
         playSound('click');
 
         if (!btn) return;
