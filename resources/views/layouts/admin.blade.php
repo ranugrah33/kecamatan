@@ -117,6 +117,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.ai_knowledge.index') }}" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.ai_knowledge.*') ? 'menu-active' : '' }}">
+                        <i class="ph ph-robot menu-icon text-lg {{ request()->routeIs('admin.ai_knowledge.*') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                        Knowledge Base AI
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.pengaturan') }}" class="menu-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.pengaturan') ? 'menu-active' : '' }}">
                         <i class="ph ph-gear menu-icon text-lg {{ request()->routeIs('admin.pengaturan') ? 'text-blue-400' : 'text-slate-400' }}"></i>
                         Pengaturan

@@ -217,5 +217,7 @@
     @stack('scripts')
     <script src="{{ asset('js/interactive-display.js') }}"></script>
 </div>{{-- end x-data sidebarOpen wrapper --}}
+
+<x-chatbot />
 </body>
 </html>

@@ -23,10 +23,14 @@ use App\Http\Controllers\MasyarakatController;
 use App\Http\Controllers\PeminjamanAulaController;
 use App\Http\Controllers\InventoryBorrowingController;
 use App\Http\Controllers\CertificateRequestController;
+use App\Http\Controllers\ChatbotController;
 
 Route::get('/', function () {
     return redirect('/login');
 });
+
+// Chatbot Public Route
+Route::post('/chatbot/chat', [ChatbotController::class, 'chat'])->name('chatbot.chat')->middleware('throttle:15,1');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -69,6 +73,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/sertifikat/{id}/status', [AdminCertificateController::class, 'updateStatus'])->name('admin.sertifikat.updateStatus');
     Route::post('/admin/sertifikat/{id}/upload', [AdminCertificateController::class, 'uploadCertificate'])->name('admin.sertifikat.upload');
     Route::get('/admin/sertifikat/{id}/download-permohonan', [AdminCertificateController::class, 'downloadApplication'])->name('admin.sertifikat.downloadApplication');
+
+    // Knowledge Base AI
+    Route::get('/admin/ai-knowledge', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'index'])->name('admin.ai_knowledge.index');
+    Route::get('/admin/ai-knowledge/create', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'create'])->name('admin.ai_knowledge.create');
+    Route::post('/admin/ai-knowledge', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'store'])->name('admin.ai_knowledge.store');
+    Route::get('/admin/ai-knowledge/{id}/edit', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'edit'])->name('admin.ai_knowledge.edit');
+    Route::put('/admin/ai-knowledge/{id}', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'update'])->name('admin.ai_knowledge.update');
+    Route::put('/admin/ai-knowledge/{id}/toggle', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'toggleActive'])->name('admin.ai_knowledge.toggle');
+    Route::delete('/admin/ai-knowledge/{id}', [\App\Http\Controllers\AdminAiKnowledgeController::class, 'destroy'])->name('admin.ai_knowledge.destroy');
 
     Route::get('/admin/laporan', [AdminController::class, 'laporan'])->name('admin.laporan');
     Route::get('/admin/pengaturan', [AdminController::class, 'pengaturan'])->name('admin.pengaturan');

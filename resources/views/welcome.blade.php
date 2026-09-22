@@ -129,5 +129,10 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Scripts (AlpineJS is needed for Chatbot if not included) -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
+        <x-chatbot />
     </body>
 </html>
