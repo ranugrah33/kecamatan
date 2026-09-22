@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="{{ asset('css/interactive-display.css') }}">
     <style>
         * { font-family: 'Inter', sans-serif; }
         [x-cloak] { display: none !important; }
@@ -36,7 +37,13 @@
         }
     </style>
 </head>
-<body class="bg-[#f5f7fb] text-gray-800 antialiased">
+<body class="bg-[#f5f7fb] text-gray-800 antialiased"
+      data-user-role="masyarakat"
+      data-user-name="{{ Auth::check() ? Auth::user()->name : 'Warga' }}"
+      data-session-success="{{ session('success') }}"
+      data-session-error="{{ session('error') }}"
+      data-session-warning="{{ session('warning') }}"
+      data-session-info="{{ session('info') }}">
 <div class="flex h-screen overflow-hidden" x-data="{ sidebarOpen: false }">
 
     <!-- Mobile Overlay -->
@@ -152,6 +159,15 @@
             </div>
 
             <div class="flex items-center gap-1.5" x-data="{ userOpen: false }">
+                <!-- Sound FX Toggle -->
+                <button onclick="window.CikampekUI && window.CikampekUI.toggleMute()"
+                        type="button"
+                        title="Aktif/Nonaktifkan Efek Suara Interaktif"
+                        class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-gray-500 hover:text-blue-600 hover:bg-blue-50 border border-gray-200 rounded-xl transition">
+                    <i class="ph ph-speaker-simple-high text-base"></i>
+                    <span class="text-[11px] font-medium">Efek Suara</span>
+                </button>
+
                 <!-- Notification Bell -->
                 <a href="{{ route('masyarakat.notifikasi') }}"
                    class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition">
@@ -205,6 +221,8 @@
         </main>
     </div>
 
+    @stack('scripts')
+    <script src="{{ asset('js/interactive-display.js') }}"></script>
 </div>{{-- end x-data sidebarOpen wrapper --}}
 </body>
 </html>
