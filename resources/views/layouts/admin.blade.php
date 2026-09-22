@@ -167,14 +167,7 @@
                     </div>
                 </div>
 
-                <!-- Sound FX Toggle -->
-                <button onclick="window.CikampekUI && window.CikampekUI.toggleMute()"
-                        type="button"
-                        title="Aktif/Nonaktifkan Efek Suara Interaktif"
-                        class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-gray-500 hover:text-blue-600 hover:bg-blue-50 border border-gray-200 rounded-xl transition">
-                    <i class="ph ph-speaker-simple-high text-base"></i>
-                    <span class="text-[11px] font-medium">Efek Suara</span>
-                </button>
+
 
                 <!-- Notification Bell -->
                 <button class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition">

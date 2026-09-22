@@ -608,43 +608,6 @@
                 message: flashInfo,
                 duration: 4500
             });
-        } else {
-            // Priority 2: Welcome / Entrance greeting toast
-            // Show only once per page visit session or refresh
-            const lastGreeted = sessionStorage.getItem('cikampek_last_greeted_page');
-            const currentPath = window.location.pathname;
-
-            if (lastGreeted !== currentPath) {
-                sessionStorage.setItem('cikampek_last_greeted_page', currentPath);
-
-                setTimeout(() => {
-                    if (userRole === 'admin') {
-                        showToast({
-                            type: 'primary',
-                            title: `⚡ Panel Admin • ${userName || 'Administrator'}`,
-                            message: 'Sistem Informasi Pelayanan Cikampek aktif dan siap digunakan.',
-                            icon: 'ph ph-shield-check-bold',
-                            duration: 4000
-                        });
-                    } else if (userRole === 'masyarakat') {
-                        showToast({
-                            type: 'primary',
-                            title: `👋 Selamat Datang, ${userName || 'Warga Cikampek'}!`,
-                            message: 'Layanan publik online Kecamatan Cikampek siap melayani kebutuhan Anda.',
-                            icon: 'ph ph-hand-waving-bold',
-                            duration: 4000
-                        });
-                    } else if (currentPath.includes('login')) {
-                        showToast({
-                            type: 'info',
-                            title: '🏛️ Kecamatan Cikampek',
-                            message: 'Selamat Datang di Sistem Pelayanan Publik Cikampek.',
-                            icon: 'ph ph-buildings-bold',
-                            duration: 3800
-                        });
-                    }
-                }, 400);
-            }
         }
     }
 
