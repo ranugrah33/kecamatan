@@ -56,11 +56,31 @@
             z-index: 20;
         }
 
-        .menu-active { background: rgba(96,165,250,0.18); color: #93c5fd; }
+        .menu-active { 
+            background: rgba(96,165,250,0.18); 
+            color: #93c5fd; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
         .menu-active .menu-icon { color: #60a5fa; }
-        .menu-item { color: #94a3b8; transition: all 0.15s ease; }
-        .menu-item:hover { background: rgba(255,255,255,0.07); color: #e2e8f0; }
-        .menu-item:hover .menu-icon { color: #cbd5e1; }
+        .menu-item { 
+            color: #94a3b8; 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+        }
+        .menu-item:hover { 
+            background: rgba(255,255,255,0.07); 
+            color: #e2e8f0; 
+            transform: translateX(6px);
+        }
+        .menu-item:active {
+            transform: scale(0.95);
+        }
+        .menu-item:hover .menu-icon { 
+            color: #cbd5e1; 
+            transform: scale(1.15) translateY(-1px);
+        }
+        .menu-icon {
+            transition: all 0.3s ease;
+        }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .welcome-card {
@@ -162,7 +182,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                            class="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-[13px] font-bold text-red-400 border border-red-400/20 bg-red-400/5 hover:bg-red-500 hover:text-white transition-all duration-300">
+                            class="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-[13px] font-bold text-red-400 border border-red-400/20 bg-red-400/5 hover:bg-red-500 hover:text-white active:scale-95 transition-all duration-300">
                         <i class="ph ph-sign-out text-lg"></i>
                         Keluar
                     </button>
