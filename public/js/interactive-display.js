@@ -493,6 +493,7 @@
 
         let title = 'Sedang Memproses...';
         let desc = 'Mohon tunggu, data sedang diverifikasi dan disimpan.';
+        let showHud = false;
 
         if (submitBtn) {
             // Determine friendly message from button text
@@ -500,31 +501,23 @@
             if (btnText.includes('login') || btnText.includes('masuk')) {
                 title = 'Memverifikasi Akun...';
                 desc = 'Memeriksa kredensial Anda, mohon tunggu sebentar.';
-            } else if (btnText.includes('daftar') || btnText.includes('register')) {
-                title = 'Mendaftarkan Akun...';
-                desc = 'Menyiapkan akun baru Anda di Sistem Pelayanan Kecamatan.';
-            } else if (btnText.includes('simpan') || btnText.includes('update')) {
-                title = 'Menyimpan Perubahan...';
-                desc = 'Data pembaruan Anda sedang disimpan ke server.';
-            } else if (btnText.includes('ajukan') || btnText.includes('kirim')) {
-                title = 'Mengirim Permohonan...';
-                desc = 'Permohonan layanan publik Anda sedang dikirim ke petugas.';
-            } else if (btnText.includes('hapus') || btnText.includes('batal')) {
-                title = 'Memproses Pembatalan...';
-                desc = 'Mohon tunggu, sistem sedang memperbarui status.';
+                showHud = true;
             } else if (btnText.includes('keluar') || btnText.includes('logout')) {
                 title = 'Keluar Sistem...';
                 desc = 'Menutup sesi Anda dengan aman. Sampai jumpa kembali.';
+                showHud = true;
             }
 
-            // Inline spinner styling on button
+            // Always disable button to prevent double submit
             submitBtn.style.opacity = '0.85';
             submitBtn.style.pointerEvents = 'none';
         }
 
-        // Show centered HUD display
-        showProcessingHUD(title, desc);
-        setTopBarProgress(70);
+        if (showHud) {
+            // Show centered HUD display
+            showProcessingHUD(title, desc);
+            setTopBarProgress(70);
+        }
     }
 
     // =========================================================================
