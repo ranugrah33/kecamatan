@@ -14,48 +14,7 @@
     <style>
         * { font-family: 'Inter', sans-serif; }
         [x-cloak] { display: none !important; }
-        
-        /* 1. Base Gradient Background (Zona Atas & Bawah) */
-        .sidebar-nav {
-            background: linear-gradient(180deg, #0b1429 0%, #0f1c3f 100%);
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* 2. Layer Ilustrasi Gedung & Dekorasi (Zona Bawah-Tengah) */
-        /* Memastikan ilustrasi TIDAK PERNAH menyentuh area tombol keluar (disisakan 160px di bawah) */
-        .sidebar-nav::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 160px; /* Jarak aman mutlak untuk tombol Keluar */
-            background-image: url('{{ asset('images/side-bar.png') }}');
-            background-size: cover;
-            background-position: center bottom;
-            background-repeat: no-repeat;
-            opacity: 0.9;
-            z-index: 0;
-            pointer-events: none;
-            /* Transisi halus agar gambar menyatu dengan background polos di bawahnya */
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
-        }
-
-        /* 3. Pastikan konten sidebar berada di atas background */
-        .sidebar-nav > * {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* 4. Area Khusus Tombol Keluar (Foreground Polos) */
-        .sidebar-bottom-area {
-            background: #0b152c; /* Background navy solid yang bersih */
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            z-index: 20;
-        }
+        .sidebar-nav { background: linear-gradient(180deg, #1a2744 0%, #1e2d52 60%, #162040 100%); }
 
         .menu-active { background: rgba(96,165,250,0.18); color: #93c5fd; }
         .menu-active .menu-icon { color: #60a5fa; }
@@ -174,11 +133,11 @@
         </nav>
 
         <!-- Sidebar Bottom -->
-        <div class="sidebar-bottom-area flex-shrink-0 px-3 pt-4 pb-5">
+        <div class="flex-shrink-0 px-3 pt-4 pb-5 border-t border-white/10">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit"
-                        class="menu-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition text-left">
+                        class="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-[13px] font-bold text-red-400 border border-red-400/20 bg-red-400/5 hover:bg-red-500 hover:text-white transition-all duration-300">
                     <i class="ph ph-sign-out text-lg"></i>
                     Keluar
                 </button>
