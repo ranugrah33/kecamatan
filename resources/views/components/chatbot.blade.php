@@ -72,6 +72,17 @@
                 </div>
             </template>
 
+            <!-- Loading Indicator -->
+            <div x-show="isLoading" class="flex items-start gap-2.5">
+                <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center shrink-0 shadow-sm border border-blue-200/50">
+                    <i class="ph ph-robot text-sm"></i>
+                </div>
+                <div class="bg-white border border-gray-200/80 px-4 py-3.5 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1">
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+                    <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+                </div>
+            </div>
 
         </div>
 
