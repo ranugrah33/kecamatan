@@ -32,6 +32,11 @@ Route::get('/', function () {
 // Chatbot Public Route
 Route::post('/chatbot/chat', [ChatbotController::class, 'chat'])->name('chatbot.chat')->middleware('throttle:15,1');
 
+// Halaman Buku Panduan (Public)
+Route::get('/panduan', function () {
+    return view('panduan');
+})->name('panduan');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);

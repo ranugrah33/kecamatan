@@ -69,6 +69,12 @@
                 <a href="{{ route('register') }}" class="font-medium text-blue-700 hover:text-blue-900 hover:underline">Daftar sekarang</a>
             </p>
         </div>
+
+        <div class="mt-8 border-t border-white/20 pt-4 text-center">
+            <a href="{{ route('panduan') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-600/80 hover:bg-blue-600 px-4 py-2 rounded-xl backdrop-blur-md transition shadow-md">
+                <i class="ph ph-book-open-text text-lg"></i> Baca Buku Panduan
+            </a>
+        </div>
     </div>
 </div>
 @endsection
