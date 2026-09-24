@@ -20,15 +20,21 @@ class ChatbotController extends Controller
 
         try {
             // 2. Search Knowledge Base
-            $keywords = explode(' ', strtolower($userMessage));
+            $userMessageClean = preg_replace('/[^a-z0-9 ]/', '', strtolower($userMessage));
+            $keywords = array_filter(explode(' ', $userMessageClean), function($w) {
+                return strlen($w) > 2;
+            });
             
             $query = AiKnowledge::where('is_active', true);
-            foreach ($keywords as $word) {
-                if (strlen($word) > 3) {
-                    $query->orWhere('keywords', 'like', "%{$word}%")
+            
+            if (!empty($keywords)) {
+                $query->where(function($q) use ($keywords) {
+                    foreach ($keywords as $word) {
+                        $q->orWhere('keywords', 'like', "%{$word}%")
                           ->orWhere('category', 'like', "%{$word}%")
                           ->orWhere('question', 'like', "%{$word}%");
-                }
+                    }
+                });
             }
 
             $knowledges = $query->orderBy('priority', 'desc')->take(3)->get();
@@ -59,11 +65,22 @@ Context Data:
             $model = config('services.gemini.model', 'gemini-3.6-flash');
 
             if (!$apiKey) {
-                Log::error('Gemini API Key is not set.');
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Maaf, Asisten Kecamatan sedang mengalami gangguan. Silakan coba kembali beberapa saat lagi.'
-                ]);
+                Log::warning('Gemini API Key is not set. Using local knowledge fallback.');
+                if ($knowledges->count() > 0) {
+                    $reply = "Berdasarkan informasi Kecamatan Cikampek:\n";
+                    foreach ($knowledges as $k) {
+                        $reply .= "- " . $k->answer . "\n";
+                    }
+                    return response()->json([
+                        'success' => true,
+                        'reply' => $reply
+                    ]);
+                } else {
+                    return response()->json([
+                        'success' => true,
+                        'reply' => 'Maaf, saya belum memiliki informasi mengenai hal tersebut. Silakan tanyakan hal lain seputar pelayanan publik Kecamatan Cikampek.'
+                    ]);
+                }
             }
 
             $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
