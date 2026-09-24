@@ -56,7 +56,8 @@ class PeminjamanAulaController extends Controller
             'tanggal' => 'required|date|after_or_equal:today',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
-            'file_surat_permohonan' => 'nullable|mimes:pdf|max:2048',
+            'nomor_surat_permohonan' => 'required|string|max:255',
+            'file_surat_permohonan' => 'required|mimes:pdf|max:2048',
         ]);
 
         // Cek jam operasional
@@ -125,7 +126,7 @@ class PeminjamanAulaController extends Controller
             'catatan_tambahan' => $request->catatan_tambahan,
             'nomor_surat_permohonan' => $request->nomor_surat_permohonan,
             'file_surat_permohonan' => $filePath,
-            'status' => 'Surat Diproses',
+            'status' => 'Menunggu Verifikasi',
         ]);
 
         return redirect()->route('masyarakat.peminjaman_aula.sukses', $peminjaman->id);

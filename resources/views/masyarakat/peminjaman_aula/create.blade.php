@@ -164,13 +164,13 @@
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Nomor Surat Permohonan <span class="text-gray-400 font-normal">(Opsional)</span></label>
-                <input type="text" name="nomor_surat_permohonan" x-model="formData.nomor_surat_permohonan" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Contoh: 123/ORG/2026">
+                <label class="block text-sm font-medium text-gray-700">Nomor Surat Permohonan <span class="text-red-500 font-normal">(Wajib)</span></label>
+                <input type="text" name="nomor_surat_permohonan" required x-model="formData.nomor_surat_permohonan" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Contoh: 123/ORG/2026">
                 <p class="text-xs text-gray-500 mt-1">Masukkan nomor surat resmi dari instansi/organisasi Anda jika ada.</p>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Unggah File Surat Permohonan <span class="text-gray-400 font-normal">(Opsional)</span></label>
-                <input type="file" name="file_surat_permohonan" @change="formData.file_surat_permohonan = $event.target.files[0] ? $event.target.files[0].name : ''" accept=".pdf" class="w-full px-4 py-1.5 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white">
+                <label class="block text-sm font-medium text-gray-700">Unggah File Surat Permohonan <span class="text-red-500 font-normal">(Wajib)</span></label>
+                <input type="file" name="file_surat_permohonan" required @change="formData.file_surat_permohonan = $event.target.files[0] ? $event.target.files[0].name : ''" accept=".pdf" class="w-full px-4 py-1.5 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white">
                 <p class="text-xs text-gray-500 mt-1">Format: PDF, Maksimal: 2MB.</p>
             </div>
         </div>
