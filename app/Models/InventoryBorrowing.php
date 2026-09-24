@@ -17,6 +17,7 @@ class InventoryBorrowing extends Model
         'phone',
         'institution',
         'purpose',
+        'penanggung_jawab',
         'borrow_date',
         'return_date',
         'notes',

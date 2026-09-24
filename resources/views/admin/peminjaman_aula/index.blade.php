@@ -48,9 +48,9 @@
                         <span class="text-xs text-gray-400">{{ substr($item->jam_mulai, 0, 5) }} - {{ substr($item->jam_selesai, 0, 5) }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        @if($item->status == 'Disetujui' || $item->status == 'Selesai')
+                        @if($item->status == 'Disetujui' || $item->status == 'Selesai' || $item->status == 'Surat Tersedia')
                             <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-700">{{ $item->status }}</span>
-                        @elseif($item->status == 'Menunggu Verifikasi' || $item->status == 'Diproses')
+                        @elseif($item->status == 'Menunggu Verifikasi' || $item->status == 'Diproses' || $item->status == 'Surat Diproses')
                             <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-700">{{ $item->status }}</span>
                         @elseif($item->status == 'Perlu Perbaikan')
                             <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-700">{{ $item->status }}</span>

@@ -37,6 +37,7 @@
                     <div><dt class="text-gray-500 font-medium">NIK</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->nik ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">No. HP</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->phone ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Instansi</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->institution ?? '-' }}</dd></div>
+                    <div class="sm:col-span-2"><dt class="text-gray-500 font-medium">Penanggung Jawab</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->penanggung_jawab }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Keperluan</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->purpose }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Tanggal Pinjam</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->borrow_date->format('d M Y') }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Tanggal Kembali</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->return_date->format('d M Y') }}</dd></div>

@@ -14,7 +14,7 @@
             </div>
             <span class="text-xs font-medium text-gray-500 leading-tight">Total Permohonan</span>
         </div>
-        <p class="text-3xl font-bold text-gray-900">{{ $total_permohonan }}</p>
+        <p id="stat-total" class="text-3xl font-bold text-gray-900">{{ $total_permohonan }}</p>
         <p class="text-xs text-green-600 mt-1.5 flex items-center gap-0.5 font-medium">
             <i class="ph ph-arrow-up text-xs"></i> 2 dari kemarin
         </p>
@@ -28,7 +28,7 @@
             </div>
             <span class="text-xs font-medium text-gray-500 leading-tight">Menunggu Review</span>
         </div>
-        <p class="text-3xl font-bold text-orange-500">{{ $menunggu_review }}</p>
+        <p id="stat-menunggu" class="text-3xl font-bold text-orange-500">{{ $menunggu_review }}</p>
         <p class="text-xs text-green-600 mt-1.5 flex items-center gap-0.5 font-medium">
             <i class="ph ph-arrow-up text-xs"></i> 1 dari kemarin
         </p>
@@ -42,7 +42,7 @@
             </div>
             <span class="text-xs font-medium text-gray-500 leading-tight">Selesai</span>
         </div>
-        <p class="text-3xl font-bold text-green-600">{{ $selesai }}</p>
+        <p id="stat-selesai" class="text-3xl font-bold text-green-600">{{ $selesai }}</p>
         <p class="text-xs text-green-600 mt-1.5 flex items-center gap-0.5 font-medium">
             <i class="ph ph-arrow-up text-xs"></i> 2 dari kemarin
         </p>
@@ -56,7 +56,7 @@
             </div>
             <span class="text-xs font-medium text-gray-500 leading-tight">Perlu Diperbaiki</span>
         </div>
-        <p class="text-3xl font-bold text-red-500">{{ $perlu_diperbaiki }}</p>
+        <p id="stat-perbaikan" class="text-3xl font-bold text-red-500">{{ $perlu_diperbaiki }}</p>
         <p class="text-xs text-red-500 mt-1.5 flex items-center gap-0.5 font-medium">
             <i class="ph ph-arrow-down text-xs"></i> 1 dari kemarin
         </p>
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('layananChart');
     if (!ctx) return;
 
-    new Chart(ctx, {
+    let chartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: {!! json_encode($chartLabels) !!},
@@ -254,6 +254,35 @@ document.addEventListener('DOMContentLoaded', function() {
             categoryPercentage: 0.75
         }
     });
+
+    function updateDashboardData() {
+        fetch('{{ route("admin.dashboard.data") }}')
+            .then(response => response.json())
+            .then(data => {
+                // Update stat cards if they exist
+                const statTotal = document.getElementById('stat-total');
+                if (statTotal) statTotal.innerText = data.total_permohonan;
+                
+                const statMenunggu = document.getElementById('stat-menunggu');
+                if (statMenunggu) statMenunggu.innerText = data.menunggu_review;
+                
+                const statSelesai = document.getElementById('stat-selesai');
+                if (statSelesai) statSelesai.innerText = data.selesai;
+                
+                const statPerbaikan = document.getElementById('stat-perbaikan');
+                if (statPerbaikan) statPerbaikan.innerText = data.perlu_diperbaiki;
+
+                // Update chart
+                chartInstance.data.labels = data.chartLabels;
+                chartInstance.data.datasets[0].data = data.chartDataDiterima;
+                chartInstance.data.datasets[1].data = data.chartDataSelesai;
+                chartInstance.update();
+            })
+            .catch(error => console.error('Error fetching dashboard data:', error));
+    }
+
+    // Refresh data every 10 seconds
+    setInterval(updateDashboardData, 10000);
 });
 </script>
 @endpush

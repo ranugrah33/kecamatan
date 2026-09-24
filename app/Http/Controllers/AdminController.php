@@ -92,6 +92,52 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki', 'pengajuan_terbaru', 'chartLabels', 'chartDataDiterima', 'chartDataSelesai'));
     }
 
+    public function dashboardData()
+    {
+        $total_aula = PeminjamanAula::count();
+        $total_inventaris = InventoryBorrowing::count();
+        $total_sertifikat = CertificateRequest::count();
+        $total_permohonan = $total_aula + $total_inventaris + $total_sertifikat;
+
+        $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count()
+            + InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
+
+        $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak', 'Surat Tersedia', 'Selesai'])->count()
+            + InventoryBorrowing::whereIn('status', ['Selesai', 'Dikembalikan'])->count()
+            + CertificateRequest::where('status', 'Selesai')->count();
+
+        $perlu_diperbaiki = PeminjamanAula::where('status', 'Perlu Perbaikan')->count()
+            + InventoryBorrowing::where('status', 'Ditolak')->count()
+            + CertificateRequest::where('status', 'Ditolak')->count();
+
+        // Chart data for last 7 days
+        $chartLabels = [];
+        $chartDataDiterima = [];
+        $chartDataSelesai = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = \Carbon\Carbon::now()->subDays($i);
+            $chartLabels[] = $date->translatedFormat('j M');
+
+            $masuk = PeminjamanAula::whereDate('created_at', $date->toDateString())->count()
+                + InventoryBorrowing::whereDate('created_at', $date->toDateString())->count()
+                + CertificateRequest::whereDate('created_at', $date->toDateString())->count();
+
+            $selesaiHariIni = PeminjamanAula::whereDate('updated_at', $date->toDateString())
+                ->whereIn('status', ['Disetujui', 'Surat Tersedia', 'Selesai'])->count()
+                + InventoryBorrowing::whereDate('updated_at', $date->toDateString())
+                    ->whereIn('status', ['Selesai', 'Dikembalikan'])->count()
+                + CertificateRequest::whereDate('updated_at', $date->toDateString())
+                    ->where('status', 'Selesai')->count();
+
+            $chartDataDiterima[] = $masuk;
+            $chartDataSelesai[] = $selesaiHariIni;
+        }
+
+        return response()->json(compact('total_permohonan', 'menunggu_review', 'selesai', 'perlu_diperbaiki', 'chartLabels', 'chartDataDiterima', 'chartDataSelesai'));
+    }
+
     public function laporan()
     {
         $total = PeminjamanAula::count() + InventoryBorrowing::count() + CertificateRequest::count();

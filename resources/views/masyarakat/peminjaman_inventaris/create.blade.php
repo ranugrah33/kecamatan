@@ -47,6 +47,10 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Instansi / Organisasi</label>
                 <input type="text" name="institution" value="{{ old('institution') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none" placeholder="Opsional">
             </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Penanggung Jawab <span class="text-red-500">*</span></label>
+                <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none" placeholder="Nama penanggung jawab">
+            </div>
         </div>
     </div>
 
