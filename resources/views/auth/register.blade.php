@@ -26,10 +26,6 @@
         <form class="space-y-4" action="{{ route('register') }}" method="POST">
             @csrf
             <div>
-                <label for="nik" class="block text-sm font-medium text-black drop-shadow">NIK (Nomor Induk Kependudukan)</label>
-                <input type="text" name="nik" id="nik" value="{{ old('nik') }}" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Masukkan 16 digit NIK" required>
-            </div>
-            <div>
                 <label for="name" class="block text-sm font-medium text-black drop-shadow">Nama Lengkap</label>
                 <input type="text" name="name" id="name" value="{{ old('name') }}" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Sesuai KTP" required>
             </div>

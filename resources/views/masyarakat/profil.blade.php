@@ -38,10 +38,6 @@
                 <input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">NIK</label>
-                <input type="text" name="nik" value="{{ old('nik', $user->nik) }}" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
-            </div>
-            <div>
                 <label class="block text-sm font-medium text-gray-700">Nomor HP/WhatsApp</label>
                 <input type="text" name="no_hp" value="{{ old('no_hp', $user->no_hp) }}" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required>
             </div>

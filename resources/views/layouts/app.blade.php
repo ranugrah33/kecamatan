@@ -24,5 +24,6 @@
     @yield('content')
 
     <script src="{{ asset('js/interactive-display.js') }}"></script>
+    <x-chatbot />
 </body>
 </html>

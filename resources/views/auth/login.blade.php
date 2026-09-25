@@ -8,7 +8,7 @@
     </div>
 
     <!-- Top Right Header -->
-    <div class="absolute top-6 right-6 lg:top-8 lg:right-10 z-20 flex items-center gap-3 md:gap-4">
+    <div class="absolute top-6 right-6 lg:top-8 lg:right-10 z-20 hidden sm:flex items-center gap-3 md:gap-4">
         <div class="hidden sm:block text-right">
             <h2 class="text-sm md:text-base font-extrabold text-white drop-shadow-md shadow-black leading-tight tracking-wide uppercase" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Pemerintah Kabupaten Karawang</h2>
             <p class="text-[11px] md:text-xs font-medium text-white/90 drop-shadow mt-0.5 tracking-wider uppercase" style="text-shadow: 0 1px 3px rgba(0,0,0,0.8);">Provinsi Jawa Barat, Indonesia</p>

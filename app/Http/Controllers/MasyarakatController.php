@@ -161,7 +161,6 @@ class MasyarakatController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'nik' => 'required|string|max:20|unique:users,nik,' . $user->id,
             'no_hp' => 'required|string|max:15',
             'no_kk' => 'nullable|string|max:20',
             'tempat_lahir' => 'nullable|string|max:100',
@@ -178,7 +177,6 @@ class MasyarakatController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'nik' => $request->nik,
             'no_hp' => $request->no_hp,
         ]);
 
