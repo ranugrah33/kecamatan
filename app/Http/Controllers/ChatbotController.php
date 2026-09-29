@@ -47,15 +47,28 @@ class ChatbotController extends Controller
                     $contextText .= "  Informasi: {$k->answer}\n\n";
                 }
             } else {
-                $contextText = "Tidak ada informasi spesifik yang ditemukan di database mengenai pertanyaan ini. Arahkan pengguna untuk menghubungi petugas kecamatan secara langsung.";
+                $contextText = "Belum ada informasi resmi spesifik mengenai hal ini dalam basis data Asisten Kecamatan Cikampek.";
             }
 
             // 3. System Prompt Construction
-            $systemPrompt = "Kamu adalah Asisten Digital Kecamatan Cikampek. Tugas kamu adalah membantu masyarakat mendapatkan informasi mengenai pelayanan dan informasi Kecamatan Cikampek. 
-Gunakan HANYA informasi yang diberikan melalui context di bawah ini. Jangan mengarang informasi. Jangan membuat persyaratan, biaya, prosedur, jadwal, alamat, nomor kontak, atau kebijakan yang tidak terdapat di context. 
-Jika informasi tidak tersedia, katakan bahwa informasi tersebut belum tersedia dalam basis informasi Asisten Kecamatan Cikampek dan silakan menghubungi petugas Kecamatan Cikampek untuk mendapatkan informasi resmi.
-Gunakan bahasa Indonesia yang ramah, jelas, singkat, dan mudah dipahami. Jangan mengaku sebagai pegawai Kecamatan Cikampek. Kamu adalah asisten informasi digital. 
-Jika pertanyaan berada di luar informasi Kecamatan Cikampek, arahkan pengguna untuk menghubungi petugas Kecamatan Cikampek. Jangan memberikan keputusan administratif. Jangan memberikan informasi yang tidak didukung oleh context.
+            $systemPrompt = "Kamu adalah Asisten Digital Kecamatan Cikampek.
+Tugas kamu adalah menjawab pertanyaan pengguna dengan bahasa Indonesia yang ramah, natural, mudah dipahami, tidak terlalu formal, dan tidak seperti robot.
+Jika jawaban membutuhkan daftar atau langkah, gunakan format yang mudah dibaca.
+
+ATURAN SUMBER JAWABAN (PRIORITAS):
+1. Data resmi dari 'Context Data' di bawah ini.
+2. Pengetahuan umum yang kamu miliki.
+
+ATURAN MENJAWAB:
+- Jika pertanyaan berkaitan dengan layanan/informasi spesifik Kecamatan Cikampek:
+  * Jawab HANYA menggunakan informasi dari 'Context Data'.
+  * JANGAN PERNAH mengarang informasi resmi (seperti biaya, persyaratan, jam pelayanan, nomor telepon, alamat, prosedur, kebijakan, nama pejabat, peraturan, atau jadwal) jika tidak ada di Context Data.
+  * Jika informasi spesifik tersebut TIDAK ADA di Context Data, berikan respons variatif yang menyatakan bahwa informasi resmi belum tersedia di basis data kamu dan arahkan untuk menghubungi petugas Kecamatan Cikampek. Contoh variasi respons (buat senatural mungkin menyesuaikan konteks, jangan monoton): 'Saya belum menemukan informasi resmi mengenai hal tersebut dalam basis informasi saya.', 'Untuk informasi spesifik mengenai layanan tersebut, saya belum memiliki data yang cukup.', 'Informasi tersebut belum tersedia dalam data layanan Kecamatan Cikampek yang saya gunakan.'
+- Jika pertanyaan bersifat administratif secara umum namun informasinya tidak ada di Context Data:
+  * Kamu Boleh memberikan informasi umum, namun HARUS membedakan antara informasi umum dan resmi Kecamatan.
+  * Gunakan awalan seperti 'Secara umum...', 'Pada umumnya...', lalu tambahkan kalimat 'Namun, untuk ketentuan resmi yang berlaku di Kecamatan Cikampek, sebaiknya dikonfirmasi langsung kepada petugas...'.
+- Jika pertanyaan berupa pengetahuan umum (misal: 'Apa itu KTP?', 'Kenapa hujan turun?', 'Siapa penemu telepon?'):
+  * Jawab secara normal berdasarkan pengetahuan umum yang kamu miliki, tanpa harus menyuruh menghubungi petugas.
 
 Context Data:
 " . $contextText;
@@ -77,8 +90,8 @@ Context Data:
                     ]);
                 } else {
                     return response()->json([
-                        'success' => true,
-                        'reply' => 'Maaf, saya belum memiliki informasi mengenai hal tersebut. Silakan tanyakan hal lain seputar pelayanan publik Kecamatan Cikampek.'
+                        'success' => false,
+                        'message' => 'Maaf, Asisten Kecamatan Cikampek sedang mengalami kendala teknis. Silakan coba kembali beberapa saat lagi.'
                     ]);
                 }
             }
@@ -108,7 +121,7 @@ Context Data:
                 Log::error('Gemini API Error: ' . $response->body());
                 return response()->json([
                     'success' => false,
-                    'message' => 'Maaf, Asisten Kecamatan sedang mengalami gangguan. Silakan coba kembali beberapa saat lagi.'
+                    'message' => 'Maaf, Asisten Kecamatan Cikampek sedang mengalami kendala teknis. Silakan coba kembali beberapa saat lagi.'
                 ]);
             }
 
@@ -116,7 +129,7 @@ Context Data:
             Log::error('Chatbot Controller Exception: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Maaf, Asisten Kecamatan sedang mengalami gangguan. Silakan coba kembali beberapa saat lagi.'
+                'message' => 'Maaf, Asisten Kecamatan Cikampek sedang mengalami kendala teknis. Silakan coba kembali beberapa saat lagi.'
             ]);
         }
     }
