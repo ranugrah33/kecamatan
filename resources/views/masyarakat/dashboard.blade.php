@@ -22,7 +22,7 @@
 
             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 relative z-10">
                 <div class="flex-1 text-center sm:text-left">
-                    <p class="text-blue-200 text-[13px] font-bold tracking-wider uppercase mb-1">Selamat datang,</p>
+                    <p id="greeting-text" class="text-blue-200 text-[13px] font-bold tracking-wider uppercase mb-1">Selamat datang,</p>
                     <h1 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-sm">Halo, {{ Auth::user()->name }} 👋</h1>
                     <p class="text-blue-100/90 text-[15px] mt-2.5 leading-relaxed max-w-md">
                         Nikmati layanan publik Kecamatan Cikampek dengan lebih mudah, cepat dan transparan.
@@ -218,6 +218,16 @@
         const timeEl = document.getElementById('current-time');
         if (dateEl) dateEl.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
         if (timeEl) timeEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} WIB`;
+        
+        const greetingEl = document.getElementById('greeting-text');
+        if (greetingEl) {
+            const hour = now.getHours();
+            let greeting = 'Selamat Malam,';
+            if (hour >= 5 && hour < 11) greeting = 'Selamat Pagi,';
+            else if (hour >= 11 && hour < 15) greeting = 'Selamat Siang,';
+            else if (hour >= 15 && hour < 18) greeting = 'Selamat Sore,';
+            greetingEl.textContent = greeting;
+        }
     }
     updateTime();
     setInterval(updateTime, 1000);

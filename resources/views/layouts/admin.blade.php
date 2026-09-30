@@ -210,8 +210,9 @@
                             <i class="ph ph-user-circle text-lg"></i>
                         </div>
                         <div class="hidden sm:block text-left leading-tight">
-                            <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</p>
-                            <p class="text-xs text-gray-500">Administrator</p>
+                            <p class="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5" id="admin-greeting-user">Selamat datang,</p>
+                            <p class="text-sm font-semibold text-gray-800 leading-none">{{ Auth::user()->name }}</p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">Administrator</p>
                         </div>
                         <i class="ph ph-caret-down text-gray-400 text-xs hidden sm:block"></i>
                     </button>
@@ -254,6 +255,16 @@
             const timeEl = document.getElementById('admin-time');
             if (dateEl) dateEl.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
             if (timeEl) timeEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} WIB`;
+            
+            const greetingEl = document.getElementById('admin-greeting-user');
+            if (greetingEl) {
+                const hour = now.getHours();
+                let greeting = 'Selamat Malam,';
+                if (hour >= 5 && hour < 11) greeting = 'Selamat Pagi,';
+                else if (hour >= 11 && hour < 15) greeting = 'Selamat Siang,';
+                else if (hour >= 15 && hour < 18) greeting = 'Selamat Sore,';
+                greetingEl.textContent = greeting;
+            }
         }
         updateAdminTime();
         setInterval(updateAdminTime, 1000);
