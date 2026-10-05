@@ -36,7 +36,6 @@
             <div class="p-5">
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div><dt class="text-gray-500 text-xs">Nama Pemohon</dt><dd class="text-gray-900 font-medium">{{ $borrowing->applicant_name }}</dd></div>
-                    <div><dt class="text-gray-500 text-xs">NIK</dt><dd class="text-gray-900">{{ $borrowing->nik ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 text-xs">No. HP</dt><dd class="text-gray-900">{{ $borrowing->phone ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 text-xs">Instansi</dt><dd class="text-gray-900">{{ $borrowing->institution ?? '-' }}</dd></div>
                     <div class="sm:col-span-2"><dt class="text-gray-500 text-xs">Penanggung Jawab</dt><dd class="text-gray-900">{{ $borrowing->penanggung_jawab }}</dd></div>

@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'rizky@example.com',
             'password' => bcrypt('password'),
             'role' => 'masyarakat',
-            'nik' => '3215000000000001',
             'no_hp' => '081234567890'
         ]);
 

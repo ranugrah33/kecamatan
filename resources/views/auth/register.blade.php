@@ -38,12 +38,12 @@
                 <input type="text" name="no_hp" id="no_hp" value="{{ old('no_hp') }}" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="08xxxxxxxxxx" required>
             </div>
             <div>
-                <label for="password" class="block text-sm font-medium text-black drop-shadow">Password</label>
+                <label for="password" class="block text-sm font-medium text-black drop-shadow">Kata Sandi</label>
                 <input type="password" name="password" id="password" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Minimal 8 karakter" required>
             </div>
             <div>
-                <label for="password_confirmation" class="block text-sm font-medium text-black drop-shadow">Konfirmasi Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Ulangi password" required>
+                <label for="password_confirmation" class="block text-sm font-medium text-black drop-shadow">Konfirmasi Kata Sandi</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Ulangi kata sandi" required>
             </div>
 
             <button type="submit" class="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-950/25 transition duration-150 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/60">

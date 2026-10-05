@@ -37,7 +37,6 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item->nomor_pengajuan }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         {{ $item->user->name ?? '-' }}<br>
-                        <span class="text-xs text-gray-400">{{ $item->user->nik ?? '-' }}</span>
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
                         {{ $item->nama_kegiatan }}<br>

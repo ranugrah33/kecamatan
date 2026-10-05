@@ -90,7 +90,6 @@ class InventoryBorrowingController extends Controller
                 'user_id' => Auth::id(),
                 'request_code' => $requestCode,
                 'applicant_name' => $request->applicant_name,
-                'nik' => $user->nik,
                 'phone' => $request->phone,
                 'institution' => $request->institution,
                 'purpose' => $request->purpose,
@@ -114,7 +113,8 @@ class InventoryBorrowingController extends Controller
             return redirect()->route('masyarakat.peminjaman_inventaris.sukses', $borrowing->id);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->withErrors('Terjadi kesalahan saat menyimpan pengajuan.')->withInput();
+            \Illuminate\Support\Facades\Log::error('Error Inventory Borrowing: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return redirect()->back()->withErrors('Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 

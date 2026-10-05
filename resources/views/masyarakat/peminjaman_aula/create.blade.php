@@ -38,10 +38,6 @@
                 <input type="text" name="nama" x-model="formData.nama" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg bg-gray-50" readonly>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">NIK</label>
-                <input type="text" name="nik" x-model="formData.nik" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg bg-gray-50" readonly>
-            </div>
-            <div>
                 <label class="block text-sm font-medium text-gray-700">Nomor HP</label>
                 <input type="text" name="no_hp" x-model="formData.no_hp" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg bg-gray-50" readonly>
             </div>
@@ -200,7 +196,6 @@
                 <div class="bg-gray-50 px-4 py-2 border-b font-medium text-gray-700">DATA PEMOHON</div>
                 <div class="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div class="col-span-2"><span class="text-gray-500 block">Nama</span><span x-text="formData.nama" class="font-medium"></span></div>
-                    <div class="col-span-2"><span class="text-gray-500 block">NIK</span><span x-text="formData.nik" class="font-medium"></span></div>
                     <div class="col-span-2"><span class="text-gray-500 block">Instansi</span><span x-text="formData.instansi || '-'" class="font-medium"></span></div>
                     <div class="col-span-2"><span class="text-gray-500 block">Penanggung Jawab</span><span x-text="formData.penanggung_jawab" class="font-medium"></span></div>
                 </div>
@@ -274,7 +269,6 @@ function peminjamanForm() {
         isConfirmed: false,
         formData: {
             nama: "{{ $user->name }}",
-            nik: "{{ $user->nik }}",
             no_hp: "{{ $user->no_hp }}",
             email: "{{ $user->email }}",
             alamat: "{{ $profil->alamat ?? '' }}, RT {{ $profil->rt ?? '-' }}/RW {{ $profil->rw ?? '-' }}, {{ $profil->desa ?? '' }}",

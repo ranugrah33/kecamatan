@@ -143,7 +143,7 @@
                                 <p>Jika Anda belum pernah menggunakan aplikasi ini:</p>
                                 <ol>
                                     <li>Buka halaman awal lalu klik tombol <strong>Daftar Akun Baru</strong>.</li>
-                                    <li>Isi data diri Anda secara lengkap seperti Nama, NIK, dan Email.</li>
+                                    <li>Isi data diri Anda secara lengkap seperti Nama dan Email.</li>
                                     <li>Buat password yang mudah Anda ingat namun aman.</li>
                                     <li>Klik <strong>Daftar</strong>.</li>
                                 </ol>

@@ -13,7 +13,6 @@ class InventoryBorrowing extends Model
         'user_id',
         'request_code',
         'applicant_name',
-        'nik',
         'phone',
         'institution',
         'purpose',

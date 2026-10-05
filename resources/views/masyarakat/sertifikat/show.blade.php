@@ -34,7 +34,6 @@
                     <div><dt class="text-gray-500 font-medium">Kode Pengajuan</dt><dd class="text-gray-900 font-bold mt-0.5">{{ $certRequest->request_code }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Jenis Dokumen</dt><dd class="text-gray-900 mt-0.5">{{ $certRequest->document_type }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Nama Pemohon</dt><dd class="text-gray-900 mt-0.5">{{ $certRequest->applicant_name }}</dd></div>
-                    <div><dt class="text-gray-500 font-medium">NIK</dt><dd class="text-gray-900 mt-0.5">{{ $certRequest->nik ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">No. HP</dt><dd class="text-gray-900 mt-0.5">{{ $certRequest->phone ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Nama Kegiatan</dt><dd class="text-gray-900 mt-0.5">{{ $certRequest->activity_name }}</dd></div>
                     @if($certRequest->activity_theme)

@@ -35,7 +35,6 @@
             <div class="p-5">
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div><dt class="text-gray-500 text-xs">Nama Pemohon</dt><dd class="text-gray-900 font-medium">{{ $certRequest->applicant_name }}</dd></div>
-                    <div><dt class="text-gray-500 text-xs">NIK</dt><dd class="text-gray-900">{{ $certRequest->nik ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 text-xs">No. HP</dt><dd class="text-gray-900">{{ $certRequest->phone ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 text-xs">Jenis Dokumen</dt><dd class="text-gray-900 font-bold">{{ $certRequest->document_type }}</dd></div>
                     <div><dt class="text-gray-500 text-xs">Nama Kegiatan</dt><dd class="text-gray-900">{{ $certRequest->activity_name }}</dd></div>

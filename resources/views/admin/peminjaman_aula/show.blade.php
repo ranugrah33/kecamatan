@@ -54,10 +54,6 @@
                             <span class="font-medium text-gray-900">{{ $peminjaman->user->name }}</span>
                         </div>
                         <div>
-                            <span class="text-gray-500 block mb-1">NIK</span>
-                            <span class="font-medium text-gray-900">{{ $peminjaman->user->nik }}</span>
-                        </div>
-                        <div>
                             <span class="text-gray-500 block mb-1">No. HP</span>
                             <span class="font-medium text-gray-900">{{ $peminjaman->user->no_hp }}</span>
                         </div>

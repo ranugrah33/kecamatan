@@ -41,10 +41,10 @@
                 <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Masukkan email Anda" required>
             </div>
             <div x-data="{ show: false }">
-                <label for="password" class="block text-sm font-medium text-black drop-shadow">Password</label>
+                <label for="password" class="block text-sm font-medium text-black drop-shadow">Kata Sandi</label>
                 <div class="relative">
-                    <input :type="show ? 'text' : 'password'" name="password" id="password" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 pr-12 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Masukkan password" required>
-                    <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center px-4 text-black/70 transition hover:text-blue-700 focus:outline-none" :aria-label="show ? 'Sembunyikan password' : 'Tampilkan password'">
+                    <input :type="show ? 'text' : 'password'" name="password" id="password" class="mt-1 w-full rounded-lg border border-white/45 bg-white/20 px-4 py-2 pr-12 text-sm text-black outline-none backdrop-blur-md transition placeholder:text-black/50 focus:border-white focus:bg-white/30 focus:ring-2 focus:ring-blue-200/60" placeholder="Masukkan kata sandi" required>
+                    <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center px-4 text-black/70 transition hover:text-blue-700 focus:outline-none" :aria-label="show ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'">
                         <i class="ph text-lg" :class="show ? 'ph-eye-slash' : 'ph-eye'"></i>
                     </button>
                 </div>
@@ -55,7 +55,7 @@
                     <input type="checkbox" name="remember" class="h-4 w-4 rounded border-black/30 text-blue-600 focus:ring-blue-500/40">
                     <span>Ingat saya</span>
                 </label>
-                <a href="{{ route('password.request') }}" class="font-medium text-black hover:text-blue-700 hover:underline">Lupa password?</a>
+                <a href="{{ route('password.request') }}" class="font-medium text-black hover:text-blue-700 hover:underline">Lupa kata sandi?</a>
             </div>
 
             <button type="submit" class="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-950/25 transition duration-150 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/60">

@@ -36,10 +36,6 @@
                 <input type="text" name="applicant_name" value="{{ old('applicant_name', $user->name) }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">NIK</label>
-                <input type="text" value="{{ $user->nik }}" disabled class="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-500">
-            </div>
-            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nomor HP <span class="text-red-500">*</span></label>
                 <input type="text" name="phone" value="{{ old('phone', $user->no_hp) }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
             </div>

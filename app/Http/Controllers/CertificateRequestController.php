@@ -68,7 +68,6 @@ class CertificateRequestController extends Controller
             'user_id' => Auth::id(),
             'request_code' => $requestCode,
             'applicant_name' => $request->applicant_name,
-            'nik' => $user->nik,
             'phone' => $request->phone,
             'document_type' => $request->document_type,
             'activity_name' => $request->activity_name,

@@ -80,7 +80,6 @@
                     </td>
                     <td class="px-6 py-4">
                         <p class="text-sm font-medium text-gray-900">{{ $item->user->name }}</p>
-                        <p class="text-xs text-gray-500">{{ $item->user->nik }}</p>
                     </td>
                     <td class="px-6 py-4">
                         <p class="text-sm text-gray-800">{{ $item->nama_kegiatan }}</p>
