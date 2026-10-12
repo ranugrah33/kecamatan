@@ -19,25 +19,8 @@ class ChatbotController extends Controller
         $userMessage = $request->input('message');
 
         try {
-            // 2. Search Knowledge Base
-            $userMessageClean = preg_replace('/[^a-z0-9 ]/', '', strtolower($userMessage));
-            $keywords = array_filter(explode(' ', $userMessageClean), function($w) {
-                return strlen($w) > 2;
-            });
-            
-            $query = AiKnowledge::where('is_active', true);
-            
-            if (!empty($keywords)) {
-                $query->where(function($q) use ($keywords) {
-                    foreach ($keywords as $word) {
-                        $q->orWhere('keywords', 'like', "%{$word}%")
-                          ->orWhere('category', 'like', "%{$word}%")
-                          ->orWhere('question', 'like', "%{$word}%");
-                    }
-                });
-            }
-
-            $knowledges = $query->orderBy('priority', 'desc')->take(3)->get();
+            // 2. Load All Active Knowledge Base
+            $knowledges = AiKnowledge::where('is_active', true)->get();
 
             $contextText = "";
             if ($knowledges->count() > 0) {
@@ -52,37 +35,62 @@ class ChatbotController extends Controller
 
             // 3. System Prompt Construction
             $systemPrompt = "Kamu adalah Asisten Digital Kecamatan Cikampek.
-Tugas kamu adalah menjawab pertanyaan pengguna dengan bahasa Indonesia yang ramah, natural, mudah dipahami, tidak terlalu formal, dan tidak seperti robot.
-Jika jawaban membutuhkan daftar atau langkah, gunakan format yang mudah dibaca.
+Tugas kamu adalah menjawab pertanyaan pengguna dengan bahasa Indonesia yang ramah, natural, profesional, mudah dipahami masyarakat umum, dan langsung pada intinya (tidak kaku seperti robot).
 
 ATURAN SUMBER JAWABAN (PRIORITAS):
 1. Data resmi dari 'Context Data' di bawah ini.
 2. Pengetahuan umum yang kamu miliki.
 
 ATURAN MENJAWAB:
+- Khusus jika pertanyaan berkaitan dengan pembuatan, pengurusan, atau perbaikan KTP, Kartu Keluarga (KK), dan Akta (Akta Kelahiran, Kematian, dll):
+  * Jawab dengan jelas dan ramah bahwa pelayanan untuk ketiga dokumen tersebut (KTP, KK, dan Akta) sudah TIDAK ADA di kantor Kecamatan.
+  * Informasikan bahwa pelayanan tersebut sudah dipindahkan atau dialihkan ke gedung di sebelah kantor kecamatan, yaitu gedung Mall Pelayanan Publik (MPP).
 - Jika pertanyaan berkaitan dengan layanan/informasi spesifik Kecamatan Cikampek:
-  * Jawab HANYA menggunakan informasi dari 'Context Data'.
-  * JANGAN PERNAH mengarang informasi resmi (seperti biaya, persyaratan, jam pelayanan, nomor telepon, alamat, prosedur, kebijakan, nama pejabat, peraturan, atau jadwal) jika tidak ada di Context Data.
-  * Jika informasi spesifik tersebut TIDAK ADA di Context Data, berikan respons variatif yang menyatakan bahwa informasi resmi belum tersedia di basis data kamu dan arahkan untuk menghubungi petugas Kecamatan Cikampek. Contoh variasi respons (buat senatural mungkin menyesuaikan konteks, jangan monoton): 'Saya belum menemukan informasi resmi mengenai hal tersebut dalam basis informasi saya.', 'Untuk informasi spesifik mengenai layanan tersebut, saya belum memiliki data yang cukup.', 'Informasi tersebut belum tersedia dalam data layanan Kecamatan Cikampek yang saya gunakan.'
-- Jika pertanyaan bersifat administratif secara umum namun informasinya tidak ada di Context Data:
-  * Kamu Boleh memberikan informasi umum, namun HARUS membedakan antara informasi umum dan resmi Kecamatan.
-  * Gunakan awalan seperti 'Secara umum...', 'Pada umumnya...', lalu tambahkan kalimat 'Namun, untuk ketentuan resmi yang berlaku di Kecamatan Cikampek, sebaiknya dikonfirmasi langsung kepada petugas...'.
-- Jika pertanyaan berupa pengetahuan umum (misal: 'Apa itu KTP?', 'Kenapa hujan turun?', 'Siapa penemu telepon?'):
-  * Jawab secara normal berdasarkan pengetahuan umum yang kamu miliki, tanpa harus menyuruh menghubungi petugas.
+  * Pahami maksud (intent) dari pengguna. Mereka mungkin menggunakan kalimat informal, typo, atau singkatan (misal: 'minjem aula', 'ijin umkm').
+  * Jawab menggunakan informasi dari 'Context Data'.
+  * JANGAN PERNAH mengarang informasi resmi (seperti biaya, persyaratan, jam pelayanan, prosedur, nomor telepon) jika tidak ada di Context Data.
+  * Jika informasi spesifik tersebut TIDAK ADA di Context Data, katakan secara jujur: 'Maaf, informasi tersebut belum tersedia dalam data Asisten Kecamatan Cikampek.', lalu arahkan untuk bertanya ke petugas.
+- Jika pertanyaan terlalu ambigu atau kurang jelas:
+  * Jangan langsung menjawab asal. Berikan respons klarifikasi. Contoh: 'Maaf, apakah maksud Anda ingin bertanya tentang peminjaman aula atau hal lain?'
+- Jika pertanyaan bersifat umum (misal: 'Apa itu AI?', 'Cara membuat CV?'):
+  * Jawab secara normal berdasarkan pengetahuan umum yang kamu miliki.
+- Jika ditanya 'Siapa kamu?' atau sejenisnya:
+  * Jawab: 'Saya Asisten Kecamatan Cikampek. Saya dapat membantu memberikan informasi mengenai layanan dan administrasi Kecamatan Cikampek serta menjawab pertanyaan umum.'
 
 Context Data:
 " . $contextText;
 
-            // 4. Call Gemini API
+            // 4. Construct Gemini API Request with History
+            $history = $request->input('history', []);
+            $contents = [];
+
+            foreach ($history as $msg) {
+                if (isset($msg['isError']) && $msg['isError']) continue;
+                $role = $msg['role'] === 'user' ? 'user' : 'model';
+                $contents[] = [
+                    'role' => $role,
+                    'parts' => [
+                        ['text' => $msg['text']]
+                    ]
+                ];
+            }
+
+            // Append the latest message with the system prompt context
+            $contents[] = [
+                'role' => 'user',
+                'parts' => [
+                    ['text' => "INSTRUKSI SISTEM:\n" . $systemPrompt . "\n\nPertanyaan User: " . $userMessage]
+                ]
+            ];
+
             $apiKey = config('services.gemini.api_key');
             $model = config('services.gemini.model', 'gemini-3.6-flash');
 
-            if (!$apiKey) {
-                Log::warning('Gemini API Key is not set. Using local knowledge fallback.');
+            $fallbackResponse = function() use ($knowledges) {
                 if ($knowledges->count() > 0) {
                     $reply = "Berdasarkan informasi Kecamatan Cikampek:\n";
                     foreach ($knowledges as $k) {
-                        $reply .= "- " . $k->answer . "\n";
+                        $reply .= "- " . $k->answer . "\n\n";
                     }
                     return response()->json([
                         'success' => true,
@@ -94,19 +102,17 @@ Context Data:
                         'message' => 'Maaf, Asisten Kecamatan Cikampek sedang mengalami kendala teknis. Silakan coba kembali beberapa saat lagi.'
                     ]);
                 }
+            };
+
+            if (!$apiKey) {
+                Log::warning('Gemini API Key is not set. Using local knowledge fallback.');
+                return $fallbackResponse();
             }
 
             $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
 
             $response = Http::timeout(15)->post($url, [
-                'contents' => [
-                    [
-                        'role' => 'user',
-                        'parts' => [
-                            ['text' => $systemPrompt . "\n\nPertanyaan User: " . $userMessage]
-                        ]
-                    ]
-                ]
+                'contents' => $contents
             ]);
 
             if ($response->successful()) {
@@ -119,15 +125,12 @@ Context Data:
                 ]);
             } else {
                 Log::error('Gemini API Error: ' . $response->body());
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Maaf, Asisten Kecamatan Cikampek sedang mengalami kendala teknis. Silakan coba kembali beberapa saat lagi.'
-                ]);
+                return $fallbackResponse();
             }
 
         } catch (\Exception $e) {
             Log::error('Chatbot Controller Exception: ' . $e->getMessage());
-            return response()->json([
+            return isset($fallbackResponse) ? $fallbackResponse() : response()->json([
                 'success' => false,
                 'message' => 'Maaf, Asisten Kecamatan Cikampek sedang mengalami kendala teknis. Silakan coba kembali beberapa saat lagi.'
             ]);

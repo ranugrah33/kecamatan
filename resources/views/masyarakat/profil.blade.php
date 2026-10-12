@@ -45,10 +45,7 @@
 
         <h2 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Data Kependudukan Tambahan</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Nomor KK</label>
-                <input type="text" name="no_kk" value="{{ old('no_kk', $profil->no_kk) }}" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none">
-            </div>
+
             <div class="flex gap-4">
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700">Tempat Lahir</label>

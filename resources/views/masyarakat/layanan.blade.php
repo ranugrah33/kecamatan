@@ -52,4 +52,16 @@
     </div>
 
 </div>
+
+<div class="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-4 shadow-sm">
+    <div class="text-amber-500 mt-0.5 bg-amber-100 p-2 rounded-lg">
+        <i class="ph ph-info text-2xl"></i>
+    </div>
+    <div>
+        <h4 class="text-amber-800 font-semibold text-md mb-1">Informasi Pengalihan Layanan Administrasi</h4>
+        <p class="text-amber-700 text-sm leading-relaxed">
+            Pembuatan <strong>KTP, Akta, Kartu Keluarga (KK), ataupun SKCK</strong> sudah tidak dilayani di Kantor Kecamatan Cikampek. Seluruh layanan tersebut telah dipindahkan/dialihkan ke gedung <strong>Mall Pelayanan Publik (MPP)</strong> Kabupaten Karawang.
+        </p>
+    </div>
+</div>
 @endsection

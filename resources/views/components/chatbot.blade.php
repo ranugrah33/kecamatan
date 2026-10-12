@@ -139,13 +139,23 @@
                 this.scrollToBottom();
                 
                 try {
+                    // Siapkan history percakapan (5 pesan terakhir untuk menjaga context tanpa terlalu berat)
+                    const history = this.messages.slice(0, -1).slice(-5).map(m => ({
+                        role: m.sender === 'user' ? 'user' : 'model',
+                        text: m.text,
+                        isError: m.isError || false
+                    }));
+
                     const response = await fetch('{{ route('chatbot.chat') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
-                        body: JSON.stringify({ message: message })
+                        body: JSON.stringify({ 
+                            message: message,
+                            history: history 
+                        })
                     });
                     
                     const data = await response.json();
