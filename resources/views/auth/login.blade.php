@@ -15,8 +15,8 @@
     </div>
 
     <!-- ===== TOP HEADER NAVIGATION (Floating Glass Navbar) ===== -->
-    <header class="relative z-20 w-full px-4 sm:px-8 py-3 sm:py-4">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <header class="relative z-20 w-full px-4 sm:px-8 lg:px-10 py-3.5 sm:py-4">
+        <div class="w-full flex items-center justify-between">
             <!-- Tombol Kembali ke Portal -->
             <a href="{{ url('/') }}" 
                class="group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-slate-200 hover:text-white transition-all duration-200 text-xs sm:text-sm font-semibold shadow-lg shadow-black/40 hover:scale-[1.02]"
@@ -68,6 +68,16 @@
                         Masuk untuk akses peminjaman & permohonan sertifikat terpadu
                     </p>
                 </div>
+
+                <!-- Alert Notifikasi Sukses -->
+                @if (session('success'))
+                    <div class="mb-3.5 rounded-xl border border-emerald-500/40 bg-emerald-950/70 p-3 text-xs text-emerald-200 backdrop-blur-md shadow-lg" role="alert">
+                        <div class="flex items-start gap-2">
+                            <i class="ph ph-check-circle text-base text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Alert Notifikasi Error -->
                 @if ($errors->any())

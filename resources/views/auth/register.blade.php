@@ -15,8 +15,8 @@
     </div>
 
     <!-- ===== TOP HEADER NAVIGATION ===== -->
-    <header class="relative z-20 w-full px-4 sm:px-8 py-4 sm:py-5">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <header class="relative z-20 w-full px-4 sm:px-8 lg:px-10 py-3.5 sm:py-4">
+        <div class="w-full flex items-center justify-between">
             <a href="{{ url('/') }}" 
                class="group inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-slate-200 hover:text-white transition-all duration-200 text-xs sm:text-sm font-semibold shadow-lg shadow-black/40 hover:scale-[1.02]"
                style="background: rgba(6, 36, 28, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(52, 211, 153, 0.3);">

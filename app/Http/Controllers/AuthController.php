@@ -79,4 +79,59 @@ class AuthController extends Controller
     {
         return view('auth.forgot-password');
     }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'identifier' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'identifier.required' => 'Email atau Nomor HP/WhatsApp wajib diisi.',
+            'password.required' => 'Kata sandi baru wajib diisi.',
+            'password.min' => 'Kata sandi baru minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+        ]);
+
+        $identifier = trim($request->identifier);
+
+        // Siapkan variasi nomor HP jika input berupa angka
+        $cleanNumber = preg_replace('/[^0-9]/', '', $identifier);
+        $variants = [$identifier];
+
+        if (!empty($cleanNumber)) {
+            $variants[] = $cleanNumber;
+            if (str_starts_with($cleanNumber, '62')) {
+                $variants[] = '0' . substr($cleanNumber, 2);
+            } elseif (str_starts_with($cleanNumber, '0')) {
+                $variants[] = '62' . substr($cleanNumber, 1);
+            }
+        }
+
+        $variants = array_unique($variants);
+
+        // Cari akun masyarakat berdasarkan Email ATAU Nomor HP
+        $user = User::where(function ($query) use ($identifier, $variants) {
+            $query->where('email', $identifier)
+                  ->orWhereIn('no_hp', $variants);
+        })->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'identifier' => 'Akun dengan email atau nomor HP tersebut tidak ditemukan dalam sistem. Pastikan data sudah benar.',
+            ])->withInput($request->only('identifier'));
+        }
+
+        // Keamanan: akun admin tidak boleh direset lewat form publik ini
+        if ($user->isAdmin()) {
+            return back()->withErrors([
+                'identifier' => 'Akun Administrator tidak dapat direset melalui form publik ini. Silakan hubungi pengelola sistem.',
+            ])->withInput($request->only('identifier'));
+        }
+
+        // Update kata sandi baru
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Kata sandi akun atas nama ' . $user->name . ' berhasil diperbarui! Silakan masuk dengan kata sandi baru Anda.');
+    }
 }

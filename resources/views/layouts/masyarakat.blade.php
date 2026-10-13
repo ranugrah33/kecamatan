@@ -190,31 +190,60 @@
       data-session-error="{{ session('error') }}"
       data-session-warning="{{ session('warning') }}"
       data-session-info="{{ session('info') }}">
-<div class="flex h-screen overflow-hidden" x-data="{ sidebarOpen: false }">
+<div class="flex h-screen overflow-hidden" 
+     x-data="{ 
+         sidebarOpen: window.innerWidth >= 768 ? (localStorage.getItem('sidebarOpen_masyarakat') !== null ? localStorage.getItem('sidebarOpen_masyarakat') === 'true' : true) : false,
+         toggleSidebar() {
+             this.sidebarOpen = !this.sidebarOpen;
+             if (window.innerWidth >= 768) {
+                 localStorage.setItem('sidebarOpen_masyarakat', this.sidebarOpen);
+             }
+         }
+     }"
+     @resize.window="if (window.innerWidth < 768 && sidebarOpen) { sidebarOpen = false; }">
 
     <!-- Mobile Overlay -->
-    <div x-cloak x-show="sidebarOpen" @click="sidebarOpen = false"
-         class="fixed inset-0 z-40 bg-black/50 md:hidden"></div>
+    <div x-cloak x-show="sidebarOpen" 
+         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="sidebarOpen = false"
+         class="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs md:hidden"></div>
 
     <!-- ===== SIDEBAR ===== -->
-    <aside class="sidebar-nav fixed md:relative inset-y-0 left-0 z-50 w-64 flex flex-col flex-shrink-0
-                  transition-transform duration-300 ease-in-out md:translate-x-0"
-           :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+    <aside class="sidebar-nav fixed md:static inset-y-0 left-0 z-50 w-64 flex flex-col flex-shrink-0
+                  transition-all duration-300 ease-in-out"
+           :class="sidebarOpen ? 'translate-x-0 md:ml-0' : '-translate-x-full md:translate-x-0 md:-ml-64'">
 
         <!-- Brand -->
-        <div class="sidebar-brand-area flex items-center gap-3 px-5 py-[18px] flex-shrink-0">
-            <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
-                <img src="{{ asset('images/kop-surat.png') }}" alt="Logo Kabupaten Karawang"
-                     class="w-8 h-8 object-contain"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                <div style="display:none" class="w-full h-full items-center justify-center bg-blue-700 rounded-xl">
-                    <i class="ph ph-shield-star text-white text-lg"></i>
+        <div class="sidebar-brand-area flex items-center justify-between px-4 sm:px-5 py-[18px] flex-shrink-0">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
+                    <img src="{{ asset('images/kop-surat.png') }}" alt="Logo Kabupaten Karawang"
+                         class="w-8 h-8 object-contain"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div style="display:none" class="w-full h-full items-center justify-center bg-blue-700 rounded-xl">
+                        <i class="ph ph-shield-star text-white text-lg"></i>
+                    </div>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-white font-bold text-sm leading-tight truncate">Kec. Cikampek</p>
+                    <p class="text-emerald-300/80 text-xs leading-tight mt-0.5 truncate">Kabupaten Karawang</p>
                 </div>
             </div>
-            <div class="min-w-0">
-                <p class="text-white font-bold text-sm leading-tight">Kec. Cikampek</p>
-                <p class="text-blue-300/80 text-xs leading-tight mt-0.5">Kabupaten Karawang</p>
-            </div>
+
+            <!-- Tombol Tutup / Minimize di dalam Sidebar -->
+            <button @click="toggleSidebar()" 
+                    type="button"
+                    class="text-white/70 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-all active:scale-95 cursor-pointer flex items-center justify-center shrink-0 ml-1"
+                    title="Tutup Sidebar"
+                    aria-label="Tutup Sidebar">
+                <i class="ph ph-x text-xl md:hidden"></i>
+                <i class="ph ph-caret-left text-xl hidden md:block"></i>
+            </button>
         </div>
 
         <!-- Navigation -->
@@ -283,13 +312,16 @@
         <!-- Header -->
         <header class="dashboard-header h-16 flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-30 shadow-xs">
             <div class="flex items-center gap-3">
-                <button @click="sidebarOpen = !sidebarOpen"
-                        class="md:hidden text-gray-500 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition flex-shrink-0">
-                    <i class="ph ph-list text-xl"></i>
+                <button @click="toggleSidebar()"
+                        type="button"
+                        class="flex items-center justify-center w-10 h-10 rounded-xl text-gray-700 hover:text-emerald-700 hover:bg-emerald-50 active:scale-95 transition-all duration-200 border border-gray-200/80 shadow-xs flex-shrink-0 cursor-pointer"
+                        title="Buka / Tutup Sidebar"
+                        aria-label="Toggle Sidebar">
+                    <i class="ph ph-list text-2xl font-bold"></i>
                 </button>
-                <div class="hidden sm:block">
+                <div>
                     <h1 class="text-sm font-bold text-gray-900 leading-tight">@yield('title', 'Portal Layanan')</h1>
-                    <p class="text-[11px] text-gray-500 font-medium mt-0.5">Sistem Informasi Pelayanan Masyarakat Kecamatan Cikampek.</p>
+                    <p class="text-[11px] text-gray-500 font-medium mt-0.5 hidden sm:block">Sistem Informasi Pelayanan Masyarakat Kecamatan Cikampek.</p>
                 </div>
             </div>
 
