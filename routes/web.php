@@ -26,8 +26,8 @@ use App\Http\Controllers\CertificateRequestController;
 use App\Http\Controllers\ChatbotController;
 
 Route::get('/', function () {
-    return redirect('/login');
-});
+    return view('beranda');
+})->name('beranda');
 
 // Chatbot Public Route
 Route::post('/chatbot/chat', [ChatbotController::class, 'chat'])->name('chatbot.chat')->middleware('throttle:15,1');

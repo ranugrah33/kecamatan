@@ -1,0 +1,1095 @@
+/* ==========================================================================
+   STATISTIK WILAYAH & 10 DESA CIKAMPEK - DIGITAL EDITION
+   Tema: Deep Forest Emerald & Imperial Gold Glassmorphism
+   Kecamatan Cikampek, Kabupaten Karawang
+   ========================================================================== */
+
+/* ---- Variable Tokens Khusus Statistik ---- */
+:root {
+    --stat-bg-deep: #041711;
+    --stat-bg-emerald: #07261b;
+    --stat-bg-card: rgba(12, 45, 34, 0.72);
+    --stat-bg-card-hover: rgba(16, 58, 43, 0.85);
+    --stat-border-glass: rgba(255, 255, 255, 0.08);
+    --stat-border-gold: rgba(212, 175, 55, 0.35);
+    --stat-gold-primary: #d4af37;
+    --stat-gold-light: #fef08a;
+    --stat-gold-gradient: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #ca8a04 100%);
+    --stat-text-heading: #f8fafc;
+    --stat-text-muted: #9fb8ab;
+    --stat-text-dim: #64748b;
+    --stat-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --stat-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ==========================================================================
+   1. SECTION CONTAINER & DIGITAL BACKGROUND
+   ========================================================================== */
+.section-statistik {
+    position: relative;
+    padding: 100px 24px 80px;
+    background: radial-gradient(circle at 50% 18%, #0d3b2c 0%, #08261c 45%, #041711 100%);
+    color: #e2e8f0;
+    overflow: hidden;
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    z-index: 2;
+}
+
+/* Cyber Matrix Digital Grid Pattern Overlay */
+.section-statistik::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 48px 48px, 48px 48px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Floating Ambient Digital Glow Orbs */
+.stat-ambient-glow {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 650px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(16, 185, 129, 0.18) 0%, rgba(212, 175, 55, 0.08) 40%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 1;
+    animation: statGlowPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes statGlowPulse {
+    0% { opacity: 0.6; transform: translateX(-50%) scale(0.95); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+.stat-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   2. SECTION HEADER (Cikampek dalam Angka)
+   ========================================================================== */
+.stat-header {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+/* Top Badge: —— STATISTIK WILAYAH —— */
+.stat-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-badge-line {
+    width: 32px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #c5a059);
+}
+
+.stat-badge-line.right {
+    background: linear-gradient(90deg, #c5a059, transparent);
+}
+
+.stat-badge-text {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #c5a059;
+    text-shadow: 0 0 16px rgba(197, 160, 89, 0.4);
+}
+
+/* Main Title: Cikampek dalam Angka */
+.stat-main-title {
+    font-family: var(--stat-font-serif);
+    font-size: clamp(34px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+}
+
+.stat-title-gold {
+    font-family: var(--stat-font-serif);
+    color: #d4af37;
+    background: linear-gradient(135deg, #fef08a 0%, #eab308 55%, #ca8a04 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.35));
+}
+
+.stat-subtitle {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--stat-text-muted);
+    max-width: 620px;
+    margin: 0 auto;
+    font-weight: 400;
+}
+
+/* Digital Control Bar (Audio & Refresh Status) */
+.stat-digital-hud {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+}
+
+.hud-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    font-size: 12px;
+    color: #a7f3d0;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+}
+
+.hud-pill-btn {
+    cursor: pointer;
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.25);
+    color: #fef08a;
+}
+
+.hud-pill-btn:hover {
+    background: rgba(212, 175, 55, 0.18);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.hud-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* ==========================================================================
+   3. STATS METRICS GRID (4 CARDS SEPERTI DI GAMBAR)
+   ========================================================================== */
+.stat-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+/* Stat Card */
+.stat-card {
+    position: relative;
+    background: linear-gradient(160deg, rgba(16, 52, 40, 0.75) 0%, rgba(9, 32, 24, 0.85) 100%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    padding: 30px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    cursor: default;
+    overflow: hidden;
+}
+
+/* 3D Dynamic Holographic Spotlight */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.12), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.35);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45), 0 0 24px rgba(212, 175, 55, 0.15);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+/* Top Icon Container */
+.stat-card-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: #86efac;
+    font-size: 24px;
+    transition: all 0.35s ease;
+    box-shadow: inset 0 0 12px rgba(134, 239, 172, 0.05);
+}
+
+.stat-card:hover .stat-card-icon-wrap {
+    background: rgba(212, 175, 55, 0.12);
+    border-color: rgba(212, 175, 55, 0.35);
+    color: #fef08a;
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+}
+
+/* Value & Suffix */
+.stat-card-value-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.stat-card-number {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Digital Unit (+ jiwa, km², desa, - 14.45) */
+.stat-card-unit {
+    font-size: 15px;
+    font-weight: 500;
+    color: #d4af37;
+    letter-spacing: 0;
+}
+
+/* Card 2 km² Superscript */
+.stat-card-unit sup {
+    font-size: 11px;
+    top: -0.4em;
+}
+
+/* Title & Description */
+.stat-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+}
+
+.stat-card-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--stat-text-muted);
+    margin-bottom: 24px;
+}
+
+/* Bottom Gold Accent Bar */
+.stat-card-bar-track {
+    width: 100%;
+    height: 3.5px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+    margin-top: auto;
+}
+
+.stat-card-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ca8a04, #eab308, #fef08a);
+    border-radius: 99px;
+    position: relative;
+    transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+}
+
+/* Scanning Light Laser Animation */
+.stat-card-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+    animation: barLaserScan 2.5s infinite;
+}
+
+@keyframes barLaserScan {
+    0% { transform: translateX(-40px); }
+    100% { transform: translateX(250px); }
+}
+
+/* Interactive Badge on Card (Clickable CTA / Live Status) */
+.stat-card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fef08a;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    width: fit-content;
+}
+
+.stat-card-action:hover {
+    background: rgba(212, 175, 55, 0.22);
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateX(3px);
+}
+
+/* Live Operational Hours Indicator Badge */
+.stat-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    font-family: var(--stat-font-mono);
+}
+
+.stat-live-badge.open {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.stat-live-badge.closed {
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ==========================================================================
+   4. BOTTOM INFO BAR (Kab. Karawang, Kode Pos, Simpul Jalur)
+   ========================================================================== */
+.stat-info-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    flex-wrap: wrap;
+    padding: 22px 28px;
+    background: rgba(12, 45, 34, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    margin-bottom: 70px;
+}
+
+.stat-info-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--stat-text-muted);
+    font-weight: 500;
+}
+
+.stat-info-item i {
+    font-size: 19px;
+    color: #c5a059;
+}
+
+.stat-info-divider {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.35);
+}
+
+/* ==========================================================================
+   5. FITUR 10 DESA CIKAMPEK (DIREKTORI & EKSPLORASI DIGITAL)
+   ========================================================================== */
+.stat-desa-section {
+    padding-top: 20px;
+    border-top: 1px dashed rgba(212, 175, 55, 0.2);
+}
+
+.stat-desa-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat-desa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c5a059;
+    margin-bottom: 8px;
+}
+
+.stat-desa-title {
+    font-family: var(--stat-font-serif);
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+}
+
+.stat-desa-subtitle {
+    font-size: 14.5px;
+    color: var(--stat-text-muted);
+    max-width: 580px;
+    line-height: 1.5;
+}
+
+/* Search & Filter Controls */
+.stat-desa-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-desa-search-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stat-desa-search-box {
+    position: relative;
+    flex: 1;
+    min-width: 280px;
+    max-width: 460px;
+}
+
+.stat-desa-search-box i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #c5a059;
+}
+
+.stat-desa-search-input {
+    width: 100%;
+    padding: 12px 16px 12px 46px;
+    background: rgba(12, 45, 34, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(10px);
+}
+
+.stat-desa-search-input:focus {
+    border-color: #d4af37;
+    background: rgba(16, 58, 43, 0.85);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.stat-desa-search-input::placeholder {
+    color: #64748b;
+}
+
+.stat-desa-count-badge {
+    font-size: 13px;
+    color: #a7f3d0;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    font-family: var(--stat-font-mono);
+}
+
+/* Filter Tab Pills */
+.stat-desa-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+}
+
+.stat-desa-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-tab {
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--stat-text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.filter-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.filter-tab.active {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(202, 138, 4, 0.2));
+    border-color: #d4af37;
+    color: #fef08a;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.18);
+}
+
+/* 10 Desa Grid Layout */
+.stat-desa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+}
+
+/* Desa Card */
+.desa-card {
+    background: linear-gradient(160deg, rgba(16, 52, 40, 0.65) 0%, rgba(9, 32, 24, 0.75) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+}
+
+.desa-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.desa-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.4);
+    background: linear-gradient(160deg, rgba(20, 68, 52, 0.8) 0%, rgba(12, 42, 32, 0.88) 100%);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(212, 175, 55, 0.12);
+}
+
+.desa-card:hover::after {
+    opacity: 1;
+}
+
+.desa-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.desa-number {
+    font-family: var(--stat-font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.desa-icon-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #86efac;
+    transition: all 0.3s ease;
+}
+
+.desa-card:hover .desa-icon-badge {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.4);
+    color: #fef08a;
+    transform: scale(1.1);
+}
+
+.desa-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.desa-tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #a7f3d0;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.desa-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--stat-text-muted);
+    margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.desa-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.desa-btn-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fef08a;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: gap 0.2s ease;
+}
+
+.desa-card:hover .desa-btn-detail {
+    color: #fef08a;
+    gap: 7px;
+}
+
+/* Empty search state */
+.stat-desa-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 20px;
+    background: rgba(12, 45, 34, 0.4);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    color: var(--stat-text-muted);
+    display: none;
+}
+
+/* ==========================================================================
+   6. INTERACTIVE MODAL (DIGITAL DOSSIER 10 DESA)
+   ========================================================================== */
+.stat-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 15, 11, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stat-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.stat-modal-box {
+    background: linear-gradient(160deg, #0e3728 0%, #08251a 100%);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(212, 175, 55, 0.2);
+    transform: scale(0.92) translateY(20px);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #e2e8f0;
+}
+
+.stat-modal-overlay.active .stat-modal-box {
+    transform: scale(1) translateY(0);
+}
+
+.stat-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stat-modal-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+    transform: rotate(90deg);
+}
+
+.stat-modal-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-modal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #fef08a;
+    flex-shrink: 0;
+}
+
+.stat-modal-title {
+    font-family: var(--stat-font-serif);
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+}
+
+.stat-modal-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fef08a;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 3px 10px;
+    border-radius: 6px;
+}
+
+.stat-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.stat-modal-fact {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.stat-modal-fact-label {
+    font-size: 12px;
+    color: var(--stat-text-muted);
+    margin-bottom: 4px;
+}
+
+.stat-modal-fact-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.stat-modal-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #d4af37;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-modal-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cbd5e1;
+    margin-bottom: 20px;
+}
+
+.stat-modal-facilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.facility-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    color: #a7f3d0;
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+}
+
+.stat-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-modal-action {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn-modal-maps {
+    background: linear-gradient(135deg, #d4af37, #ca8a04);
+    color: #041711;
+    border: none;
+}
+
+.btn-modal-maps:hover {
+    background: linear-gradient(135deg, #fef08a, #eab308);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+}
+
+.btn-modal-copy {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-modal-copy:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Toast Notification for Copy action */
+.stat-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(50px);
+    background: #10b981;
+    color: #ffffff;
+    padding: 10px 22px;
+    border-radius: 9999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    z-index: 100000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   7. SCROLL TO TOP GOLD BUTTON (SEPERTI DI GAMBAR KANAN BAWAH)
+   ========================================================================== */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #d4af37;
+    background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #ca8a04 100%);
+    color: #041711;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.6);
+}
+
+/* ==========================================================================
+   8. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .stat-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .section-statistik {
+        padding: 70px 16px 50px;
+    }
+
+    .stat-metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .stat-card {
+        padding: 24px 20px 20px;
+    }
+
+    .stat-card-number {
+        font-size: 32px;
+    }
+
+    .stat-info-bar {
+        flex-direction: column;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 18px 20px;
+        margin-bottom: 48px;
+    }
+
+    .stat-info-divider {
+        display: none;
+    }
+
+    .stat-desa-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stat-modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-modal-box {
+        padding: 24px 18px;
+    }
+}
