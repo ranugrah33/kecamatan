@@ -1,38 +1,38 @@
 /* ==========================================================================
-   STATISTIK WILAYAH & 10 DESA CIKAMPEK - DIGITAL EDITION
-   Tema: Modern Glassmorphism dengan Background play.jpeg (HD)
-   Selaras dengan Beranda Utama Kecamatan Cikampek, Kabupaten Karawang
+   STATISTIK WILAYAH & 10 DESA CIKAMPEK - MODERN EDITION
+   Tema: Deep Obsidian Emerald dengan Glassmorphism Presisi
+   Kecamatan Cikampek, Kabupaten Karawang
    ========================================================================== */
 
-/* ---- Variable Tokens Khusus Statistik (Selaras Beranda) ---- */
+/* ---- Variable Tokens Khusus Statistik ---- */
 :root {
-    --stat-bg-deep: #04201a;
-    --stat-bg-surface: rgba(6, 36, 28, 0.68);
-    --stat-bg-card: rgba(6, 36, 28, 0.68);
-    --stat-bg-card-hover: rgba(9, 48, 37, 0.82);
-    --stat-border-glass: rgba(52, 211, 153, 0.22);
-    --stat-border-accent: rgba(212, 175, 55, 0.35);
+    --stat-bg-deep: #061812;
+    --stat-bg-surface: rgba(10, 36, 28, 0.75);
+    --stat-bg-card: rgba(10, 36, 28, 0.72);
+    --stat-bg-card-hover: rgba(14, 48, 37, 0.88);
+    --stat-border-glass: rgba(52, 211, 153, 0.18);
+    --stat-border-accent: rgba(52, 211, 153, 0.35);
     
-    --stat-cyan-accent: #d4af37;
-    --stat-sky-accent: #c9a227;
+    --stat-cyan-accent: #34d399;
+    --stat-sky-accent: #10b981;
     --stat-blue-light: #a7f3d0;
     --stat-blue-primary: #059669;
-    --stat-blue-gradient: linear-gradient(135deg, #a7f3d0 0%, #d4af37 50%, #34d399 100%);
+    --stat-blue-gradient: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #10b981 100%);
     
     --stat-text-heading: #f8fafc;
     --stat-text-muted: rgba(226, 232, 240, 0.75);
     --stat-text-dim: #94a3b8;
     
-    --stat-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --stat-font-serif: var(--font-main);
     --stat-font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 /* ==========================================================================
-   1. SECTION CONTAINER (TRANSPARAN MENAMPILKAN play.jpeg SEPERTI BAGIAN LAIN)
+   1. SECTION CONTAINER
    ========================================================================== */
 .section-statistik {
     position: relative;
-    padding: 110px 24px 90px;
+    padding: 100px 24px 90px;
     background: transparent;
     color: #e2e8f0;
     overflow: hidden;
@@ -44,7 +44,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 20%, rgba(201, 162, 39, 0.08) 0%, transparent 65%);
+    background: radial-gradient(circle at 50% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 65%);
     pointer-events: none;
     z-index: 1;
 }
@@ -55,9 +55,9 @@
     top: 5%;
     left: 50%;
     transform: translateX(-50%);
-    width: 620px;
+    width: 680px;
     height: 360px;
-    background: radial-gradient(ellipse, rgba(5, 150, 105, 0.12) 0%, rgba(212, 175, 55, 0.06) 40%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(5, 150, 105, 0.12) 0%, rgba(52, 211, 153, 0.05) 50%, transparent 75%);
     filter: blur(80px);
     pointer-events: none;
     z-index: 1;
@@ -81,7 +81,7 @@
    ========================================================================== */
 .stat-header {
     text-align: center;
-    margin-bottom: 56px;
+    margin-bottom: 54px;
 }
 
 /* Top Badge: —— STATISTIK WILAYAH —— */
@@ -90,108 +90,115 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .stat-badge-line {
     width: 32px;
     height: 1.5px;
-    background: linear-gradient(90deg, transparent, #d4af37);
+    background: linear-gradient(90deg, transparent, #34d399);
 }
 
 .stat-badge-line.right {
-    background: linear-gradient(90deg, #d4af37, transparent);
+    background: linear-gradient(90deg, #34d399, transparent);
 }
 
 .stat-badge-text {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
-    letter-spacing: 3.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: #d4af37;
-    text-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
+    color: #34d399;
+    text-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
 }
 
 /* Main Title: Cikampek dalam Angka */
 .stat-main-title {
-    font-family: var(--stat-font-serif);
-    font-size: clamp(34px, 5vw, 56px);
-    font-weight: 700;
-    line-height: 1.15;
+    font-family: var(--font-main);
+    font-size: clamp(32px, 4.5vw, 50px);
+    font-weight: 800;
+    line-height: 1.16;
     color: #ffffff;
     margin: 0 0 16px 0;
-    letter-spacing: -0.5px;
-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    letter-spacing: -1px;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-.stat-title-gold {
-    font-family: var(--stat-font-serif);
-    color: #d4af37;
-    background: linear-gradient(135deg, #faf1d3 0%, #e9c96f 40%, #d4af37 70%, #b8891d 100%);
+.stat-title-highlight {
+    text-shadow: none;
+    background: linear-gradient(135deg, #6ee7b7 0%, #34d399 50%, #10b981 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     display: inline-block;
-    filter: drop-shadow(0 2px 14px rgba(212, 175, 55, 0.4));
 }
 
 .stat-subtitle {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--stat-text-muted);
-    max-width: 620px;
+    color: #f1f5f9;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+    max-width: 660px;
     margin: 0 auto;
-    font-weight: 400;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+    font-weight: 500;
 }
 
-/* Digital Control Bar (Audio & Refresh Status) */
-.stat-digital-hud {
+/* Status Operasional & Waktu Real-Time Bar */
+.stat-status-bar {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    margin-top: 22px;
+    gap: 12px;
+    margin-top: 24px;
     flex-wrap: wrap;
 }
 
-.hud-pill {
+.stat-status-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 14px;
-    background: rgba(6, 36, 28, 0.6);
-    border: 1px solid rgba(212, 175, 55, 0.24);
+    padding: 7px 18px;
+    background: rgba(10, 36, 28, 0.75);
+    border: 1px solid rgba(52, 211, 153, 0.22);
     border-radius: 9999px;
-    font-size: 12px;
-    color: #faf1d3;
+    font-size: 12.5px;
+    color: #e2e8f0;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     transition: all 0.25s ease;
 }
 
-.hud-pill-btn {
-    cursor: pointer;
-    background: rgba(5, 150, 105, 0.16);
-    border-color: rgba(52, 211, 153, 0.35);
-    color: #6ee7b7;
+.stat-hours-pill i {
+    color: #34d399;
+    font-size: 15px;
 }
 
-.hud-pill-btn:hover {
-    background: rgba(5, 150, 105, 0.28);
-    border-color: rgba(212, 175, 55, 0.6);
+.stat-hours-pill strong {
     color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(5, 150, 105, 0.35);
 }
 
-.hud-pulse-dot {
-    width: 7px;
-    height: 7px;
+.status-pulse-dot {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: #d4af37;
-    box-shadow: 0 0 8px #d4af37;
+    background: #34d399;
+    box-shadow: 0 0 10px #34d399;
     animation: pulseDot 2s infinite;
+}
+
+.stat-live-status-pill.open {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(52, 211, 153, 0.35);
+    color: #34d399;
+    font-weight: 600;
+}
+
+.stat-live-status-pill.closed {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    font-weight: 600;
 }
 
 @keyframes pulseDot {
@@ -212,107 +219,100 @@
 /* Stat Card */
 .stat-card {
     position: relative;
-    background: rgba(6, 36, 28, 0.68);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(6, 28, 22, 0.78);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid rgba(52, 211, 153, 0.22);
-    border-top: 1px solid rgba(110, 231, 183, 0.35);
+    border-top: 1px solid rgba(110, 231, 183, 0.38);
     border-radius: 22px;
-    padding: 32px 24px 28px;
+    padding: 28px 24px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45);
     cursor: default;
     overflow: hidden;
 }
 
-/* 3D Dynamic Holographic Spotlight */
-.stat-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 22px;
-    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.15), transparent 40%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
 .stat-card:hover {
     transform: translateY(-6px);
-    background: rgba(9, 48, 37, 0.82);
-    border-color: rgba(52, 211, 153, 0.48);
-    box-shadow: 0 24px 50px -10px rgba(5, 150, 105, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: rgba(14, 48, 37, 0.88);
+    border-color: rgba(52, 211, 153, 0.45);
+    box-shadow: 0 20px 45px -10px rgba(5, 150, 105, 0.3);
 }
 
-.stat-card:hover::before {
-    opacity: 1;
+/* Card Header (Icon + Badge) */
+.stat-card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-/* Top Icon Container */
 .stat-card-icon-wrap {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 14px;
-    background: rgba(212, 175, 55, 0.08);
-    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.24);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
-    color: #d4af37;
-    font-size: 25px;
-    transition: all 0.35s ease;
-    box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.08);
+    color: #34d399;
+    font-size: 24px;
+    transition: all 0.3s ease;
 }
 
 .stat-card:hover .stat-card-icon-wrap {
-    background: linear-gradient(135deg, #059669, #d4af37);
+    background: linear-gradient(135deg, #059669, #10b981);
     border-color: #34d399;
     color: #ffffff;
-    transform: scale(1.08) rotate(3deg);
-    box-shadow: 0 0 22px rgba(212, 175, 55, 0.45);
+    transform: scale(1.06);
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
 }
 
-/* Value & Suffix */
+.stat-card-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #a7f3d0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.22);
+    border-radius: 6px;
+    padding: 3px 9px;
+}
+
+/* Card Body */
+.stat-card-main {
+    flex-grow: 1;
+}
+
 .stat-card-value-wrap {
     display: flex;
     align-items: baseline;
-    gap: 8px;
-    margin-bottom: 12px;
-    position: relative;
-    z-index: 2;
+    gap: 6px;
+    margin-bottom: 10px;
 }
 
 .stat-card-number {
     font-family: 'Inter', -apple-system, sans-serif;
     font-size: 38px;
-    font-weight: 800;
+    font-weight: 900;
     color: #ffffff;
     line-height: 1;
-    letter-spacing: -1px;
+    letter-spacing: -1.2px;
     font-variant-numeric: tabular-nums;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
-/* Digital Unit (+ jiwa, km², desa, - 14.45) */
 .stat-card-unit {
     font-size: 15px;
     font-weight: 600;
-    color: #d4af37;
+    color: #34d399;
     letter-spacing: 0;
 }
 
-/* Card 2 km² Superscript */
-.stat-card-unit sup {
-    font-size: 11px;
-    top: -0.4em;
-}
-
-/* Title & Description */
 .stat-card-title {
     font-size: 16.5px;
     font-weight: 700;
@@ -323,99 +323,59 @@
 
 .stat-card-desc {
     font-size: 13px;
-    line-height: 1.5;
-    color: var(--stat-text-muted);
-    margin-bottom: 24px;
+    line-height: 1.55;
+    color: #94a3b8;
+    margin-bottom: 20px;
 }
 
-/* Bottom Progress Bar Track */
-.stat-card-bar-track {
-    width: 100%;
-    height: 3.5px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 99px;
-    overflow: hidden;
-    position: relative;
+/* Card Footer */
+.stat-card-footer {
+    padding-top: 16px;
+    border-top: 1px solid rgba(52, 211, 153, 0.14);
     margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.stat-card-bar-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #047857, #059669, #d4af37);
-    border-radius: 99px;
-    position: relative;
-    transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+.stat-card-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
 }
 
-/* Scanning Light Laser Animation */
-.stat-card-bar-fill::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 30px;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, #ffffff, transparent);
-    animation: barLaserScan 2.5s infinite;
+.stat-card-tag i {
+    color: #34d399;
+    font-size: 14px;
 }
 
-@keyframes barLaserScan {
-    0% { transform: translateX(-40px); }
-    100% { transform: translateX(250px); }
+.stat-card-tag-active {
+    color: #34d399;
 }
 
-/* Interactive Badge on Card (Clickable CTA / Live Status) */
 .stat-card-action {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 14px;
     font-size: 12px;
     font-weight: 600;
-    color: #6ee7b7;
-    background: rgba(5, 150, 105, 0.14);
-    padding: 5px 12px;
+    color: #a7f3d0;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.25);
     border-radius: 8px;
-    border: 1px solid rgba(52, 211, 153, 0.3);
-    cursor: pointer;
-    transition: all 0.25s ease;
+    padding: 6px 12px;
     text-decoration: none;
-    width: fit-content;
+    transition: all 0.25s ease;
 }
 
 .stat-card-action:hover {
-    background: rgba(5, 150, 105, 0.28);
-    border-color: #d4af37;
+    background: rgba(16, 185, 129, 0.25);
+    border-color: #34d399;
     color: #ffffff;
-    transform: translateX(3px);
-}
-
-/* Live Operational Hours Indicator Badge */
-.stat-live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 14px;
-    font-size: 11.5px;
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: 8px;
-    width: fit-content;
-    font-family: var(--stat-font-mono);
-}
-
-.stat-live-badge.open {
-    background: rgba(16, 185, 129, 0.16);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.4);
-}
-
-.stat-live-badge.closed {
-    background: rgba(239, 68, 68, 0.16);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.4);
+    transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -427,14 +387,14 @@
     justify-content: center;
     gap: 36px;
     flex-wrap: wrap;
-    padding: 22px 28px;
-    background: rgba(6, 36, 28, 0.68);
-    border: 1px solid rgba(52, 211, 153, 0.22);
+    padding: 20px 28px;
+    background: rgba(10, 36, 28, 0.72);
+    border: 1px solid rgba(52, 211, 153, 0.18);
     border-radius: 20px;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     margin-bottom: 70px;
-    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.4);
 }
 
 .stat-info-item {
@@ -442,20 +402,20 @@
     align-items: center;
     gap: 10px;
     font-size: 14px;
-    color: var(--stat-text-muted);
+    color: #cbd5e1;
     font-weight: 500;
 }
 
 .stat-info-item i {
     font-size: 19px;
-    color: #d4af37;
+    color: #34d399;
 }
 
 .stat-info-divider {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: rgba(212, 175, 55, 0.4);
+    background: rgba(52, 211, 153, 0.35);
 }
 
 /* ==========================================================================
@@ -498,10 +458,9 @@
 
 .stat-desa-subtitle {
     font-size: 14.5px;
-    color: var(--stat-text-muted);
-    max-width: 580px;
-    line-height: 1.5;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    color: #94a3b8;
+    max-width: 600px;
+    line-height: 1.55;
 }
 
 /* Search & Filter Controls */
@@ -524,7 +483,7 @@
     position: relative;
     flex: 1;
     min-width: 280px;
-    max-width: 460px;
+    max-width: 480px;
 }
 
 .stat-desa-search-box i {
@@ -533,14 +492,14 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 18px;
-    color: #d4af37;
+    color: #34d399;
 }
 
 .stat-desa-search-input {
     width: 100%;
     padding: 12px 16px 12px 46px;
-    background: rgba(6, 36, 28, 0.68);
-    border: 1px solid rgba(52, 211, 153, 0.22);
+    background: rgba(10, 36, 28, 0.72);
+    border: 1px solid rgba(52, 211, 153, 0.2);
     border-radius: 14px;
     color: #ffffff;
     font-size: 14px;
@@ -551,9 +510,9 @@
 }
 
 .stat-desa-search-input:focus {
-    border-color: #d4af37;
-    background: rgba(9, 48, 37, 0.85);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+    border-color: #34d399;
+    background: rgba(14, 48, 37, 0.88);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
 }
 
 .stat-desa-search-input::placeholder {
@@ -562,13 +521,14 @@
 
 .stat-desa-count-badge {
     font-size: 13px;
-    color: #f3e0a3;
-    background: rgba(6, 36, 28, 0.6);
-    padding: 6px 14px;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.12);
+    padding: 6px 16px;
     border-radius: 9999px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    border: 1px solid rgba(52, 211, 153, 0.25);
     font-family: var(--stat-font-mono);
     backdrop-filter: blur(10px);
+    font-weight: 600;
 }
 
 /* Filter Tab Pills */
@@ -587,12 +547,12 @@
 
 .filter-tab {
     padding: 8px 18px;
-    background: rgba(6, 36, 28, 0.55);
+    background: rgba(10, 36, 28, 0.6);
     border: 1px solid rgba(52, 211, 153, 0.2);
     border-radius: 9999px;
     font-size: 13px;
     font-weight: 500;
-    color: var(--stat-text-muted);
+    color: #cbd5e1;
     cursor: pointer;
     transition: all 0.25s ease;
     white-space: nowrap;
@@ -607,11 +567,11 @@
 }
 
 .filter-tab.active {
-    background: linear-gradient(135deg, rgba(5, 150, 105, 0.5), rgba(201, 162, 39, 0.4));
-    border-color: #d4af37;
+    background: linear-gradient(135deg, #059669, #10b981);
+    border-color: #34d399;
     color: #ffffff;
     font-weight: 600;
-    box-shadow: 0 4px 16px rgba(5, 150, 105, 0.4);
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
 }
 
 /* 10 Desa Grid Layout */
@@ -623,11 +583,11 @@
 
 /* Desa Card */
 .desa-card {
-    background: rgba(6, 36, 28, 0.68);
+    background: rgba(10, 36, 28, 0.72);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(52, 211, 153, 0.22);
-    border-top: 1px solid rgba(110, 231, 183, 0.32);
+    border: 1px solid rgba(52, 211, 153, 0.18);
+    border-top: 1px solid rgba(110, 231, 183, 0.3);
     border-radius: 20px;
     padding: 24px 20px;
     display: flex;
@@ -637,30 +597,14 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
-}
-
-.desa-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #d4af37, transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 .desa-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(52, 211, 153, 0.5);
-    background: rgba(9, 48, 37, 0.84);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 24px rgba(5, 150, 105, 0.25);
-}
-
-.desa-card:hover::after {
-    opacity: 1;
+    border-color: rgba(52, 211, 153, 0.45);
+    background: rgba(14, 48, 37, 0.88);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 20px rgba(5, 150, 105, 0.2);
 }
 
 .desa-card-top {
@@ -672,35 +616,35 @@
 
 .desa-number {
     font-family: var(--stat-font-mono);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
-    color: #d4af37;
-    background: rgba(201, 162, 39, 0.12);
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.12);
     padding: 3px 8px;
     border-radius: 6px;
-    border: 1px solid rgba(212, 175, 55, 0.28);
+    border: 1px solid rgba(52, 211, 153, 0.25);
 }
 
 .desa-icon-badge {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: rgba(212, 175, 55, 0.08);
-    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.22);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    color: #d4af37;
+    color: #34d399;
     transition: all 0.3s ease;
 }
 
 .desa-card:hover .desa-icon-badge {
-    background: linear-gradient(135deg, #059669, #d4af37);
+    background: linear-gradient(135deg, #059669, #10b981);
     border-color: #34d399;
     color: #ffffff;
-    transform: scale(1.1);
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+    transform: scale(1.08);
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.35);
 }
 
 .desa-name {
@@ -715,9 +659,9 @@
     display: inline-block;
     font-size: 11.5px;
     font-weight: 600;
-    color: #f3e0a3;
-    background: rgba(201, 162, 39, 0.12);
-    border: 1px solid rgba(212, 175, 55, 0.25);
+    color: #a7f3d0;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.22);
     padding: 2px 8px;
     border-radius: 5px;
     margin-bottom: 12px;
@@ -726,7 +670,7 @@
 .desa-desc {
     font-size: 13px;
     line-height: 1.5;
-    color: var(--stat-text-muted);
+    color: #94a3b8;
     margin-bottom: 18px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -750,17 +694,16 @@
     gap: 4px;
     font-size: 12px;
     font-weight: 600;
-    color: #d4af37;
-    background: transparent;
+    color: #34d399;
+    background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
-    transition: gap 0.2s ease, color 0.2s ease;
+    transition: all 0.25s ease;
 }
 
 .desa-card:hover .desa-btn-detail {
-    color: #6ee7b7;
-    gap: 7px;
+    color: #ffffff;
+    transform: translateX(4px);
 }
 
 /* Empty search state */

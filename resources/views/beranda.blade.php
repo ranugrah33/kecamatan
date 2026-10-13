@@ -27,8 +27,10 @@
     <!-- ===== NAVIGASI (Glassmorphism Navbar) ===== -->
     <nav class="navbar" id="navbar">
         <a href="#beranda" class="nav-brand">
-            <img src="{{ asset('images/kop-surat.png') }}" alt="Logo Karawang" class="nav-brand-logo"
-                 onerror="this.style.display='none'">
+            <div class="nav-brand-logo-container">
+                <img src="{{ asset('images/kop-surat.png') }}" alt="Logo Karawang" class="nav-brand-logo"
+                     onerror="this.style.display='none'">
+            </div>
             <div class="nav-brand-text">
                 <span class="nav-brand-title">Kec. Cikampek</span>
                 <span class="nav-brand-sub">Kabupaten Karawang</span>
@@ -54,7 +56,7 @@
             @if (Route::has('register'))
                 <a href="{{ route('register') }}" class="btn-register">Daftar</a>
             @endif
-            <a href="{{ route('login') }}" class="btn-login">Masuk →</a>
+            <a href="{{ route('login') }}" class="btn-login">Masuk <i class="ph ph-arrow-right"></i></a>
         </div>
 
         <button class="nav-hamburger" id="navHamburger" aria-label="Toggle Menu">
@@ -64,35 +66,61 @@
         </button>
     </nav>
 
-    <!-- ===== HERO SECTION (Glassmorphism + Animasi 3D) ===== -->
+    <!-- ===== HERO SECTION ===== -->
     <section class="hero" id="beranda">
         <div class="hero-content">
             <div class="hero-text">
                 <div class="hero-badge">
                     <span class="hero-badge-dot"></span>
-                    Portal Digital Kecamatan
+                    <span>Portal Resmi Pelayanan Digital • Kec. Cikampek</span>
                 </div>
 
                 <h1 class="hero-title">
-                    Layanan Publik<br>
-                    yang <span class="gradient-text typewriter-text">Cepat</span>
+                    Pelayanan Publik Cepat,<br>
+                    <span class="hero-title-highlight">Transparan & Terpadu</span>
                 </h1>
 
                 <p class="hero-description">
                     Sistem Pelayanan Masyarakat Kecamatan Cikampek, Kabupaten Karawang.
-                    Akses layanan peminjaman aula, inventaris, dan sertifikat secara digital
-                    — kapan saja, di mana saja.
+                    Akses peminjaman aula, perlengkapan inventaris, dan permohonan sertifikat secara digital — praktis, resmi, dan tanpa antrean fisik.
                 </p>
 
                 <div class="hero-actions">
                     <a href="{{ route('login') }}" class="btn-hero-primary">
                         <i class="ph ph-sign-in"></i>
-                        Masuk Sekarang
+                        Masuk ke Portal
                     </a>
                     <a href="#layanan" class="btn-hero-secondary">
-                        <i class="ph ph-arrow-down"></i>
-                        Lihat Layanan
+                        <i class="ph ph-squares-four"></i>
+                        Jelajahi Layanan
                     </a>
+                </div>
+
+                <!-- Hero Value Highlights -->
+                <div class="hero-highlights">
+                    <div class="hero-highlight-item">
+                        <div class="hero-highlight-icon"><i class="ph ph-lightning"></i></div>
+                        <div class="hero-highlight-text">
+                            <strong>Bebas Antrean Fisik</strong>
+                            <span>Pengajuan online praktis</span>
+                        </div>
+                    </div>
+                    <div class="hero-highlight-divider"></div>
+                    <div class="hero-highlight-item">
+                        <div class="hero-highlight-icon"><i class="ph ph-shield-check"></i></div>
+                        <div class="hero-highlight-text">
+                            <strong>Resmi & Terverifikasi</strong>
+                            <span>Validasi petugas kecamatan</span>
+                        </div>
+                    </div>
+                    <div class="hero-highlight-divider"></div>
+                    <div class="hero-highlight-item">
+                        <div class="hero-highlight-icon"><i class="ph ph-device-mobile"></i></div>
+                        <div class="hero-highlight-text">
+                            <strong>Akses Kapan Saja</strong>
+                            <span>Responsif di semua perangkat</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,7 +131,7 @@
         <div class="stat-ambient-glow"></div>
         <div class="stat-container">
             
-            <!-- Section Header (Sesuai Gambar) -->
+            <!-- Section Header -->
             <div class="stat-header reveal">
                 <div class="stat-badge">
                     <span class="stat-badge-line"></span>
@@ -111,92 +139,94 @@
                     <span class="stat-badge-line right"></span>
                 </div>
                 <h2 class="stat-main-title">
-                    Cikampek dalam <span class="stat-title-gold">Angka</span>
+                    Cikampek dalam <span class="stat-title-highlight">Angka</span>
                 </h2>
                 <p class="stat-subtitle">
-                    Gambaran singkat wilayah dan masyarakat Kecamatan Cikampek.
+                    Gambaran singkat demografi penduduk, cakupan wilayah, dan operasional pelayanan terpadu Kecamatan Cikampek.
                 </p>
 
-                <!-- Digital HUD Control Bar (Animasi Digital) -->
-                <div class="stat-digital-hud">
-                    <div class="hud-pill">
-                        <span class="hud-pulse-dot"></span>
+                <!-- Status Operasional & Waktu Real-Time -->
+                <div class="stat-status-bar">
+                    <div class="stat-status-pill">
+                        <span class="status-pulse-dot"></span>
                         <span id="statDigitalClock">--:--:-- WIB</span>
                     </div>
-                    <button type="button" class="hud-pill hud-pill-btn" id="statAudioToggle">
-                        <i class="ph ph-speaker-slash"></i> Suara Digital: NONAKTIF
-                    </button>
-                    <button type="button" class="hud-pill hud-pill-btn" id="statReplayBtn">
-                        <i class="ph ph-arrows-counter-clockwise"></i> Replay Animasi
-                    </button>
+                    <div class="stat-status-pill stat-hours-pill">
+                        <i class="ph ph-clock"></i>
+                        <span>Pelayanan Kantor: <strong>07.45 – 14.45 WIB</strong></span>
+                    </div>
+                    <div class="stat-status-pill stat-live-status-pill" id="statLiveBadge">
+                        <span class="status-pulse-dot"></span>
+                        <span>BUKA (Sedang Melayani)</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- 4 Cards Statistik (Sesuai Gambar) -->
+            <!-- 4 Cards Statistik -->
             <div class="stat-metrics-grid">
                 <!-- Card 1: Jumlah Penduduk -->
                 <div class="stat-card reveal reveal-delay-1">
-                    <div>
+                    <div class="stat-card-top-row">
                         <div class="stat-card-icon-wrap">
                             <i class="ph ph-users"></i>
                         </div>
+                        <span class="stat-card-badge">Demografi</span>
+                    </div>
+                    <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
                             <span class="stat-card-number" data-target="112780">0</span>
                             <span class="stat-card-unit">+ jiwa</span>
                         </div>
                         <div class="stat-card-title">Jumlah Penduduk</div>
-                        <div class="stat-card-desc">Perkiraan 112.780 – 123.000 jiwa</div>
+                        <div class="stat-card-desc">Perkiraan 112.780 – 123.000 jiwa masyarakat terdata</div>
                     </div>
-                    <div>
-                        <div class="stat-card-bar-track">
-                            <div class="stat-card-bar-fill" data-percent="75"></div>
-                        </div>
-                        <a href="#desaShowcase" class="stat-card-action">
-                            <i class="ph ph-chart-line-up"></i> Data BPS 2024
-                        </a>
+                    <div class="stat-card-footer">
+                        <span class="stat-card-tag">
+                            <i class="ph ph-chart-line-up"></i> Data BPS Karawang 2024
+                        </span>
                     </div>
                 </div>
 
                 <!-- Card 2: Luas Wilayah -->
                 <div class="stat-card reveal reveal-delay-2">
-                    <div>
+                    <div class="stat-card-top-row">
                         <div class="stat-card-icon-wrap">
                             <i class="ph ph-map-trifold"></i>
                         </div>
+                        <span class="stat-card-badge">Geografis</span>
+                    </div>
+                    <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
                             <span class="stat-card-number" data-target="47.60" data-decimal="true">0,00</span>
                             <span class="stat-card-unit">km²</span>
                         </div>
                         <div class="stat-card-title">Luas Wilayah</div>
-                        <div class="stat-card-desc">Sekitar 47,60 kilometer persegi</div>
+                        <div class="stat-card-desc">Sekitar 47,60 kilometer persegi koridor strategis</div>
                     </div>
-                    <div>
-                        <div class="stat-card-bar-track">
-                            <div class="stat-card-bar-fill" data-percent="45"></div>
-                        </div>
-                        <a href="#desaShowcase" class="stat-card-action">
-                            <i class="ph ph-compass"></i> Wilayah Strategis
-                        </a>
+                    <div class="stat-card-footer">
+                        <span class="stat-card-tag">
+                            <i class="ph ph-compass"></i> Koridor Pantura & Simpul Tol
+                        </span>
                     </div>
                 </div>
 
                 <!-- Card 3: Desa -->
                 <div class="stat-card reveal reveal-delay-3">
-                    <div>
+                    <div class="stat-card-top-row">
                         <div class="stat-card-icon-wrap">
                             <i class="ph ph-house-line"></i>
                         </div>
+                        <span class="stat-card-badge">Administratif</span>
+                    </div>
+                    <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
                             <span class="stat-card-number" data-target="10">0</span>
                             <span class="stat-card-unit">desa</span>
                         </div>
-                        <div class="stat-card-title">Desa</div>
-                        <div class="stat-card-desc">Tersebar di seluruh wilayah kecamatan</div>
+                        <div class="stat-card-title">Desa Terintegrasi</div>
+                        <div class="stat-card-desc">10 desa mandiri & maju di seluruh wilayah kecamatan</div>
                     </div>
-                    <div>
-                        <div class="stat-card-bar-track">
-                            <div class="stat-card-bar-fill" data-percent="70"></div>
-                        </div>
+                    <div class="stat-card-footer">
                         <a href="#desaShowcase" class="stat-card-action" id="exploreDesaBtn">
                             <i class="ph ph-squares-four"></i> Jelajahi 10 Desa ↓
                         </a>
@@ -205,29 +235,29 @@
 
                 <!-- Card 4: Jam Pelayanan -->
                 <div class="stat-card reveal reveal-delay-4">
-                    <div>
+                    <div class="stat-card-top-row">
                         <div class="stat-card-icon-wrap">
                             <i class="ph ph-clock"></i>
                         </div>
+                        <span class="stat-card-badge">Operasional</span>
+                    </div>
+                    <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
                             <span class="stat-card-number">07.45</span>
                             <span class="stat-card-unit">- 14.45</span>
                         </div>
                         <div class="stat-card-title">Jam Pelayanan</div>
-                        <div class="stat-card-desc">Waktu pelayanan di kantor kecamatan</div>
+                        <div class="stat-card-desc">Waktu operasional pelayanan di kantor camat (Senin - Jumat)</div>
                     </div>
-                    <div>
-                        <div class="stat-card-bar-track">
-                            <div class="stat-card-bar-fill" data-percent="42"></div>
-                        </div>
-                        <div class="stat-live-badge open" id="statLiveBadge">
-                            <span class="hud-pulse-dot"></span> BUKA (Sedang Melayani)
-                        </div>
+                    <div class="stat-card-footer">
+                        <span class="stat-card-tag stat-card-tag-active">
+                            <i class="ph ph-check-circle"></i> Pelayanan Terjadwal
+                        </span>
                     </div>
                 </div>
             </div>
 
-            <!-- Bottom Information Pill Bar (Sesuai Gambar) -->
+            <!-- Bottom Information Pill Bar -->
             <div class="stat-info-bar reveal">
                 <div class="stat-info-item">
                     <i class="ph ph-map-pin"></i>
@@ -241,7 +271,7 @@
                 <div class="stat-info-divider"></div>
                 <div class="stat-info-item">
                     <i class="ph ph-train"></i>
-                    <span>Simpul jalur tol & kereta api</span>
+                    <span>Simpul Pertemuan Rel & Gerbang Tol</span>
                 </div>
             </div>
 
@@ -351,59 +381,59 @@
         </div>
     </div>
 
-    <!-- ===== LAYANAN SECTION (Neo-Brutalism Cards) ===== -->
+    <!-- ===== LAYANAN SECTION (Modern Glassmorphism Cards) ===== -->
     <section class="section" id="layanan">
         <div class="section-header reveal">
             <div class="section-label">
-                <i class="ph ph-star-four"></i> Layanan Kami
+                <i class="ph ph-squares-four"></i> Layanan Kami
             </div>
             <h2 class="section-title">Layanan Publik Digital</h2>
             <p class="section-desc">
                 Tiga layanan utama yang tersedia secara online untuk memudahkan masyarakat Kecamatan Cikampek
-                dalam mengurus kebutuhan administrasi.
+                dalam mengurus kebutuhan administrasi tanpa perlu antrean fisik.
             </p>
         </div>
 
         <div class="services-grid">
-            <div class="service-card reveal reveal-delay-1">
+            <div class="service-card reveal reveal-delay-1" onclick="window.location.href='{{ route('login') }}'">
                 <div class="service-icon">
-                    <i class="ph ph-building"></i>
+                    <i class="ph ph-buildings"></i>
                 </div>
                 <div class="service-title">Peminjaman Aula</div>
                 <div class="service-desc">
-                    Ajukan peminjaman aula kecamatan untuk acara dan kegiatan masyarakat secara mudah
-                    melalui sistem digital kami.
+                    Ajukan peminjaman aula serbaguna kecamatan untuk keperluan rapat dinas, musyawarah warga, atau acara resmi kemasyarakatan.
                 </div>
-                <div class="service-arrow">
-                    <i class="ph ph-arrow-right"></i>
+                <div class="service-footer-action">
+                    <span class="service-cta-text">Ajukan Peminjaman</span>
+                    <span class="service-arrow"><i class="ph ph-arrow-right"></i></span>
                 </div>
             </div>
 
-            <div class="service-card reveal reveal-delay-2">
+            <div class="service-card reveal reveal-delay-2" onclick="window.location.href='{{ route('login') }}'">
                 <div class="service-icon">
                     <i class="ph ph-package"></i>
                 </div>
                 <div class="service-title">Peminjaman Inventaris</div>
                 <div class="service-desc">
-                    Pinjam barang inventaris kecamatan seperti meja, kursi, tenda, dan peralatan lainnya
-                    untuk kegiatan masyarakat.
+                    Pinjam sarana prasarana perlengkapan kecamatan seperti tenda, kursi, meja, dan sound system untuk kegiatan warga secara terdata.
                 </div>
-                <div class="service-arrow">
-                    <i class="ph ph-arrow-right"></i>
+                <div class="service-footer-action">
+                    <span class="service-cta-text">Ajukan Peminjaman</span>
+                    <span class="service-arrow"><i class="ph ph-arrow-right"></i></span>
                 </div>
             </div>
 
-            <div class="service-card reveal reveal-delay-3">
+            <div class="service-card reveal reveal-delay-3" onclick="window.location.href='{{ route('login') }}'">
                 <div class="service-icon">
                     <i class="ph ph-certificate"></i>
                 </div>
                 <div class="service-title">Pengajuan Sertifikat</div>
                 <div class="service-desc">
-                    Ajukan permohonan sertifikat dan piagam penghargaan secara online, 
-                    proses cepat dan transparan.
+                    Ajukan permohonan sertifikat resmi, surat rekomendasi, dan piagam penghargaan secara digital dengan proses cepat dan transparan.
                 </div>
-                <div class="service-arrow">
-                    <i class="ph ph-arrow-right"></i>
+                <div class="service-footer-action">
+                    <span class="service-cta-text">Ajukan Sekarang</span>
+                    <span class="service-arrow"><i class="ph ph-arrow-right"></i></span>
                 </div>
             </div>
         </div>
@@ -417,7 +447,7 @@
             </div>
             <h2 class="section-title">Kecamatan Cikampek</h2>
             <p class="section-desc">
-                Menghadirkan pelayanan publik yang modern, cepat, dan transparan untuk masyarakat Cikampek.
+                Menghadirkan tata kelola pelayanan publik yang modern, inklusif, cepat, dan transparan untuk seluruh masyarakat Cikampek.
             </p>
         </div>
 
@@ -428,8 +458,8 @@
                 <div class="about-image-overlay"></div>
                 <div class="about-stats-floating">
                     <div class="about-stat-chip">
-                        <div class="about-stat-chip-number">12</div>
-                        <div class="about-stat-chip-label">Kelurahan</div>
+                        <div class="about-stat-chip-number">10</div>
+                        <div class="about-stat-chip-label">Desa</div>
                     </div>
                     <div class="about-stat-chip">
                         <div class="about-stat-chip-number">3</div>

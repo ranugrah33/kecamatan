@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="{{ asset('css/interactive-display.css') }}">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #041812;
+            color: #e2e8f0;
         }
     </style>
 </head>
-<body class="text-gray-800 antialiased h-screen flex flex-col"
+<body class="text-slate-100 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white"
       data-session-success="{{ session('success') ?? session('status') }}"
       data-session-error="{{ session('error') }}"
       data-session-warning="{{ session('warning') }}"

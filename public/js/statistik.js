@@ -317,16 +317,16 @@
 
         if (liveBadge) {
             if (isOpen) {
-                liveBadge.className = 'stat-live-badge open';
-                liveBadge.innerHTML = '<span class="hud-pulse-dot" style="background:#34d399"></span> BUKA (Sedang Melayani)';
+                liveBadge.className = 'stat-status-pill stat-live-status-pill open';
+                liveBadge.innerHTML = '<span class="status-pulse-dot" style="background:#34d399"></span> BUKA (Sedang Melayani)';
             } else {
-                liveBadge.className = 'stat-live-badge closed';
+                liveBadge.className = 'stat-status-pill stat-live-status-pill closed';
                 if (!isWeekday) {
-                    liveBadge.innerHTML = '<span class="hud-pulse-dot" style="background:#f87171"></span> TUTUP (Libur Akhir Pekan)';
+                    liveBadge.innerHTML = '<span class="status-pulse-dot" style="background:#f87171"></span> TUTUP (Libur Akhir Pekan)';
                 } else if (currentMinutes < openMinutes) {
-                    liveBadge.innerHTML = '<span class="hud-pulse-dot" style="background:#fbbf24"></span> TUTUP (Buka Pukul 07.45 WIB)';
+                    liveBadge.innerHTML = '<span class="status-pulse-dot" style="background:#fbbf24"></span> TUTUP (Buka Pukul 07.45 WIB)';
                 } else {
-                    liveBadge.innerHTML = '<span class="hud-pulse-dot" style="background:#f87171"></span> TUTUP (Buka Besok 07.45 WIB)';
+                    liveBadge.innerHTML = '<span class="status-pulse-dot" style="background:#f87171"></span> TUTUP (Buka Besok 07.45 WIB)';
                 }
             }
         }

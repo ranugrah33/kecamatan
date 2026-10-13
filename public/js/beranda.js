@@ -200,41 +200,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ---- 10. TYPEWRITER EFFECT FOR HERO TITLE ----
-    var typeTarget = document.querySelector('.typewriter-text');
-    if (typeTarget) {
-        var words = ['Cepat', 'Mudah', 'Transparan', 'Digital'];
-        var wordIndex = 0;
-        var charIndex = 0;
-        var isDeleting = false;
-        var typingSpeed = 100;
-
-        function typeWriter() {
-            var currentWord = words[wordIndex];
-
-            if (isDeleting) {
-                typeTarget.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-                typingSpeed = 50;
-            } else {
-                typeTarget.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-                typingSpeed = 120;
-            }
-
-            if (!isDeleting && charIndex === currentWord.length) {
-                typingSpeed = 2000; // Pause at end
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                typingSpeed = 500;
-            }
-
-            setTimeout(typeWriter, typingSpeed);
-        }
-
-        typeWriter();
-    }
-
 });
