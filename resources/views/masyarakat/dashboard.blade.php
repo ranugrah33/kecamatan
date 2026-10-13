@@ -22,19 +22,19 @@
 
             <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 relative z-10">
                 <div class="flex-1 text-center sm:text-left">
-                    <p id="greeting-text" class="text-blue-200 text-[13px] font-bold tracking-wider uppercase mb-1">Selamat datang,</p>
-                    <h1 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-sm">Halo, {{ Auth::user()->name }} 👋</h1>
-                    <p class="text-blue-100/90 text-[15px] mt-2.5 leading-relaxed max-w-md">
+                    <p id="greeting-text" class="text-white/90 text-[13px] font-bold tracking-wider uppercase mb-1" style="color: rgba(255, 255, 255, 0.9) !important;">Selamat datang,</p>
+                    <h1 class="text-3xl font-extrabold text-white !text-white tracking-tight drop-shadow-sm" style="color: #ffffff !important;">Halo, {{ Auth::user()->name }} 👋</h1>
+                    <p class="text-white/90 text-[15px] mt-2.5 leading-relaxed max-w-md" style="color: rgba(255, 255, 255, 0.9) !important;">
                         Nikmati layanan publik Kecamatan Cikampek dengan lebih mudah, cepat dan transparan.
                     </p>
                 </div>
                 {{-- Date & Time Card --}}
                 <div class="flex-shrink-0 bg-white/10 backdrop-blur-md rounded-[16px] px-6 py-4 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20 min-w-[200px] text-center sm:text-right transform hover:scale-105 transition-transform duration-300">
                     <div class="flex items-center justify-center sm:justify-end gap-2 mb-1.5">
-                        <i class="ph ph-calendar-blank text-blue-200 text-sm"></i>
-                        <span class="text-[13px] text-blue-50 font-medium" id="current-date">Senin, 15 September 2025</span>
+                        <i class="ph ph-calendar-blank text-white/80 text-sm"></i>
+                        <span class="text-[13px] text-white/90 font-medium" id="current-date" style="color: rgba(255, 255, 255, 0.9) !important;">Senin, 15 September 2025</span>
                     </div>
-                    <p class="text-[26px] font-black text-white tracking-tight drop-shadow-md" id="current-time">13:24 WIB</p>
+                    <p class="text-[26px] font-black text-white !text-white tracking-tight drop-shadow-md" id="current-time" style="color: #ffffff !important;">13:24 WIB</p>
                 </div>
             </div>
         </div>

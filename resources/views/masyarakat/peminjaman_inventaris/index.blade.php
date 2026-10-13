@@ -2,10 +2,15 @@
 @section('title', 'Peminjaman Barang Inventaris')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Peminjaman Barang Inventaris</h1>
-        <p class="text-sm text-gray-500 mt-1">Lihat ketersediaan barang dan ajukan peminjaman</p>
+<div class="page-header-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xs">
+            <i class="ph ph-package text-2xl font-bold"></i>
+        </div>
+        <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Peminjaman Barang Inventaris</h1>
+            <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">Lihat ketersediaan barang dan ajukan peminjaman</p>
+        </div>
     </div>
     <a href="{{ route('masyarakat.peminjaman_inventaris.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold shadow transition">
         <i class="ph ph-plus-circle text-lg"></i> Ajukan Peminjaman

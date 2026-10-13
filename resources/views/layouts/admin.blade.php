@@ -15,35 +15,151 @@
     <style>
         * { font-family: 'Inter', sans-serif; }
         [x-cloak] { display: none !important; }
-        .sidebar-nav { background: linear-gradient(180deg, #06291f 0%, #0a3a2b 60%, #041f18 100%); }
 
-        .menu-active { 
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.06)); 
-            color: #f3e0a3; 
-            box-shadow: inset 3px 0 0 #d4af37, 0 4px 15px rgba(0, 0, 0, 0.15);
+        /* 1. Base Emerald Green Sidebar (Hijau Zamrud Elegan Digital) */
+        .sidebar-nav {
+            background: linear-gradient(180deg, #064e3b 0%, #033c2d 50%, #02241b 100%);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25);
+            border-right: 1px solid rgba(52, 211, 153, 0.15);
         }
-        .menu-active .menu-icon { color: #e0b84a !important; }
+
+        /* 2. Soft Ambient Emerald Glow (Tanpa Background Gambar) */
+        .sidebar-nav::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 15%, rgba(52, 211, 153, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 3. Konten sidebar diposisikan di atas overlay */
+        .sidebar-nav > * {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 4. Brand Area di bagian atas sidebar: Menyatu mulus tanpa pembatas */
+        .sidebar-brand-area {
+            background: transparent;
+            border-bottom: none;
+        }
+
+        /* 5. Area Khusus Tombol Keluar: Frosted Glass Zamrud Rapi */
+        .sidebar-bottom-area {
+            background: rgba(2, 36, 27, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(52, 211, 153, 0.18);
+            position: relative;
+            z-index: 20;
+        }
+
+        /* 6. Active & Interactive Menu States */
+        .menu-active { 
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.28), rgba(6, 95, 70, 0.18)); 
+            color: #ffffff; 
+            box-shadow: inset 3.5px 0 0 #34d399, 0 4px 15px rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .menu-active .menu-icon { color: #34d399 !important; }
         .menu-item { 
-            color: #94a3b8; 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            color: #cbd5e1; 
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); 
         }
         .menu-item:hover { 
-            background: rgba(255,255,255,0.07); 
-            color: #e2e8f0; 
-            transform: translateX(6px);
+            background: rgba(255, 255, 255, 0.08); 
+            color: #ffffff; 
+            transform: translateX(4px);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
         .menu-item:active {
-            transform: scale(0.95);
+            transform: scale(0.97);
         }
         .menu-item:hover .menu-icon { 
-            color: #cbd5e1; 
-            transform: scale(1.15) translateY(-1px);
+            color: #34d399; 
+            transform: scale(1.12);
         }
         .menu-icon {
             transition: all 0.3s ease;
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 7. Header Glassmorphism */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* 8. Main Dashboard Background: hijaubg.png */
+        .dashboard-main-bg {
+            background-color: #f0fdf4;
+            background-image: url('{{ asset('images/hijaubg.png') }}');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+        }
+
+        /* 9. Page Header Glass Card: Kontras 100% Sempurna & Estetis di Pojok Kiri Atas */
+        .page-header-card {
+            background: rgba(255, 255, 255, 0.88) !important;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.95) !important;
+            border-radius: 20px !important;
+            padding: 18px 24px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+            margin-bottom: 1.5rem !important;
+        }
+        .page-header-card h1 {
+            color: #0f172a !important;
+            font-weight: 800 !important;
+        }
+        .page-header-card p {
+            color: #475569 !important;
+            font-weight: 500 !important;
+        }
+
+        /* 10. Otomatis memperjelas dan membingkai judul pertama di pojok kiri atas bila belum berkelas kartu */
+        .dashboard-main-bg > div:first-child:not(.grid):not(.relative) {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 18px 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.5rem;
+        }
+        .dashboard-main-bg > div:first-child:not(.grid):not(.relative) h1 {
+            color: #0f172a !important;
+            font-weight: 800 !important;
+        }
+        .dashboard-main-bg > div:first-child:not(.grid):not(.relative) p {
+            color: #475569 !important;
+            font-weight: 500 !important;
+        }
+
+        /* 11. Penajaman Kontras & Estetika Global untuk Kartu Fitur-Fitur Lainnya */
+        .dashboard-main-bg .bg-white {
+            background-color: rgba(255, 255, 255, 0.96) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .dashboard-main-bg h1:not(.text-white):not([class*="text-white"]), 
+        .dashboard-main-bg h2:not(.text-white):not([class*="text-white"]), 
+        .dashboard-main-bg h3:not(.text-white):not([class*="text-white"]) {
+            color: #0f172a;
+        }
     </style>
 </head>
 <body class="bg-[#f5f7fb] text-gray-800 antialiased"
@@ -65,7 +181,7 @@
            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
         <!-- Brand -->
-        <div class="flex items-center gap-3 px-5 py-[18px] border-b border-white/10 flex-shrink-0">
+        <div class="sidebar-brand-area flex items-center gap-3 px-5 py-[18px] flex-shrink-0">
             <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
                 <img src="{{ asset('images/kop-surat.png') }}" alt="Logo Kabupaten Karawang"
                      class="w-8 h-8 object-contain"
@@ -94,7 +210,7 @@
 
             {{-- Layanan Section --}}
             <div class="mt-5 mb-2 px-3">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Layanan</p>
+                <p class="text-[10px] font-bold text-emerald-300/80 uppercase tracking-widest">Layanan</p>
             </div>
             <ul class="space-y-0.5">
                 <li>
@@ -129,7 +245,7 @@
 
             {{-- Sistem Section --}}
             <div class="mt-5 mb-2 px-3">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Sistem</p>
+                <p class="text-[10px] font-bold text-emerald-300/80 uppercase tracking-widest">Sistem</p>
             </div>
             <ul class="space-y-0.5">
                 <li>
@@ -154,17 +270,17 @@
         </nav>
 
         <!-- Sidebar Bottom -->
-        <div class="flex-shrink-0 px-3 pt-4 pb-5 border-t border-white/10">
+        <div class="sidebar-bottom-area flex-shrink-0 px-3 py-2.5 flex flex-col justify-center">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit"
-                        class="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-[13px] font-bold text-red-400 border border-red-400/20 bg-red-400/5 hover:bg-red-500 hover:text-white active:scale-95 transition-all duration-300">
+                        class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-[13px] font-bold text-red-300 border border-red-500/30 bg-red-950/40 hover:bg-red-600 hover:text-white hover:border-red-500 active:scale-95 transition-all duration-300 shadow-sm">
                     <i class="ph ph-sign-out text-lg"></i>
                     Keluar
                 </button>
             </form>
-            <div class="mt-4 mx-1 p-3 rounded-xl bg-white/5 border border-white/10">
-                <p class="text-blue-300 text-xs font-semibold leading-tight">Bersama Melayani Masyarakat</p>
+            <div class="mt-2 mx-1 py-1.5 px-2 rounded-xl bg-white/5 border border-white/10 text-center">
+                <p class="text-emerald-200/80 text-[11px] font-medium leading-tight">Bersama Melayani Masyarakat</p>
             </div>
         </div>
     </aside>
@@ -173,7 +289,7 @@
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
 
         <!-- Header -->
-        <header class="h-16 bg-white border-b border-gray-200/80 flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-30 shadow-sm">
+        <header class="dashboard-header h-16 flex items-center justify-between px-4 sm:px-6 flex-shrink-0 z-30 shadow-xs">
             <div class="flex items-center gap-3">
                 <button @click="sidebarOpen = !sidebarOpen"
                         class="md:hidden text-gray-500 hover:text-gray-700 p-1.5 rounded-lg hover:bg-gray-100 transition">
@@ -187,8 +303,8 @@
 
             <div class="flex items-center gap-2" x-data="{ userOpen: false }">
                 <!-- Date/Time -->
-                <div class="hidden md:flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-                    <i class="ph ph-calendar-blank text-blue-500 text-sm"></i>
+                <div class="hidden md:flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-emerald-900/10 rounded-xl px-3 py-2 shadow-xs">
+                    <i class="ph ph-calendar-blank text-emerald-600 text-sm"></i>
                     <div class="text-right leading-tight">
                         <p class="text-[11px] text-gray-500" id="admin-date">Senin, 15 Sep 2025</p>
                         <p class="text-xs font-bold text-gray-800" id="admin-time">13:24 WIB</p>
@@ -222,7 +338,7 @@
                          x-transition:enter="transition ease-out duration-100"
                          x-transition:enter-start="opacity-0 scale-95"
                          x-transition:enter-end="opacity-100 scale-100"
-                         class="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-200/80 py-1.5 z-50">
+                         class="absolute right-0 mt-2 w-52 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-100 py-1.5 z-50">
                         <div class="px-4 py-2.5 border-b border-gray-100">
                             <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</p>
                             <p class="text-xs text-gray-500">Administrator</p>
@@ -241,7 +357,7 @@
         </header>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('images/latar0.png') }}');">
+        <main class="dashboard-main-bg flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6">
             @yield('content')
         </main>
     </div>

@@ -2,10 +2,15 @@
 @section('title', 'Notifikasi')
 
 @section('content')
-<div class="mb-6 flex items-center justify-between">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Notifikasi</h1>
-        <p class="text-sm text-gray-500 mt-1">Pembaruan status pengajuan layanan Anda.</p>
+<div class="page-header-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xs">
+            <i class="ph ph-bell text-2xl font-bold"></i>
+        </div>
+        <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Notifikasi</h1>
+            <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">Pembaruan status pengajuan layanan Anda.</p>
+        </div>
     </div>
 </div>
 

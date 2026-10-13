@@ -2,8 +2,16 @@
 @section('title', 'Pengajuan Peminjaman Inventaris')
 
 @section('content')
-<div class="mb-5 flex items-center justify-between">
-    <h1 class="text-xl font-bold text-gray-900">Pengajuan Peminjaman Inventaris</h1>
+<div class="page-header-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xs">
+            <i class="ph ph-package text-2xl font-bold"></i>
+        </div>
+        <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Pengajuan Peminjaman Inventaris</h1>
+            <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">Kelola data peminjaman barang dan inventaris kantor.</p>
+        </div>
+    </div>
 </div>
 
 {{-- Filter --}}

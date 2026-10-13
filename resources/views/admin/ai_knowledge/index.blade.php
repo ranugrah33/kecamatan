@@ -4,12 +4,17 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <div>
-            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Knowledge Base AI</h2>
-            <p class="text-sm text-gray-500 mt-1">Kelola data informasi untuk Asisten Digital Kecamatan.</p>
+    <div class="page-header-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xs">
+                <i class="ph ph-robot text-2xl font-bold"></i>
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Knowledge Base AI</h1>
+                <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">Kelola data informasi untuk Asisten Digital Kecamatan.</p>
+            </div>
         </div>
-        <a href="{{ route('admin.ai_knowledge.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition shadow-sm">
+        <a href="{{ route('admin.ai_knowledge.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition shadow-sm">
             <i class="ph ph-plus text-lg"></i>
             Tambah Data
         </a>
