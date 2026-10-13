@@ -28,10 +28,6 @@
             <!-- Identitas Resmi Karawang -->
             <div class="flex items-center gap-3">
                 <div class="hidden sm:block text-right">
-                    <div class="flex items-center justify-end gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Portal Resmi</span>
-                    </div>
                     <h2 class="text-xs sm:text-sm font-extrabold text-white tracking-wide leading-tight">Pemerintah Kab. Karawang</h2>
                     <p class="text-[10.5px] text-slate-300">Kecamatan Cikampek</p>
                 </div>
@@ -153,7 +149,7 @@
                     <button type="submit" 
                             class="w-full group relative overflow-hidden rounded-xl py-2.5 px-5 font-bold text-white text-sm shadow-xl shadow-black/50 hover:shadow-emerald-500/30 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 mt-1"
                             style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); border: 1px solid rgba(110, 231, 183, 0.35);">
-                        <span class="relative z-10 tracking-wide font-extrabold">Masuk ke Portal</span>
+                        <span class="relative z-10 tracking-wide font-extrabold">Masuk</span>
                         <i class="ph ph-arrow-right text-base transition-transform group-hover:translate-x-1 relative z-10"></i>
                         <div class="absolute inset-0 bg-white/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </button>
