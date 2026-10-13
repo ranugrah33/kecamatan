@@ -424,7 +424,7 @@
         <div class="about-grid">
             <div class="about-image-wrapper reveal">
                 <img src="{{ asset('images/gambar-kecamatan.png') }}" alt="Kantor Kecamatan Cikampek" class="about-image"
-                     onerror="this.style.background='linear-gradient(135deg, #1e40af, #2563eb)'; this.style.minHeight='300px'">
+                     onerror="this.style.background='linear-gradient(135deg, #065f46, #059669)'; this.style.minHeight='300px'">
                 <div class="about-image-overlay"></div>
                 <div class="about-stats-floating">
                     <div class="about-stat-chip">

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buku Panduan - Sistem Pelayanan Kecamatan</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('js/tailwind-theme.js') }}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -18,7 +19,7 @@
         .prose ul { list-style-type: disc; }
         .prose ol { list-style-type: decimal; }
         .prose .step-card { background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-        .toc-link.active { background-color: #eff6ff; color: #2563eb; font-weight: 600; border-left: 3px solid #2563eb; }
+        .toc-link.active { background-color: #ecfdf5; color: #059669; font-weight: 600; border-left: 3px solid #059669; }
     </style>
 </head>
 <body class="bg-slate-50 antialiased text-slate-800" x-data="{ mobileMenuOpen: false }">

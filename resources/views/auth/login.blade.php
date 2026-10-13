@@ -66,7 +66,7 @@
         <div class="mt-4 text-center">
             <p class="text-sm text-black drop-shadow">
                 Belum memiliki akun?
-                <a href="{{ route('register') }}" class="font-medium text-blue-700 hover:text-blue-900 hover:underline">Daftar sekarang</a>
+                <a href="{{ route('register') }}" class="font-bold text-blue-900 underline decoration-gold-500 decoration-2 underline-offset-4 hover:text-blue-950">Daftar sekarang</a>
             </p>
         </div>
 

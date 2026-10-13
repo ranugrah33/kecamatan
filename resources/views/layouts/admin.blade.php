@@ -6,6 +6,7 @@
     <meta name="description" content="Dashboard Admin Kecamatan Cikampek, Kabupaten Karawang">
     <title>@yield('title', 'Admin') – Kec. Cikampek</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('js/tailwind-theme.js') }}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -14,14 +15,14 @@
     <style>
         * { font-family: 'Inter', sans-serif; }
         [x-cloak] { display: none !important; }
-        .sidebar-nav { background: linear-gradient(180deg, #1a2744 0%, #1e2d52 60%, #162040 100%); }
+        .sidebar-nav { background: linear-gradient(180deg, #06291f 0%, #0a3a2b 60%, #041f18 100%); }
 
         .menu-active { 
-            background: rgba(96,165,250,0.18); 
-            color: #93c5fd; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.06)); 
+            color: #f3e0a3; 
+            box-shadow: inset 3px 0 0 #d4af37, 0 4px 15px rgba(0, 0, 0, 0.15);
         }
-        .menu-active .menu-icon { color: #60a5fa; }
+        .menu-active .menu-icon { color: #e0b84a !important; }
         .menu-item { 
             color: #94a3b8; 
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 

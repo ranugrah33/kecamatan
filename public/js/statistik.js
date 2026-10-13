@@ -552,7 +552,7 @@
                 this.innerHTML = isSoundEnabled 
                     ? '<i class="ph ph-speaker-high"></i> Suara Digital: AKTIF' 
                     : '<i class="ph ph-speaker-slash"></i> Suara Digital: NONAKTIF';
-                this.style.color = isSoundEnabled ? '#86efac' : '#fca5a5';
+                this.style.color = isSoundEnabled ? '#d4af37' : '#94a3b8';
                 if (isSoundEnabled) {
                     playDigitalBeep(880, 0.1, 'sine');
                     showToast('Efek suara digital diaktifkan!');

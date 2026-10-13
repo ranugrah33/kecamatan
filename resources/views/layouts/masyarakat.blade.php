@@ -6,6 +6,7 @@
     <meta name="description" content="Portal Layanan Publik Kecamatan Cikampek, Kabupaten Karawang">
     <title>@yield('title', 'Dashboard') – Kec. Cikampek</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('js/tailwind-theme.js') }}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -16,7 +17,7 @@
         
         /* 1. Base Gradient Background (Zona Atas & Bawah) */
         .sidebar-nav {
-            background: linear-gradient(180deg, #0b1429 0%, #0f1c3f 100%);
+            background: linear-gradient(180deg, #052219 0%, #0a3a2b 100%);
             overflow: hidden;
             position: relative;
         }
@@ -50,18 +51,18 @@
 
         /* 4. Area Khusus Tombol Keluar (Foreground Polos) */
         .sidebar-bottom-area {
-            background: #0b152c; /* Background navy solid yang bersih */
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #052219; /* Background zamrud gelap yang bersih */
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
             position: relative;
             z-index: 20;
         }
 
         .menu-active { 
-            background: rgba(96,165,250,0.18); 
-            color: #93c5fd; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.06)); 
+            color: #f3e0a3; 
+            box-shadow: inset 3px 0 0 #d4af37, 0 4px 15px rgba(0, 0, 0, 0.15);
         }
-        .menu-active .menu-icon { color: #60a5fa; }
+        .menu-active .menu-icon { color: #e0b84a !important; }
         .menu-item { 
             color: #94a3b8; 
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
@@ -84,18 +85,18 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .welcome-card {
-            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+            background: linear-gradient(135deg, #d1fae5 0%, #faf1d3 100%);
             position: relative; overflow: hidden;
         }
         .welcome-card::before {
             content: ''; position: absolute; right: -30px; bottom: -40px;
             width: 180px; height: 180px; border-radius: 50%;
-            background: rgba(147,197,253,0.25);
+            background: rgba(110, 231, 183,0.25);
         }
         .welcome-card::after {
             content: ''; position: absolute; right: 60px; bottom: -60px;
             width: 140px; height: 140px; border-radius: 50%;
-            background: rgba(165,180,252,0.2);
+            background: rgba(224, 184, 74, 0.2);
         }
     </style>
 </head>

@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     label: 'Diterima',
                     data: {!! json_encode($chartDataDiterima) !!},
-                    backgroundColor: 'rgba(96, 165, 250, 0.85)',
+                    backgroundColor: 'rgba(52, 211, 153, 0.85)',
                     borderRadius: 5,
                     borderSkipped: false,
                 },
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
             plugins: {
                 legend: { display: false },
                 tooltip: {
-                    backgroundColor: '#1a2744',
+                    backgroundColor: '#06291f',
                     cornerRadius: 8,
                     padding: 10,
                     titleFont: { size: 11, family: 'Inter' },

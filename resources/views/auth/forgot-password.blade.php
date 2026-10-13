@@ -6,7 +6,7 @@
     <!-- Decorative Elements -->
     <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.08] pointer-events-none"></div>
     <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.08] pointer-events-none"></div>
-    <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#2563EB 1px, transparent 1px); background-size: 24px 24px;"></div>
+    <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#059669 1px, transparent 1px); background-size: 24px 24px;"></div>
 
     <div class="relative z-10 w-full max-w-lg mx-auto flex flex-col justify-center px-4 sm:px-0">
         

@@ -4,7 +4,7 @@
  * Ultra-Premium Effects for Page Entrance and Button Interactions
  */
 
-(function() {
+(function () {
     'use strict';
 
     // =========================================================================
@@ -154,9 +154,9 @@
     }
 
     const PARTICLE_COLORS = [
-        '#38bdf8', // sky cyan
-        '#3b82f6', // royal blue
-        '#6366f1', // indigo
+        '#d4af37', // sky cyan
+        '#10b981', // royal blue
+        '#e0b84a', // gold
         '#f59e0b', // amber gold
         '#10b981', // emerald
         '#ffffff'  // white sparkle
@@ -451,7 +451,7 @@
         // Check contrast tone
         const btnStyle = window.getComputedStyle(btn);
         const bg = btnStyle.backgroundColor;
-        const isDark = (function(colorStr) {
+        const isDark = (function (colorStr) {
             const rgb = colorStr.match(/\d+/g);
             if (!rgb || rgb.length < 3) return false;
             const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
@@ -647,7 +647,7 @@
         playSound,
         spawnParticles: spawnParticleBurst,
         setTopProgress: setTopBarProgress,
-        toggleMute: function() {
+        toggleMute: function () {
             isMuted = !isMuted;
             localStorage.setItem('cikampek_sound_muted', isMuted ? 'true' : 'false');
             showToast({

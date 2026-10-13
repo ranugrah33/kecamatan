@@ -6,17 +6,17 @@
 /* ---- CSS Custom Properties ---- */
 :root {
     /* Blue Palette */
-    --blue-50: #eff6ff;
-    --blue-100: #dbeafe;
-    --blue-200: #bfdbfe;
-    --blue-300: #93c5fd;
-    --blue-400: #60a5fa;
-    --blue-500: #3b82f6;
-    --blue-600: #2563eb;
-    --blue-700: #1d4ed8;
-    --blue-800: #1e40af;
-    --blue-900: #1e3a8a;
-    --blue-950: #0f172a;
+    --blue-50: #ecfdf5;
+    --blue-100: #d1fae5;
+    --blue-200: #a7f3d0;
+    --blue-300: #6ee7b7;
+    --blue-400: #34d399;
+    --blue-500: #10b981;
+    --blue-600: #059669;
+    --blue-700: #047857;
+    --blue-800: #065f46;
+    --blue-900: #064e3b;
+    --blue-950: #022c22;
 
     /* Theme Primary */
     --primary-50: var(--blue-50);
@@ -32,17 +32,17 @@
     --primary-950: var(--blue-950);
 
     /* Dark Blue Background Palette */
-    --dark-950: #040814;
-    --dark-900: #070d1e;
-    --dark-800: #0d1630;
-    --dark-700: #121e40;
-    --dark-600: #182855;
+    --dark-950: #021510;
+    --dark-900: #04201a;
+    --dark-800: #072c22;
+    --dark-700: #0a3a2c;
+    --dark-600: #0d4a37;
 
     /* Accents */
-    --accent-cyan: #38bdf8;
-    --accent-sky: #0ea5e9;
-    --accent-indigo: #818cf8;
-    --accent-teal: #06b6d4;
+    --accent-cyan: #d4af37;
+    --accent-sky: #c9a227;
+    --accent-indigo: #e9c96f;
+    --accent-teal: #d4a72c;
 
     /* Backward compatibility mapping from green to blue */
     --green-50: var(--blue-50);
@@ -57,8 +57,8 @@
     --green-900: var(--blue-900);
     --green-950: var(--blue-950);
 
-    --accent-lime: #38bdf8;
-    --accent-emerald: #60a5fa;
+    --accent-lime: #d4af37;
+    --accent-emerald: #34d399;
 
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -96,8 +96,8 @@ body.beranda-page {
     z-index: 0;
     overflow: hidden;
     background-image: 
-        radial-gradient(circle at 50% 30%, rgba(14, 165, 233, 0.12) 0%, transparent 65%),
-        linear-gradient(180deg, rgba(8, 16, 36, 0.38) 0%, rgba(8, 16, 36, 0.52) 55%, rgba(6, 12, 28, 0.82) 100%),
+        radial-gradient(circle at 50% 30%, rgba(201, 162, 39, 0.12) 0%, transparent 65%),
+        linear-gradient(180deg, rgba(4, 28, 22, 0.38) 0%, rgba(4, 28, 22, 0.52) 55%, rgba(3, 22, 17, 0.82) 100%),
         url('/images/play.jpeg');
     background-size: cover;
     background-position: center center;
@@ -127,7 +127,7 @@ body.beranda-page {
     width: 60vw;
     height: 50vh;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(37, 99, 235, 0.04) 50%, transparent 80%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(5, 150, 105, 0.04) 50%, transparent 80%);
     filter: blur(50px);
     pointer-events: none;
     animation: ambientGlow 14s ease-in-out infinite alternate;
@@ -154,7 +154,7 @@ body.beranda-page {
     background: var(--blue-400);
     opacity: 0;
     animation: floatParticle linear infinite;
-    box-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.8);
 }
 
 @keyframes floatParticle {
@@ -174,18 +174,18 @@ body.beranda-page {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(7, 13, 30, 0.75);
+    background: rgba(4, 24, 18, 0.75);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(96, 165, 250, 0.16);
+    border-bottom: 1px solid rgba(52, 211, 153, 0.16);
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar.scrolled {
-    background: rgba(6, 11, 26, 0.92);
+    background: rgba(3, 20, 16, 0.92);
     box-shadow: 0 8px 32px rgba(2, 6, 23, 0.55);
     height: 66px;
-    border-bottom: 1px solid rgba(96, 165, 250, 0.22);
+    border-bottom: 1px solid rgba(52, 211, 153, 0.22);
 }
 
 .nav-brand {
@@ -202,7 +202,7 @@ body.beranda-page {
     object-fit: contain;
     background: #ffffff;
     padding: 4px;
-    box-shadow: 0 3px 14px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 3px 14px rgba(5, 150, 105, 0.35);
     transition: transform 0.3s ease;
 }
 
@@ -225,7 +225,7 @@ body.beranda-page {
 
 .nav-brand-sub {
     font-size: 11px;
-    color: var(--blue-300);
+    color: #e9c96f;
     font-weight: 600;
     letter-spacing: 0.5px;
     opacity: 0.95;
@@ -258,7 +258,7 @@ body.beranda-page {
     position: absolute;
     bottom: 0; left: 50%;
     width: 0; height: 2px;
-    background: var(--blue-400);
+    background: linear-gradient(90deg, #d4af37, #f3e0a3);
     transition: all 0.25s ease;
     transform: translateX(-50%);
     border-radius: 2px;
@@ -266,7 +266,7 @@ body.beranda-page {
 
 .nav-menu a:hover {
     color: #ffffff;
-    background: rgba(96, 165, 250, 0.12);
+    background: rgba(52, 211, 153, 0.12);
 }
 
 .nav-menu a:hover::before {
@@ -274,9 +274,9 @@ body.beranda-page {
 }
 
 .nav-menu a.active {
-    color: var(--blue-300);
-    background: rgba(96, 165, 250, 0.16);
-    box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.2);
+    color: #f3e0a3;
+    background: rgba(212, 175, 55, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.3);
 }
 
 .nav-menu-mobile-cta {
@@ -300,7 +300,7 @@ body.beranda-page {
     border: none;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45);
+    box-shadow: 0 4px 18px rgba(5, 150, 105, 0.45);
     position: relative;
     overflow: hidden;
     display: inline-flex;
@@ -320,7 +320,7 @@ body.beranda-page {
 
 .btn-login:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 26px rgba(37, 99, 235, 0.6);
+    box-shadow: 0 8px 26px rgba(5, 150, 105, 0.6);
 }
 
 .btn-login:hover::before {
@@ -333,8 +333,8 @@ body.beranda-page {
     font-size: 13.5px;
     font-weight: 600;
     color: var(--blue-300);
-    background: rgba(96, 165, 250, 0.08);
-    border: 1px solid rgba(96, 165, 250, 0.28);
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.28);
     text-decoration: none;
     cursor: pointer;
     transition: all 0.25s ease;
@@ -344,7 +344,7 @@ body.beranda-page {
 }
 
 .btn-register:hover {
-    background: rgba(96, 165, 250, 0.18);
+    background: rgba(52, 211, 153, 0.18);
     border-color: var(--blue-400);
     color: #ffffff;
     transform: translateY(-1px);
@@ -430,15 +430,15 @@ body.beranda-page {
     gap: 9px;
     padding: 8px 20px;
     border-radius: 50px;
-    background: rgba(14, 165, 233, 0.14);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(201, 162, 39, 0.14);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     font-size: 13px;
     font-weight: 600;
-    color: var(--blue-200);
+    color: #f3e0a3;
     margin-bottom: 26px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+    box-shadow: 0 4px 20px rgba(201, 162, 39, 0.15);
 }
 
 .hero-badge-dot {
@@ -467,7 +467,7 @@ body.beranda-page {
 }
 
 .hero-title .gradient-text {
-    background: linear-gradient(135deg, #bfdbfe 0%, #38bdf8 50%, #93c5fd 100%);
+    background: linear-gradient(135deg, #faf1d3 0%, #e9c96f 40%, #d4af37 70%, #b8891d 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -501,12 +501,12 @@ body.beranda-page {
     font-size: 15.5px;
     font-weight: 700;
     color: #ffffff;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    background: linear-gradient(135deg, #059669, #10b981);
     text-decoration: none;
     border: none;
     cursor: pointer;
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 32px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 32px rgba(5, 150, 105, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -523,7 +523,7 @@ body.beranda-page {
 
 .btn-hero-primary:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 14px 44px rgba(37, 99, 235, 0.65);
+    box-shadow: 0 14px 44px rgba(5, 150, 105, 0.65);
 }
 
 .btn-hero-primary:hover::after {
@@ -539,9 +539,9 @@ body.beranda-page {
     font-size: 15.5px;
     font-weight: 600;
     color: #ffffff;
-    background: rgba(14, 165, 233, 0.12);
+    background: rgba(201, 162, 39, 0.12);
     text-decoration: none;
-    border: 1.5px solid rgba(96, 165, 250, 0.35);
+    border: 1.5px solid rgba(52, 211, 153, 0.35);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(14px);
@@ -549,11 +549,11 @@ body.beranda-page {
 }
 
 .btn-hero-secondary:hover {
-    background: rgba(14, 165, 233, 0.24);
+    background: rgba(201, 162, 39, 0.24);
     border-color: var(--blue-400);
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.25);
+    box-shadow: 0 8px 24px rgba(201, 162, 39, 0.25);
 }
 
 /* ================================================
@@ -577,8 +577,8 @@ body.beranda-page {
     gap: 8px;
     padding: 7px 18px;
     border-radius: 50px;
-    background: rgba(59, 130, 246, 0.14);
-    border: 1px solid rgba(96, 165, 250, 0.28);
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(52, 211, 153, 0.28);
     font-size: 12px;
     font-weight: 700;
     color: var(--accent-cyan);
@@ -617,10 +617,10 @@ body.beranda-page {
     position: relative;
     padding: 36px 30px;
     border-radius: 22px;
-    background: rgba(10, 20, 44, 0.68);
+    background: rgba(6, 36, 28, 0.68);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(96, 165, 250, 0.24);
+    border: 1px solid rgba(52, 211, 153, 0.24);
     box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
@@ -632,16 +632,16 @@ body.beranda-page {
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12) 0%, transparent 60%);
+    background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
     pointer-events: none;
     transition: opacity 0.35s ease;
 }
 
 .service-card:hover {
     transform: translateY(-6px);
-    background: rgba(14, 26, 56, 0.82);
-    border-color: rgba(96, 165, 250, 0.48);
-    box-shadow: 0 24px 50px -10px rgba(37, 99, 235, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: rgba(9, 48, 37, 0.82);
+    border-color: rgba(52, 211, 153, 0.48);
+    box-shadow: 0 24px 50px -10px rgba(5, 150, 105, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .service-icon {
@@ -652,7 +652,7 @@ body.beranda-page {
     align-items: center;
     justify-content: center;
     margin-bottom: 22px;
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
+    box-shadow: 0 8px 24px rgba(5, 150, 105, 0.45);
     font-size: 27px;
     color: #ffffff;
     position: relative;
@@ -687,8 +687,8 @@ body.beranda-page {
     bottom: 26px; right: 26px;
     width: 38px; height: 38px;
     border-radius: 11px;
-    background: rgba(96, 165, 250, 0.12);
-    border: 1px solid rgba(96, 165, 250, 0.28);
+    background: rgba(52, 211, 153, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.28);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -702,7 +702,7 @@ body.beranda-page {
     background: var(--blue-500);
     color: #ffffff;
     transform: translateX(4px);
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
 }
 
 /* ================================================
@@ -730,7 +730,7 @@ body.beranda-page {
     height: 100%;
     object-fit: cover;
     border-radius: 26px;
-    border: 2px solid rgba(96, 165, 250, 0.25);
+    border: 2px solid rgba(52, 211, 153, 0.25);
     transition: transform 0.5s ease;
 }
 
@@ -741,7 +741,7 @@ body.beranda-page {
 .about-image-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(7, 13, 30, 0.45) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(4, 24, 18, 0.45) 0%, transparent 60%);
     border-radius: 26px;
 }
 
@@ -756,10 +756,10 @@ body.beranda-page {
     flex: 1;
     padding: 13px 10px;
     border-radius: 16px;
-    background: rgba(7, 13, 30, 0.82);
+    background: rgba(4, 24, 18, 0.82);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(96, 165, 250, 0.28);
+    border: 1px solid rgba(52, 211, 153, 0.28);
     text-align: center;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
@@ -791,16 +791,16 @@ body.beranda-page {
     gap: 18px;
     padding: 22px;
     border-radius: 18px;
-    background: rgba(10, 20, 44, 0.6);
+    background: rgba(6, 36, 28, 0.6);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(96, 165, 250, 0.18);
+    border: 1px solid rgba(52, 211, 153, 0.18);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .about-feature:hover {
-    background: rgba(14, 26, 56, 0.78);
-    border-color: rgba(96, 165, 250, 0.35);
+    background: rgba(9, 48, 37, 0.78);
+    border-color: rgba(52, 211, 153, 0.35);
     transform: translateX(6px);
 }
 
@@ -814,7 +814,7 @@ body.beranda-page {
     flex-shrink: 0;
     font-size: 21px;
     color: #ffffff;
-    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.35);
 }
 
 .about-feature-title {
@@ -837,8 +837,8 @@ body.beranda-page {
     position: relative;
     z-index: 2;
     padding: 70px 24px 35px;
-    border-top: 1px solid rgba(96, 165, 250, 0.16);
-    background: rgba(6, 11, 26, 0.86);
+    border-top: 1px solid rgba(52, 211, 153, 0.16);
+    background: rgba(3, 20, 16, 0.86);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 }
@@ -900,7 +900,7 @@ body.beranda-page {
     max-width: 1140px;
     margin: 44px auto 0;
     padding-top: 24px;
-    border-top: 1px solid rgba(96, 165, 250, 0.12);
+    border-top: 1px solid rgba(52, 211, 153, 0.12);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -919,8 +919,8 @@ body.beranda-page {
 .footer-social-btn {
     width: 38px; height: 38px;
     border-radius: 11px;
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(96, 165, 250, 0.22);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.22);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -934,7 +934,7 @@ body.beranda-page {
     background: var(--blue-500);
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
 }
 
 /* ================================================
@@ -975,7 +975,7 @@ body.beranda-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
     opacity: 0;
     pointer-events: none;
     transform: translateY(20px);
@@ -990,7 +990,7 @@ body.beranda-page {
 
 .scroll-top-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(37, 99, 235, 0.6);
+    box-shadow: 0 12px 35px rgba(5, 150, 105, 0.6);
 }
 
 /* ================================================
@@ -1031,13 +1031,13 @@ body.beranda-page {
         position: fixed;
         top: 68px;
         left: 0; right: 0;
-        background: rgba(6, 11, 26, 0.98);
+        background: rgba(3, 20, 16, 0.98);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
         flex-direction: column;
         padding: 24px 20px;
         gap: 6px;
-        border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+        border-bottom: 1px solid rgba(52, 211, 153, 0.2);
         box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
 
@@ -1057,7 +1057,7 @@ body.beranda-page {
         width: 100%;
         padding-top: 10px;
         margin-top: 6px;
-        border-top: 1px solid rgba(96, 165, 250, 0.16);
+        border-top: 1px solid rgba(52, 211, 153, 0.16);
     }
 
     .nav-cta.desktop {
