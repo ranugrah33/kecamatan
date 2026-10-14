@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\CertificateRequest;
 use App\Models\CertificateFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class CertificateRequestController extends Controller
 {
