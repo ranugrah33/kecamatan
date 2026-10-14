@@ -91,8 +91,9 @@
         <div class="p-3 bg-white border-t border-gray-100 shrink-0">
             <form @submit.prevent="sendMessage" data-no-hud class="flex items-center gap-2">
                 <input type="text" x-model="userInput" :disabled="isLoading" 
+                       id="chatbot-input"
                        placeholder="Ketik pertanyaan Anda..." 
-                       class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:bg-white disabled:opacity-50 transition">
+                       class="chatbot-input flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:bg-white disabled:opacity-50 transition">
                 <button type="submit" :disabled="isLoading || userInput.trim() === ''" 
                         class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center disabled:opacity-50 hover:bg-blue-700 transition shadow-sm border-0 cursor-pointer">
                     <i class="ph ph-paper-plane-right text-lg"></i>
@@ -108,6 +109,22 @@
     #chatbot-messages::-webkit-scrollbar-track { background: transparent; }
     #chatbot-messages::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     #chatbot-messages::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Gaya teks saat mengetik chat: warna hitam pekat / hijau gelap agar jelas terlihat */
+    #chatbot-input, .chatbot-input {
+        color: #064e3b !important; /* Hijau zamrud tua / hitam elegan */
+        caret-color: #059669 !important; /* Cursor kursor hijau zamrud */
+        background-color: #f8fafc !important;
+        font-weight: 500 !important;
+    }
+    #chatbot-input:focus, .chatbot-input:focus {
+        color: #022c22 !important; /* Hijau tua pekat saat fokus/mengetik */
+        background-color: #ffffff !important;
+    }
+    #chatbot-input::placeholder, .chatbot-input::placeholder {
+        color: #94a3b8 !important;
+        font-weight: 400 !important;
+    }
 </style>
 
 <script>
