@@ -85,7 +85,7 @@
             <div class="hero-text">
                 <div class="hero-badge">
                     <span class="hero-badge-dot"></span>
-                    <span>Portal Resmi Pelayanan Digital • Kec. Cikampek</span>
+                    <span>Portal Pelayanan Digital • Kec. Cikampek</span>
                 </div>
 
                 <h1 class="hero-title">
@@ -95,13 +95,13 @@
 
                 <p class="hero-description">
                     Sistem Pelayanan Masyarakat Kecamatan Cikampek, Kabupaten Karawang.
-                    Akses peminjaman aula, perlengkapan inventaris, dan permohonan sertifikat secara digital — praktis, resmi, dan tanpa antrean fisik.
+                    Akses peminjaman aula, perlengkapan inventaris, dan permohonan sertifikat secara digital — praktis dan tanpa antrean fisik.
                 </p>
 
                 <div class="hero-actions">
                     <a href="{{ route('login') }}" class="btn-hero-primary">
                         <i class="ph ph-sign-in"></i>
-                        Masuk ke Portal
+                        Masuk ke Akun
                     </a>
                     <a href="#layanan" class="btn-hero-secondary">
                         <i class="ph ph-squares-four"></i>
