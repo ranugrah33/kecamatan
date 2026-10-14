@@ -35,9 +35,10 @@
     };
 
     window.tailwind = window.tailwind || {};
-    window.tailwind.config = {
-        theme: {
-            extend: {
+    var existingConfig = window.tailwind.config || {};
+    window.tailwind.config = Object.assign({}, existingConfig, {
+        theme: Object.assign({}, existingConfig.theme || {}, {
+            extend: Object.assign({}, (existingConfig.theme && existingConfig.theme.extend) || {}, {
                 colors: {
                     blue: emerald,
                     indigo: jade,
@@ -46,7 +47,7 @@
                     gold: gold,
                     emerald: emerald
                 }
-            }
-        }
-    };
+            })
+        })
+    });
 })();

@@ -45,6 +45,15 @@ class AiKnowledgeSeeder extends Seeder
                 'keywords' => 'layanan, pelayanan, daftar layanan, ada apa saja, fasilitas',
                 'priority' => 10,
                 'is_active' => true,
+            ],
+            [
+                'category' => 'Wilayah & 10 Desa Cikampek',
+                'title' => 'Data Luas Wilayah 10 Desa di Kecamatan Cikampek',
+                'question' => 'Berapa luas wilayah Kecamatan Cikampek dan masing-masing desanya?',
+                'answer' => "Total luas wilayah Kecamatan Cikampek adalah 47,60 km² yang terdiri dari 10 desa/kelurahan berdasarkan data BPS:\n1. Desa Kalihurip: 19,91 km²\n2. Desa Kamojing: 12,31 km²\n3. Desa Dawuan Barat: 3,19 km²\n4. Desa Dawuan Timur: 2,80 km²\n5. Desa Dawuan Tengah: 2,27 km²\n6. Desa Cikampek Barat: 1,94 km²\n7. Desa Cikampek Pusaka: 1,87 km²\n8. Desa Cikampek Selatan: 1,22 km²\n9. Desa Cikampek Timur: 1,12 km²\n10. Desa Cikampek Kota: 0,97 km²",
+                'keywords' => 'luas desa, luas wilayah, data desa, desa cikampek, kalihurip, kamojing, dawuan, luas kecamatan',
+                'priority' => 10,
+                'is_active' => true,
             ]
         ];
 

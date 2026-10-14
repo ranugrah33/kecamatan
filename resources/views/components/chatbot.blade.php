@@ -1,8 +1,8 @@
 <!-- Floating Chatbot Component -->
-<div x-data="chatbot()" class="fixed bottom-6 right-6 z-50 font-sans" style="font-family: 'Inter', sans-serif;">
+<div x-data="chatbot()" class="fixed bottom-6 right-6 z-[1050] font-sans" style="font-family: 'Inter', sans-serif;">
     <!-- Chat Button -->
     <button @click="toggleChat" x-show="!isOpen" x-transition.scale.origin.bottom.right 
-            class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 focus:outline-none">
+            class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 focus:outline-none border-0 cursor-pointer">
         <i class="ph ph-robot text-3xl"></i>
     </button>
 
@@ -23,12 +23,12 @@
                     <i class="ph ph-robot text-xl"></i>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-sm">Asisten Kecamatan</h3>
+                    <h3 class="font-semibold text-sm">Asisten Digital Kecamatan</h3>
                     <p class="text-[11px] text-blue-100">Kecamatan Cikampek</p>
                 </div>
             </div>
             <div class="flex items-center gap-1">
-                <button @click="toggleChat" class="text-blue-100 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition">
+                <button @click="toggleChat" class="text-blue-100 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition border-0 bg-transparent cursor-pointer">
                     <i class="ph ph-x text-lg"></i>
                 </button>
             </div>
@@ -42,19 +42,20 @@
                     <i class="ph ph-robot text-sm"></i>
                 </div>
                 <div class="bg-white border border-gray-200/80 px-3.5 py-2.5 rounded-2xl rounded-tl-sm text-sm text-gray-700 shadow-sm leading-relaxed">
-                    Halo! Saya Asisten Kecamatan Cikampek.<br>Ada yang ingin Anda tanyakan mengenai pelayanan kecamatan?
+                    Halo! Saya Asisten Digital Kecamatan Cikampek.<br>Ada yang ingin Anda tanyakan mengenai pelayanan atau wilayah kecamatan?
                 </div>
             </div>
 
             <!-- Quick Questions -->
             <div class="flex flex-wrap gap-2 ml-10">
-                <button @click="sendQuick('Pelayanan apa saja?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Pelayanan apa saja?</button>
-                <button @click="sendQuick('Cara pinjam aula?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Cara pinjam aula?</button>
-                <button @click="sendQuick('Pengajuan sertifikat?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Pengajuan sertifikat?</button>
-                <button @click="sendQuick('Cara buat surat ahli waris?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Ahli Waris?</button>
-                <button @click="sendQuick('Cara izin usaha UMKM?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Izin UMKM?</button>
-                <button @click="sendQuick('Info bantuan sosial?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Info Bansos?</button>
-                <button @click="sendQuick('Cara urus jual beli tanah?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">Jual Beli Tanah?</button>
+                <button @click="sendQuick('Pelayanan apa saja?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Pelayanan apa saja?</button>
+                <button @click="sendQuick('Berapa luas wilayah dan desa di Cikampek?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Luas Desa?</button>
+                <button @click="sendQuick('Cara pinjam aula?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Cara pinjam aula?</button>
+                <button @click="sendQuick('Pengajuan sertifikat?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Pengajuan sertifikat?</button>
+                <button @click="sendQuick('Cara buat surat ahli waris?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Ahli Waris?</button>
+                <button @click="sendQuick('Cara izin usaha UMKM?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Izin UMKM?</button>
+                <button @click="sendQuick('Info bantuan sosial?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Info Bansos?</button>
+                <button @click="sendQuick('Cara urus jual beli tanah?')" class="text-xs font-medium bg-white border border-blue-200 text-blue-600 px-3.5 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm cursor-pointer">Jual Beli Tanah?</button>
             </div>
 
             <!-- Dynamic Messages -->
@@ -93,7 +94,7 @@
                        placeholder="Ketik pertanyaan Anda..." 
                        class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:bg-white disabled:opacity-50 transition">
                 <button type="submit" :disabled="isLoading || userInput.trim() === ''" 
-                        class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center disabled:opacity-50 hover:bg-blue-700 transition shadow-sm">
+                        class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center disabled:opacity-50 hover:bg-blue-700 transition shadow-sm border-0 cursor-pointer">
                     <i class="ph ph-paper-plane-right text-lg"></i>
                 </button>
             </form>

@@ -11,8 +11,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind & Alpine for Chatbot AI -->
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = window.tailwind.config || {};
+        window.tailwind.config.corePlugins = { preflight: false };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('js/tailwind-theme.js') }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/beranda.css') }}">
@@ -345,7 +358,7 @@
             <div class="stat-modal-grid">
                 <div class="stat-modal-fact">
                     <div class="stat-modal-fact-label">Luas Wilayah</div>
-                    <div class="stat-modal-fact-value" id="modalDesaLuas">2,15 km²</div>
+                    <div class="stat-modal-fact-value" id="modalDesaLuas">0,97 km²</div>
                 </div>
                 <div class="stat-modal-fact">
                     <div class="stat-modal-fact-label">Kode Pos</div>
@@ -587,6 +600,9 @@
     <button class="scroll-top-btn" aria-label="Scroll to Top">
         <i class="ph ph-caret-up"></i>
     </button>
+
+    <!-- Chatbot AI Asisten Kecamatan -->
+    <x-chatbot />
 
     <!-- Scripts -->
     <script src="{{ asset('js/beranda.js') }}"></script>
