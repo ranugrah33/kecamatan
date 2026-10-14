@@ -192,6 +192,12 @@
          @click="sidebarOpen = false"
          class="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs md:hidden"></div>
 
+    @php
+        $pendingCount = \App\Models\PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count()
+            + \App\Models\InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + \App\Models\CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
+    @endphp
+
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar-nav fixed md:static inset-y-0 left-0 z-50 w-64 flex flex-col flex-shrink-0
                   transition-all duration-300 ease-in-out"
@@ -295,6 +301,19 @@
                         Pengaturan
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.notifikasi') }}" class="menu-item flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium {{ request()->routeIs('admin.notifikasi') ? 'menu-active' : '' }}">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-bell menu-icon text-lg {{ request()->routeIs('admin.notifikasi') ? 'text-blue-400' : 'text-slate-400' }}"></i>
+                            <span>Notifikasi</span>
+                        </div>
+                        @if($pendingCount > 0)
+                            <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">
+                                {{ $pendingCount }}
+                            </span>
+                        @endif
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -346,10 +365,14 @@
 
 
                 <!-- Notification Bell -->
-                <button class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition">
+                <a href="{{ route('admin.notifikasi') }}"
+                   class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition {{ request()->routeIs('admin.notifikasi') ? 'text-blue-600 bg-blue-50' : '' }}"
+                   title="Notifikasi Pengajuan">
                     <i class="ph ph-bell text-xl"></i>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                </button>
+                    @if($pendingCount > 0)
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                    @endif
+                </a>
 
                 <!-- User Dropdown -->
                 <div class="relative ml-1">

@@ -261,4 +261,96 @@ class AdminController extends Controller
         
         return redirect()->back()->with('success', 'Data fasilitas aula berhasil diperbarui!');
     }
+
+    public function notifikasi(Request $request)
+    {
+        $notifikasi = [];
+
+        // 1. Peminjaman Aula
+        $peminjamanAulas = PeminjamanAula::with('user')->orderBy('updated_at', 'desc')->take(50)->get();
+        foreach ($peminjamanAulas as $p) {
+            $isPending = in_array($p->status, ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses']);
+            $pemohon = $p->user->name ?? $p->penanggung_jawab ?? 'Masyarakat';
+            $notifikasi[] = [
+                'id' => 'aula_' . $p->id,
+                'jenis' => 'Peminjaman Aula',
+                'badge_class' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                'judul' => 'Peminjaman Aula: ' . $p->status,
+                'pesan' => 'Pengajuan aula dari ' . $pemohon . ' untuk kegiatan "' . $p->nama_kegiatan . '" (Status: ' . $p->status . ').',
+                'waktu' => \Carbon\Carbon::parse($p->updated_at)->diffForHumans(),
+                'waktu_sort' => $p->updated_at,
+                'status' => $p->status,
+                'route' => route('admin.peminjaman_aula.show', $p->id),
+                'perlu_tindakan' => $isPending,
+                'dibaca' => !$isPending,
+            ];
+        }
+
+        // 2. Peminjaman Inventaris
+        $borrowings = InventoryBorrowing::with(['user', 'details.item'])->orderBy('updated_at', 'desc')->take(50)->get();
+        foreach ($borrowings as $b) {
+            $isPending = in_array($b->status, ['Diajukan', 'Diproses']);
+            $pemohon = $b->user->name ?? $b->applicant_name ?? 'Masyarakat';
+            $itemList = $b->details->map(function ($d) {
+                return ($d->item->name ?? 'Barang') . ' (' . $d->quantity . ')';
+            })->filter()->implode(', ');
+            $desc = $itemList ? 'Barang: ' . $itemList : 'Tujuan: ' . ($b->purpose ?? '-');
+            
+            $notifikasi[] = [
+                'id' => 'inv_' . $b->id,
+                'jenis' => 'Peminjaman Inventaris',
+                'badge_class' => 'bg-blue-50 text-blue-700 border-blue-200',
+                'judul' => 'Peminjaman Inventaris: ' . $b->status,
+                'pesan' => 'Pengajuan pinjam dari ' . $pemohon . ' (' . $b->request_code . '). ' . $desc . '.',
+                'waktu' => \Carbon\Carbon::parse($b->updated_at)->diffForHumans(),
+                'waktu_sort' => $b->updated_at,
+                'status' => $b->status,
+                'route' => route('admin.peminjaman_inventaris.show', $b->id),
+                'perlu_tindakan' => $isPending,
+                'dibaca' => !$isPending,
+            ];
+        }
+
+        // 3. Sertifikat / Piagam
+        $certs = CertificateRequest::with('user')->orderBy('updated_at', 'desc')->take(50)->get();
+        foreach ($certs as $c) {
+            $isPending = in_array($c->status, ['Diajukan', 'Diproses', 'Menunggu Dokumen']);
+            $pemohon = $c->user->name ?? $c->applicant_name ?? 'Masyarakat';
+            $notifikasi[] = [
+                'id' => 'cert_' . $c->id,
+                'jenis' => $c->document_type ?? 'Sertifikat',
+                'badge_class' => 'bg-purple-50 text-purple-700 border-purple-200',
+                'judul' => ($c->document_type ?? 'Sertifikat') . ': ' . $c->status,
+                'pesan' => 'Pengajuan ' . ($c->document_type ?? 'dokumen') . ' dari ' . $pemohon . ' untuk kegiatan "' . $c->activity_name . '" (' . $c->request_code . ').',
+                'waktu' => \Carbon\Carbon::parse($c->updated_at)->diffForHumans(),
+                'waktu_sort' => $c->updated_at,
+                'status' => $c->status,
+                'route' => route('admin.sertifikat.show', $c->id),
+                'perlu_tindakan' => $isPending,
+                'dibaca' => !$isPending,
+            ];
+        }
+
+        // Urutkan dari yang terbaru
+        usort($notifikasi, function ($a, $b) {
+            return $b['waktu_sort'] <=> $a['waktu_sort'];
+        });
+
+        $totalMenunggu = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count()
+            + InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
+
+        $filter = $request->query('filter', 'semua');
+        if ($filter === 'perlu_tindakan') {
+            $notifikasi = array_values(array_filter($notifikasi, fn($n) => $n['perlu_tindakan']));
+        } elseif ($filter === 'aula') {
+            $notifikasi = array_values(array_filter($notifikasi, fn($n) => $n['jenis'] === 'Peminjaman Aula'));
+        } elseif ($filter === 'inventaris') {
+            $notifikasi = array_values(array_filter($notifikasi, fn($n) => $n['jenis'] === 'Peminjaman Inventaris'));
+        } elseif ($filter === 'sertifikat') {
+            $notifikasi = array_values(array_filter($notifikasi, fn($n) => str_contains(strtolower($n['jenis']), 'sertifikat') || str_contains(strtolower($n['jenis']), 'piagam')));
+        }
+
+        return view('admin.notifikasi', compact('notifikasi', 'filter', 'totalMenunggu'));
+    }
 }

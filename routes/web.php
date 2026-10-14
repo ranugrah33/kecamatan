@@ -52,6 +52,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/dashboard/data', [AdminController::class, 'dashboardData'])->name('admin.dashboard.data');
+    Route::get('/admin/notifikasi', [AdminController::class, 'notifikasi'])->name('admin.notifikasi');
 
     // Peminjaman Aula
     Route::get('/admin/peminjaman-aula', [AdminPeminjamanAulaController::class, 'index'])->name('admin.peminjaman_aula.index');

@@ -478,10 +478,6 @@
                         <div class="about-stat-chip-number">3</div>
                         <div class="about-stat-chip-label">Layanan</div>
                     </div>
-                    <div class="about-stat-chip">
-                        <div class="about-stat-chip-number">24/7</div>
-                        <div class="about-stat-chip-label">Online</div>
-                    </div>
                 </div>
             </div>
 
