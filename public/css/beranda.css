@@ -396,7 +396,25 @@ body.beranda-page {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    position: relative;
     animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle focal backdrop vignette behind title for crystal clear legibility against aerial background */
+.hero-text::before {
+    content: '';
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 125%;
+    max-width: 920px;
+    height: 440px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 55%, transparent 75%);
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(35px);
+    border-radius: 50%;
 }
 
 @keyframes fadeInUp {
@@ -436,23 +454,57 @@ body.beranda-page {
 }
 
 .hero-title {
-    font-size: clamp(36px, 5.2vw, 60px);
+    font-size: clamp(34px, 5.2vw, 62px);
     font-weight: 900;
-    line-height: 1.15;
-    color: #ffffff;
-    margin-bottom: 20px;
-    letter-spacing: -1.6px;
+    line-height: 1.18;
+    margin-bottom: 22px;
+    letter-spacing: -1.5px;
     text-align: center;
-    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.9);
+    position: relative;
+}
+
+.hero-title-lead {
+    display: block;
+    color: #ffffff;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.95),
+        0 6px 18px rgba(0, 0, 0, 0.9),
+        0 14px 36px rgba(0, 0, 0, 0.8);
+    letter-spacing: -1.2px;
 }
 
 .hero-title-highlight {
-    text-shadow: none;
-    background: linear-gradient(135deg, #6ee7b7 0%, #34d399 50%, #10b981 100%);
+    display: inline-block;
+    margin-top: 6px;
+    background: linear-gradient(110deg, #a7f3d0 0%, #34d399 28%, #5eead4 50%, #34d399 72%, #a7f3d0 100%);
+    background-size: 220% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    display: inline-block;
+    text-shadow: none;
+    filter: 
+        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
+        drop-shadow(0 6px 18px rgba(0, 0, 0, 0.85));
+    animation: textShine 7s ease-in-out infinite;
+    letter-spacing: -1.2px;
+    font-weight: 900;
+    transition: filter 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s ease;
+}
+
+.hero-title:hover .hero-title-highlight {
+    filter: 
+        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.98))
+        drop-shadow(0 8px 24px rgba(0, 0, 0, 0.92));
+    transform: translateY(-1px);
+}
+
+@keyframes textShine {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
 }
 
 .hero-description {
@@ -1180,7 +1232,12 @@ body.beranda-page {
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 29px;
+        font-size: 28px;
+        line-height: 1.25;
+    }
+
+    .hero-title-highlight {
+        margin-top: 4px;
     }
 
     .hero-actions {

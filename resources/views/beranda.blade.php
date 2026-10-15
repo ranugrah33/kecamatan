@@ -89,8 +89,8 @@
                 </div>
 
                 <h1 class="hero-title">
-                    Pelayanan Publik Cepat,<br>
-                    <span class="hero-title-highlight">Transparan & Terpadu</span>
+                    <span class="hero-title-lead">Pelayanan Publik Cepat,</span>
+                    <span class="hero-title-highlight">Transparan &amp; Terpadu</span>
                 </h1>
 
                 <p class="hero-description">
