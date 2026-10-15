@@ -387,10 +387,11 @@
             hudEl.innerHTML = `
                 <div class="processing-card">
                     <div class="processing-spinner-wrap">
-                        <div class="processing-ring-outer"></div>
+                        <div class="processig
+                        ng-ring-outer"></div>
                         <div class="processing-ring-inner"></div>
                         <div class="processing-center-icon">
-                            <i class="ph ph-shield-star"></i>
+                            <img src="/images/Kabupaten-karawang-logo.png" alt="Logo Kabupaten Karawang" class="processing-logo-img">
                         </div>
                     </div>
                     <h3 class="processing-title" id="hud-title">Sedang Memproses...</h3>

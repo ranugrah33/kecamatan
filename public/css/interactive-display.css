@@ -434,9 +434,16 @@ input[type="submit"]:active:not(:disabled),
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #059669;
-    font-size: 24px;
-    animation: pulseIcon 1.5s ease-in-out infinite;
+    animation: pulseIcon 1.8s ease-in-out infinite;
+}
+
+.processing-logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+    user-select: none;
+    pointer-events: none;
 }
 
 @keyframes spinRing {
