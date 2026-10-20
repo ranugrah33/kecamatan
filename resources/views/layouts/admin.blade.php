@@ -220,14 +220,13 @@
                 </div>
             </div>
 
-            <!-- Tombol Tutup / Toggle di dalam Sidebar -->
+            <!-- Tombol Tutup di Mobile (X) -->
             <button @click="toggleSidebar()" 
                     type="button"
-                    class="text-white/70 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-all active:scale-95 cursor-pointer flex items-center justify-center shrink-0 ml-1"
+                    class="md:hidden text-white/70 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-all active:scale-95 cursor-pointer flex items-center justify-center shrink-0 ml-1"
                     title="Tutup Sidebar"
                     aria-label="Tutup Sidebar">
-                <i class="ph ph-x text-xl md:hidden"></i>
-                <i class="ph ph-caret-left text-xl hidden md:block"></i>
+                <i class="ph ph-x text-xl"></i>
             </button>
         </div>
 
