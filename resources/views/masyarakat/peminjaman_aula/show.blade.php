@@ -107,7 +107,7 @@
                         @php
                             $step5Current = $peminjaman->status == 'Selesai';
                         @endphp
-                        <div class="h-8 w-8 rounded-full {{ $step5Current ? 'bg-green-600 text-white' : 'bg-gray-100 border-2 border-gray-300 text-gray-400' }} flex items-center justify-center ring-4 ring-white shadow">
+                        <div class="h-8 w-8 rounded-full {{ $step5Current ? 'bg-blue-600 text-white' : 'bg-gray-100 border-2 border-gray-300 text-gray-400' }} flex items-center justify-center ring-4 ring-white shadow">
                             @if($step5Current) <i class="ph ph-check text-sm font-bold"></i> @endif
                         </div>
                         <div class="mt-3 text-center w-24 -ml-8">
@@ -116,6 +116,28 @@
                     </div>
                 </div>
             </div>
+
+            @if(in_array($peminjaman->status, ['Disetujui', 'Surat Tersedia']))
+                @php
+                    $tanggalStr = $peminjaman->tanggal instanceof \Carbon\Carbon ? $peminjaman->tanggal->format('Y-m-d') : substr((string)$peminjaman->tanggal, 0, 10);
+                    $waktuSelesaiOtomatis = \Carbon\Carbon::parse($tanggalStr . ' ' . $peminjaman->jam_selesai)->addMinutes(30);
+                @endphp
+                <div class="mt-6 p-3.5 bg-blue-50/70 border border-blue-100 rounded-xl flex items-start gap-2.5 text-xs text-blue-900">
+                    <i class="ph ph-clock-countdown text-base text-blue-600 flex-shrink-0 mt-0.5"></i>
+                    <div>
+                        <span class="font-bold">Info Jadwal Selesai Otomatis:</span>
+                        <p class="mt-0.5 text-blue-700">Pengajuan akan otomatis berstatus <strong>Selesai</strong> pada <strong>{{ $waktuSelesaiOtomatis->translatedFormat('l, d F Y - H:i') }} WIB</strong> (toleransi 30 menit setelah jam kegiatan berakhir).</p>
+                    </div>
+                </div>
+            @elseif($peminjaman->status === 'Selesai')
+                <div class="mt-6 p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2.5 text-xs text-emerald-900">
+                    <i class="ph ph-check-circle text-lg text-emerald-600 flex-shrink-0"></i>
+                    <div>
+                        <span class="font-bold">Kegiatan Selesai:</span>
+                        <p class="mt-0.5 text-emerald-700">Waktu peminjaman aula telah selesai dilaksanakan. Terima kasih atas kerja samanya.</p>
+                    </div>
+                </div>
+            @endif
         </div>
         
         @if($peminjaman->catatan_petugas)
@@ -211,7 +233,7 @@
         @endif
 
         <!-- Surat Izin Tersedia -->
-        @if($peminjaman->status === 'Surat Tersedia' && $peminjaman->file_surat_final)
+        @if(in_array($peminjaman->status, ['Surat Tersedia', 'Selesai']) && $peminjaman->file_surat_final)
         <div class="bg-green-50 rounded-xl shadow-sm border border-green-200 overflow-hidden">
             <div class="p-6">
                 <div class="flex items-center gap-2 mb-3">

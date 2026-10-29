@@ -11,6 +11,8 @@ class AdminPeminjamanAulaController extends Controller
 {
     public function index(Request $request)
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         $status = $request->query('status');
         $query = PeminjamanAula::with('user');
         
@@ -24,6 +26,8 @@ class AdminPeminjamanAulaController extends Controller
 
     public function show($id)
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         $peminjaman = PeminjamanAula::with(['user.masyarakat', 'dokumens'])->findOrFail($id);
         return view('admin.peminjaman_aula.show', compact('peminjaman'));
     }
@@ -31,7 +35,7 @@ class AdminPeminjamanAulaController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Menunggu Verifikasi,Surat Diproses,Disetujui,Surat Tersedia,Ditolak,Perlu Perbaikan',
+            'status' => 'required|in:Menunggu Verifikasi,Surat Diproses,Disetujui,Surat Tersedia,Selesai,Ditolak,Perlu Perbaikan',
             'catatan_petugas' => 'nullable|string'
         ]);
 

@@ -12,6 +12,8 @@ class PeminjamanAulaController extends Controller
 {
     public function index()
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         $aula = Aula::first();
         $riwayat = PeminjamanAula::where('user_id', Auth::id())
                                  ->orderBy('created_at', 'desc')
@@ -66,7 +68,7 @@ class PeminjamanAulaController extends Controller
         }
 
         // Cek jadwal bentrok
-        $bentrok = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Diproses', 'Surat Tersedia'])
+        $bentrok = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Diproses', 'Surat Tersedia', 'Selesai'])
             ->where('tanggal', $request->tanggal)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('jam_mulai', [$request->jam_mulai, $request->jam_selesai])
@@ -140,6 +142,8 @@ class PeminjamanAulaController extends Controller
 
     public function show($id)
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         $peminjaman = PeminjamanAula::with(['aula', 'dokumens'])->where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         return view('masyarakat.peminjaman_aula.show', compact('peminjaman'));
     }

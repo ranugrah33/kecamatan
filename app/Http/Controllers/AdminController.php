@@ -11,6 +11,8 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         // Combined stats from all services
         $total_aula = PeminjamanAula::count();
         $total_inventaris = InventoryBorrowing::count();
@@ -94,6 +96,8 @@ class AdminController extends Controller
 
     public function dashboardData()
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         $total_aula = PeminjamanAula::count();
         $total_inventaris = InventoryBorrowing::count();
         $total_sertifikat = CertificateRequest::count();
@@ -140,6 +144,8 @@ class AdminController extends Controller
 
     public function laporan()
     {
+        PeminjamanAula::updateExpiredToSelesai();
+
         $total = PeminjamanAula::count() + InventoryBorrowing::count() + CertificateRequest::count();
         
         $disetujui = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Tersedia', 'Selesai'])->count()

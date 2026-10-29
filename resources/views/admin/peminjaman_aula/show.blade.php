@@ -171,10 +171,21 @@
                                 <option value="Surat Diproses" {{ $peminjaman->status == 'Surat Diproses' ? 'selected' : '' }}>Surat Diproses (Draft)</option>
                                 <option value="Disetujui" {{ $peminjaman->status == 'Disetujui' ? 'selected' : '' }}>Setujui Pengajuan</option>
                                 <option value="Surat Tersedia" {{ $peminjaman->status == 'Surat Tersedia' ? 'selected' : '' }}>Surat Tersedia (Final)</option>
+                                <option value="Selesai" {{ $peminjaman->status == 'Selesai' ? 'selected' : '' }}>Selesai (Kegiatan Rampung)</option>
                                 <option value="Ditolak" {{ $peminjaman->status == 'Ditolak' ? 'selected' : '' }}>Tolak Pengajuan</option>
                                 <option value="Perlu Perbaikan" {{ $peminjaman->status == 'Perlu Perbaikan' ? 'selected' : '' }}>Perlu Perbaikan</option>
                             </select>
                         </div>
+                        
+                        @if(in_array($peminjaman->status, ['Disetujui', 'Surat Tersedia']))
+                            @php
+                                $tanggalStr = $peminjaman->tanggal instanceof \Carbon\Carbon ? $peminjaman->tanggal->format('Y-m-d') : substr((string)$peminjaman->tanggal, 0, 10);
+                                $waktuSelesaiOtomatis = \Carbon\Carbon::parse($tanggalStr . ' ' . $peminjaman->jam_selesai)->addMinutes(30);
+                            @endphp
+                            <div class="p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-700">
+                                <i class="ph ph-clock mr-1 font-bold"></i> Jadwal Selesai Otomatis: <strong>{{ $waktuSelesaiOtomatis->translatedFormat('d M Y, H:i') }} WIB</strong> (30 menit setelah jam kegiatan berakhir).
+                            </div>
+                        @endif
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Catatan Admin (Opsional)</label>
@@ -189,7 +200,7 @@
                 </div>
 
                 <!-- Proses Surat Perizinan -->
-                @if(in_array($peminjaman->status, ['Disetujui', 'Surat Diproses', 'Surat Tersedia']))
+                @if(in_array($peminjaman->status, ['Disetujui', 'Surat Diproses', 'Surat Tersedia', 'Selesai']))
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                         <h3 class="font-medium text-gray-900">Proses Surat Perizinan</h3>

@@ -13,6 +13,7 @@ class MasyarakatController extends Controller
         $notifDisplay = [];
 
         // --- Peminjaman Aula ---
+        \App\Models\PeminjamanAula::updateExpiredToSelesai();
         $peminjamanAulas = \App\Models\PeminjamanAula::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         foreach($peminjamanAulas->take(2) as $p) {
             $statusColor = 'blue';
@@ -37,7 +38,7 @@ class MasyarakatController extends Controller
 
             $notifIcon = 'ph-info';
             $notifColor = 'blue';
-            if(in_array($p->status, ['Disetujui', 'Surat Tersedia'])) {
+            if(in_array($p->status, ['Disetujui', 'Surat Tersedia', 'Selesai'])) {
                 $notifIcon = 'ph-check-circle'; $notifColor = 'emerald';
             } elseif(in_array($p->status, ['Ditolak', 'Dibatalkan'])) {
                 $notifIcon = 'ph-x-circle'; $notifColor = 'rose';
@@ -201,6 +202,7 @@ class MasyarakatController extends Controller
 
     public function riwayat(Request $request)
     {
+        \App\Models\PeminjamanAula::updateExpiredToSelesai();
         $riwayat = [];
         $filter = $request->query('filter', 'semua');
         $statusFilter = $request->query('status');
@@ -276,6 +278,7 @@ class MasyarakatController extends Controller
 
     public function notifikasi()
     {
+        \App\Models\PeminjamanAula::updateExpiredToSelesai();
         $notifikasi = [];
 
         // Peminjaman Aula
