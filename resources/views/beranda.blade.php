@@ -166,7 +166,7 @@
                     </div>
                     <div class="stat-status-pill stat-hours-pill">
                         <i class="ph ph-clock"></i>
-                        <span>Pelayanan Kantor: <strong>07.45 – 14.45 WIB</strong></span>
+                        <span>Pelayanan Kantor: <strong>07.45 – 15.45 WIB</strong></span>
                     </div>
                     <div class="stat-status-pill stat-live-status-pill" id="statLiveBadge">
                         <span class="status-pulse-dot"></span>
@@ -257,7 +257,7 @@
                     <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
                             <span class="stat-card-number">07.45</span>
-                            <span class="stat-card-unit">- 14.45</span>
+                            <span class="stat-card-unit">- 15.45</span>
                         </div>
                         <div class="stat-card-title">Jam Pelayanan</div>
                         <div class="stat-card-desc">Waktu operasional pelayanan di kantor camat (Senin - Jumat)</div>

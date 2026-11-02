@@ -307,10 +307,10 @@
             liveClock.textContent = `${hh}:${mm}:${ss} WIB`;
         }
 
-        // Operational hours: Senin - Jumat (1-5), 07:45 - 14:45 WIB
+        // Operational hours: Senin - Jumat (1-5), 07:45 - 15:45 WIB
         const currentMinutes = (hours * 60) + minutes;
         const openMinutes = (7 * 60) + 45;   // 07:45 = 465 min
-        const closeMinutes = (14 * 60) + 45; // 14:45 = 885 min
+        const closeMinutes = (15 * 60) + 45; // 15:45 = 945 min
 
         const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5;
         const isOpen = isWeekday && (currentMinutes >= openMinutes && currentMinutes < closeMinutes);

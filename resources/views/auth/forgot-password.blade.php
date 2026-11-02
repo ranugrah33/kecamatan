@@ -197,7 +197,7 @@
                             </div>
                             <div>
                                 <strong class="text-white block text-[13px] mb-0.5">Datang ke Kantor Camat Cikampek:</strong>
-                                <span class="leading-relaxed text-slate-300">Kunjungi loket pelayanan pada hari kerja (Senin – Jumat, 07.45 – 14.45 WIB) dengan membawa KTP Asli untuk verifikasi identitas.</span>
+                                <span class="leading-relaxed text-slate-300">Kunjungi loket pelayanan pada hari kerja (Senin – Jumat, 07.45 – 15.45 WIB) dengan membawa KTP Asli untuk verifikasi identitas.</span>
                             </div>
                         </div>
                     </div>
