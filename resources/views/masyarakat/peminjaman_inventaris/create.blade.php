@@ -53,7 +53,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
         <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
             <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                <i class="ph ph-package text-indigo-500"></i> Detail Peminjaman
+                <i class="ph ph-package text-indigo-500"></i> Detail Peminjaman & Jadwal
             </h2>
         </div>
         <div class="p-6 space-y-4">
@@ -61,16 +61,32 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Keperluan <span class="text-red-500">*</span></label>
                 <textarea name="purpose" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none" placeholder="Jelaskan keperluan peminjaman">{{ old('purpose') }}</textarea>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Peminjaman <span class="text-red-500">*</span></label>
-                    <input type="date" name="borrow_date" value="{{ old('borrow_date') }}" required min="{{ date('Y-m-d') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
+                    <input type="date" name="borrow_date" id="borrow_date" value="{{ old('borrow_date') }}" required min="{{ date('Y-m-d') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jam Peminjaman <span class="text-red-500">*</span></label>
+                    <input type="text" name="borrowing_time" id="borrowing_time" value="{{ old('borrowing_time') }}"
+                           x-init="flatpickr($el, { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true @if(old('borrowing_time')), defaultDate: '{{ old('borrowing_time') }}' @endif, onChange: (sel, str) => { $el.value = str; $el.dispatchEvent(new Event('change')); } })"
+                           class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none bg-white" required placeholder="--:--">
+                    <p class="text-[11px] text-gray-400 mt-1">Format 24 jam WIB (Contoh: 08:00)</p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pengembalian <span class="text-red-500">*</span></label>
-                    <input type="date" name="return_date" value="{{ old('return_date') }}" required min="{{ date('Y-m-d') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
+                    <input type="date" name="return_date" id="return_date" value="{{ old('return_date') }}" required min="{{ date('Y-m-d') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jam Pengembalian <span class="text-red-500">*</span></label>
+                    <input type="text" name="return_time" id="return_time" value="{{ old('return_time') }}"
+                           x-init="flatpickr($el, { enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true @if(old('return_time')), defaultDate: '{{ old('return_time') }}' @endif, onChange: (sel, str) => { $el.value = str; $el.dispatchEvent(new Event('change')); } })"
+                           class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none bg-white" required placeholder="--:--">
+                    <p class="text-[11px] text-gray-400 mt-1">Format 24 jam WIB (Contoh: 15:30)</p>
                 </div>
             </div>
+            <div id="datetime_hint" class="hidden text-xs text-amber-600 bg-amber-50 p-2.5 rounded-lg border border-amber-200"></div>
         </div>
     </div>
 
@@ -159,5 +175,50 @@ function inventoryForm() {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const bDate = document.getElementById('borrow_date');
+    const rDate = document.getElementById('return_date');
+    const bTime = document.getElementById('borrowing_time');
+    const rTime = document.getElementById('return_time');
+    const hint = document.getElementById('datetime_hint');
+
+    function validateSchedule() {
+        if (!bDate || !rDate || !bTime || !rTime || !hint) return;
+
+        if (bDate.value) {
+            rDate.min = bDate.value;
+        }
+
+        if (bDate.value && rDate.value && bTime.value && rTime.value) {
+            const start = new Date(bDate.value + 'T' + bTime.value);
+            const end = new Date(rDate.value + 'T' + rTime.value);
+
+            if (end <= start) {
+                hint.classList.remove('hidden');
+                if (bDate.value === rDate.value) {
+                    hint.textContent = 'Perhatian: Jam pengembalian harus lebih besar dari jam peminjaman pada tanggal yang sama.';
+                } else {
+                    hint.textContent = 'Perhatian: Tanggal dan waktu pengembalian tidak boleh lebih awal dari waktu peminjaman.';
+                }
+            } else {
+                hint.classList.add('hidden');
+            }
+        } else {
+            hint.classList.add('hidden');
+        }
+    }
+
+    if (bDate && rDate && bTime && rTime) {
+        bDate.addEventListener('change', validateSchedule);
+        rDate.addEventListener('change', validateSchedule);
+        bTime.addEventListener('change', validateSchedule);
+        rTime.addEventListener('change', validateSchedule);
+    }
+});
 </script>
+
+<!-- Tambahkan CSS & JS Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 @endsection

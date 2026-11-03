@@ -125,7 +125,7 @@
                         <td class="px-4 py-3 text-xs text-gray-400">{{ $index + 1 }}</td>
                         <td class="px-4 py-3 text-xs font-medium text-gray-800">{{ $item->jenis }}</td>
                         <td class="px-4 py-3 text-xs text-gray-500">{{ $item->pemohon }}</td>
-                        <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
+                        <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y, H:i') . ' WIB' }}</td>
                         <td class="px-4 py-3">
                             <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap bg-{{$color}}-100 text-{{$color}}-700">
                                 {{ $item->status }}

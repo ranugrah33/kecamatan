@@ -12,7 +12,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Pengingat Otomatis Pengembalian Barang Inventaris Kecamatan Cikampek
+        // Berjalan setiap menit untuk mengecek jatuh tempo & jendela reminder sebelum batas jam pengembalian (WIB)
+        $schedule->command('inventory:send-return-reminders')
+            ->everyMinute()
+            ->timezone('Asia/Jakarta')
+            ->withoutOverlapping();
     }
 
     /**

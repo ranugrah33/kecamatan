@@ -30,8 +30,8 @@
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Kode</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Pemohon</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Barang</th>
-                    <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Tgl Pinjam</th>
-                    <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Tgl Kembali</th>
+                    <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Waktu Pinjam</th>
+                    <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Waktu Kembali</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Status</th>
                     <th class="px-4 py-2.5"></th>
                 </tr>
@@ -48,8 +48,18 @@
                     <td class="px-4 py-3 text-xs font-bold text-gray-900">{{ $b->request_code }}</td>
                     <td class="px-4 py-3 text-xs text-gray-700">{{ $b->user->name }}</td>
                     <td class="px-4 py-3 text-xs text-gray-500">{{ $b->details->map(fn($d) => $d->item->name . ' ('. $d->quantity .')')->implode(', ') }}</td>
-                    <td class="px-4 py-3 text-xs text-gray-500">{{ $b->borrow_date->format('d M Y') }}</td>
-                    <td class="px-4 py-3 text-xs text-gray-500">{{ $b->return_date->format('d M Y') }}</td>
+                    <td class="px-4 py-3 text-xs text-gray-700">
+                        <div>{{ $b->borrow_date->translatedFormat('d M Y') }}</div>
+                        @if($b->borrowing_time)
+                            <div class="text-[10px] text-gray-500 font-medium">{{ \Carbon\Carbon::parse($b->borrowing_time)->format('H:i') }} WIB</div>
+                        @endif
+                    </td>
+                    <td class="px-4 py-3 text-xs text-gray-700">
+                        <div>{{ $b->return_date->translatedFormat('d M Y') }}</div>
+                        @if($b->return_time)
+                            <div class="text-[10px] text-gray-500 font-medium">{{ \Carbon\Carbon::parse($b->return_time)->format('H:i') }} WIB</div>
+                        @endif
+                    </td>
                     <td class="px-4 py-3"><span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-{{ $color }}-100 text-{{ $color }}-700">{{ $b->status }}</span></td>
                     <td class="px-4 py-3"><a href="{{ route('admin.peminjaman_inventaris.show', $b->id) }}" class="text-blue-500 hover:text-blue-700 text-xs font-medium">Detail →</a></td>
                 </tr>

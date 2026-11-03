@@ -29,7 +29,7 @@ class MasyarakatController extends Controller
                 'icon' => 'ph-building',
                 'iconBg' => 'blue',
                 'jenis' => 'Peminjaman Aula',
-                'tgl' => \Carbon\Carbon::parse($p->created_at)->translatedFormat('d M Y, H:i'),
+                'tgl' => \Carbon\Carbon::parse($p->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
                 'status' => $p->status,
                 'statusColor' => $statusColor,
                 'route' => 'masyarakat.peminjaman_aula.show',
@@ -70,7 +70,7 @@ class MasyarakatController extends Controller
                 'icon' => 'ph-package',
                 'iconBg' => 'indigo',
                 'jenis' => 'Peminjaman Inventaris',
-                'tgl' => \Carbon\Carbon::parse($b->created_at)->translatedFormat('d M Y, H:i'),
+                'tgl' => \Carbon\Carbon::parse($b->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
                 'status' => $b->status,
                 'statusColor' => $statusColor,
                 'route' => 'masyarakat.peminjaman_inventaris.show',
@@ -111,7 +111,7 @@ class MasyarakatController extends Controller
                 'icon' => 'ph-certificate',
                 'iconBg' => 'purple',
                 'jenis' => 'Sertifikat / Piagam',
-                'tgl' => \Carbon\Carbon::parse($c->created_at)->translatedFormat('d M Y, H:i'),
+                'tgl' => \Carbon\Carbon::parse($c->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
                 'status' => $c->status,
                 'statusColor' => $statusColor,
                 'route' => 'masyarakat.sertifikat.show',
@@ -216,10 +216,11 @@ class MasyarakatController extends Controller
                     'nomor' => $p->nomor_pengajuan,
                     'jenis' => 'Peminjaman Aula',
                     'jenis_key' => 'aula',
-                    'tanggal' => \Carbon\Carbon::parse($p->created_at)->format('Y-m-d'),
+                    'tanggal' => \Carbon\Carbon::parse($p->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
+                    'raw_date' => $p->created_at,
                     'status' => $p->status,
                     'catatan' => $p->catatan_petugas ?? 'Menunggu verifikasi',
-                    'updated_at' => \Carbon\Carbon::parse($p->updated_at)->format('Y-m-d'),
+                    'updated_at' => \Carbon\Carbon::parse($p->updated_at)->translatedFormat('d M Y, H:i') . ' WIB',
                     'id' => $p->id,
                     'route' => 'masyarakat.peminjaman_aula.show',
                     'file_surat_final' => $p->file_surat_final
@@ -237,10 +238,11 @@ class MasyarakatController extends Controller
                     'nomor' => $b->request_code,
                     'jenis' => 'Peminjaman Inventaris',
                     'jenis_key' => 'inventaris',
-                    'tanggal' => \Carbon\Carbon::parse($b->created_at)->format('Y-m-d'),
+                    'tanggal' => \Carbon\Carbon::parse($b->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
+                    'raw_date' => $b->created_at,
                     'status' => $b->status,
                     'catatan' => $b->rejection_reason ?? $itemNames,
-                    'updated_at' => \Carbon\Carbon::parse($b->updated_at)->format('Y-m-d'),
+                    'updated_at' => \Carbon\Carbon::parse($b->updated_at)->translatedFormat('d M Y, H:i') . ' WIB',
                     'id' => $b->id,
                     'route' => 'masyarakat.peminjaman_inventaris.show',
                     'file_surat_final' => null
@@ -257,10 +259,11 @@ class MasyarakatController extends Controller
                     'nomor' => $c->request_code,
                     'jenis' => 'Sertifikat / Piagam',
                     'jenis_key' => 'sertifikat',
-                    'tanggal' => \Carbon\Carbon::parse($c->created_at)->format('Y-m-d'),
+                    'tanggal' => \Carbon\Carbon::parse($c->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
+                    'raw_date' => $c->created_at,
                     'status' => $c->status,
                     'catatan' => $c->rejection_reason ?? $c->document_type . ': ' . $c->activity_name,
-                    'updated_at' => \Carbon\Carbon::parse($c->updated_at)->format('Y-m-d'),
+                    'updated_at' => \Carbon\Carbon::parse($c->updated_at)->translatedFormat('d M Y, H:i') . ' WIB',
                     'id' => $c->id,
                     'route' => 'masyarakat.sertifikat.show',
                     'file_surat_final' => $c->latestFile ? true : null
@@ -270,7 +273,7 @@ class MasyarakatController extends Controller
 
         // Sort by date descending
         usort($riwayat, function($a, $b) {
-            return strcmp($b['tanggal'], $a['tanggal']);
+            return ($b['raw_date'] ?? $b['tanggal']) <=> ($a['raw_date'] ?? $a['tanggal']);
         });
 
         return view('masyarakat.riwayat', compact('riwayat', 'filter', 'statusFilter'));

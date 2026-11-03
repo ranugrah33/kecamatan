@@ -8,6 +8,8 @@ use App\Models\InventoryBorrowing;
 use App\Models\InventoryBorrowingDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class InventoryBorrowingController extends Controller
 {
@@ -35,29 +37,135 @@ class InventoryBorrowingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Normalisasi input waktu ke format 24 jam (HH:mm) WIB sebelum validasi
+        if ($request->filled('borrowing_time')) {
+            $bTime = trim($request->borrowing_time);
+            if (preg_match('/(AM|PM)/i', $bTime)) {
+                try {
+                    $bTime = Carbon::createFromFormat('h:i A', strtoupper($bTime))->format('H:i');
+                } catch (\Exception $e) {
+                    try {
+                        $bTime = Carbon::parse($bTime)->format('H:i');
+                    } catch (\Exception $e2) {}
+                }
+            } elseif (preg_match('/^(\d{1,2}):(\d{2})/', $bTime, $m)) {
+                $bTime = sprintf('%02d:%02d', (int)$m[1], (int)$m[2]);
+            }
+            $request->merge(['borrowing_time' => $bTime]);
+        }
+
+        if ($request->filled('return_time')) {
+            $rTime = trim($request->return_time);
+            if (preg_match('/(AM|PM)/i', $rTime)) {
+                try {
+                    $rTime = Carbon::createFromFormat('h:i A', strtoupper($rTime))->format('H:i');
+                } catch (\Exception $e) {
+                    try {
+                        $rTime = Carbon::parse($rTime)->format('H:i');
+                    } catch (\Exception $e2) {}
+                }
+            } elseif (preg_match('/^(\d{1,2}):(\d{2})/', $rTime, $m)) {
+                $rTime = sprintf('%02d:%02d', (int)$m[1], (int)$m[2]);
+            }
+            $request->merge(['return_time' => $rTime]);
+        }
+
+        $validator = Validator::make($request->all(), [
             'applicant_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'institution' => 'nullable|string|max:255',
             'purpose' => 'required|string',
             'penanggung_jawab' => 'required|string|max:255',
             'borrow_date' => 'required|date|after_or_equal:today',
-            'return_date' => 'required|date|after:borrow_date',
+            'borrowing_time' => 'required|date_format:H:i',
+            'return_date' => 'required|date|after_or_equal:borrow_date',
+            'return_time' => 'required|date_format:H:i',
             'notes' => 'nullable|string',
             'application_file' => 'nullable|mimes:pdf,jpg,jpeg,png|max:5120',
             'items' => 'required|array|min:1',
             'items.*.id' => 'required|exists:inventory_items,id',
             'items.*.quantity' => 'required|integer|min:1',
+        ], [
+            'applicant_name.required' => 'Nama pemohon wajib diisi.',
+            'phone.required' => 'Nomor HP wajib diisi.',
+            'purpose.required' => 'Keperluan peminjaman wajib diisi.',
+            'penanggung_jawab.required' => 'Penanggung jawab wajib diisi.',
+            'borrow_date.required' => 'Tanggal peminjaman wajib diisi.',
+            'borrow_date.after_or_equal' => 'Tanggal peminjaman tidak boleh tanggal yang sudah lewat.',
+            'borrowing_time.required' => 'Jam peminjaman wajib diisi.',
+            'borrowing_time.date_format' => 'Format jam peminjaman harus menggunakan sistem 24 jam (HH:mm WIB, contoh: 08:00, 13:30).',
+            'return_date.required' => 'Tanggal pengembalian wajib diisi.',
+            'return_date.after_or_equal' => 'Tanggal pengembalian tidak boleh lebih awal dari tanggal peminjaman.',
+            'return_time.required' => 'Jam pengembalian wajib diisi.',
+            'return_time.date_format' => 'Format jam pengembalian harus menggunakan sistem 24 jam (HH:mm WIB, contoh: 15:30, 16:00).',
+            'items.required' => 'Pilih minimal satu barang yang ingin dipinjam.',
+            'items.min' => 'Pilih minimal satu barang yang ingin dipinjam.',
         ]);
 
-        // Validate stock availability
+        $validator->after(function ($validator) use ($request) {
+            if ($request->filled(['borrow_date', 'borrowing_time', 'return_date', 'return_time'])) {
+                try {
+                    $start = Carbon::parse($request->borrow_date . ' ' . $request->borrowing_time);
+                    $end = Carbon::parse($request->return_date . ' ' . $request->return_time);
+
+                    if ($end->lessThanOrEqualTo($start)) {
+                        if ($request->borrow_date === $request->return_date) {
+                            $validator->errors()->add('return_time', 'Jam pengembalian harus lebih besar dari jam peminjaman.');
+                        } else {
+                            $validator->errors()->add('return_date', 'Tanggal dan waktu pengembalian tidak boleh lebih awal dari waktu peminjaman.');
+                        }
+                    }
+                } catch (\Exception $e) {
+                    $validator->errors()->add('return_time', 'Format tanggal atau waktu tidak valid.');
+                }
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $startDateTime = Carbon::parse($request->borrow_date . ' ' . $request->borrowing_time);
+        $endDateTime = Carbon::parse($request->return_date . ' ' . $request->return_time);
+
+        // Validasi ketersediaan stok fisik & bentrok jadwal waktu
         foreach ($request->items as $itemData) {
             $item = InventoryItem::find($itemData['id']);
             if (!$item || !$item->is_active) {
-                return redirect()->back()->withErrors('Barang tidak tersedia.')->withInput();
+                return redirect()->back()->withErrors('Barang tidak tersedia atau tidak aktif.')->withInput();
             }
+
             if ($item->available_quantity < $itemData['quantity']) {
-                return redirect()->back()->withErrors("Jumlah barang \"{$item->name}\" yang tersedia tidak mencukupi. Tersedia: {$item->available_quantity}, diminta: {$itemData['quantity']}.")->withInput();
+                return redirect()->back()->withErrors("Jumlah barang \"{$item->name}\" yang tersedia saat ini tidak mencukupi. Tersedia: {$item->available_quantity}, diminta: {$itemData['quantity']}.")->withInput();
+            }
+
+            // Pengecekan bentrok jadwal rentang tanggal dan jam
+            $activeBorrowings = InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses', 'Disetujui', 'Sedang Dipinjam'])
+                ->whereHas('details', function ($q) use ($item) {
+                    $q->where('inventory_item_id', $item->id);
+                })
+                ->with('details')
+                ->get();
+
+            $bookedQuantity = 0;
+            foreach ($activeBorrowings as $ab) {
+                $bStartTime = $ab->borrowing_time ? Carbon::parse($ab->borrowing_time)->format('H:i') : '00:00';
+                $bEndTime = $ab->return_time ? Carbon::parse($ab->return_time)->format('H:i') : '23:59';
+                $bStart = Carbon::parse($ab->borrow_date->format('Y-m-d') . ' ' . $bStartTime);
+                $bEnd = Carbon::parse($ab->return_date->format('Y-m-d') . ' ' . $bEndTime);
+
+                // Dua rentang waktu bertabrakan jika: (bStart < requestedEnd) && (bEnd > requestedStart)
+                if ($bStart->lessThan($endDateTime) && $bEnd->greaterThan($startDateTime)) {
+                    $detail = $ab->details->firstWhere('inventory_item_id', $item->id);
+                    if ($detail) {
+                        $bookedQuantity += $detail->quantity;
+                    }
+                }
+            }
+
+            if ($bookedQuantity + $itemData['quantity'] > $item->total_quantity) {
+                $sisaRentang = max(0, $item->total_quantity - $bookedQuantity);
+                return redirect()->back()->withErrors("Jadwal peminjaman barang \"{$item->name}\" bertabrakan dengan peminjaman lain pada rentang waktu yang dipilih. Tersedia pada rentang tersebut: {$sisaRentang} unit, diminta: {$itemData['quantity']} unit.")->withInput();
             }
         }
 
@@ -82,8 +190,6 @@ class InventoryBorrowingController extends Controller
         }
         $requestCode = 'INV-' . $dateStr . '-' . $newNum;
 
-        $user = Auth::user();
-
         DB::beginTransaction();
         try {
             $borrowing = InventoryBorrowing::create([
@@ -95,7 +201,9 @@ class InventoryBorrowingController extends Controller
                 'purpose' => $request->purpose,
                 'penanggung_jawab' => $request->penanggung_jawab,
                 'borrow_date' => $request->borrow_date,
+                'borrowing_time' => $request->borrowing_time,
                 'return_date' => $request->return_date,
+                'return_time' => $request->return_time,
                 'notes' => $request->notes,
                 'application_file' => $filePath,
                 'status' => 'Diajukan',

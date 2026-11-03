@@ -37,9 +37,23 @@
                     <div><dt class="text-gray-500 font-medium">No. HP</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->phone ?? '-' }}</dd></div>
                     <div><dt class="text-gray-500 font-medium">Instansi</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->institution ?? '-' }}</dd></div>
                     <div class="sm:col-span-2"><dt class="text-gray-500 font-medium">Penanggung Jawab</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->penanggung_jawab }}</dd></div>
-                    <div><dt class="text-gray-500 font-medium">Keperluan</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->purpose }}</dd></div>
-                    <div><dt class="text-gray-500 font-medium">Tanggal Pinjam</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->borrow_date->format('d M Y') }}</dd></div>
-                    <div><dt class="text-gray-500 font-medium">Tanggal Kembali</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->return_date->format('d M Y') }}</dd></div>
+                    <div class="sm:col-span-2"><dt class="text-gray-500 font-medium">Keperluan</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->purpose }}</dd></div>
+                    <div>
+                        <dt class="text-gray-500 font-medium">Tanggal Peminjaman</dt>
+                        <dd class="text-gray-900 mt-0.5 font-medium">{{ $borrowing->borrow_date->translatedFormat('d F Y') }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-gray-500 font-medium">Jam Peminjaman</dt>
+                        <dd class="text-gray-900 mt-0.5 font-medium">{{ $borrowing->borrowing_time ? \Carbon\Carbon::parse($borrowing->borrowing_time)->format('H:i') . ' WIB' : '-' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-gray-500 font-medium">Tanggal Pengembalian</dt>
+                        <dd class="text-gray-900 mt-0.5 font-medium">{{ $borrowing->return_date->translatedFormat('d F Y') }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-gray-500 font-medium">Jam Pengembalian</dt>
+                        <dd class="text-gray-900 mt-0.5 font-medium">{{ $borrowing->return_time ? \Carbon\Carbon::parse($borrowing->return_time)->format('H:i') . ' WIB' : '-' }}</dd>
+                    </div>
                     @if($borrowing->notes)
                     <div class="sm:col-span-2"><dt class="text-gray-500 font-medium">Catatan</dt><dd class="text-gray-900 mt-0.5">{{ $borrowing->notes }}</dd></div>
                     @endif
@@ -87,7 +101,7 @@
                     <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center"><i class="ph ph-paper-plane-tilt text-indigo-600 text-sm"></i></div>
                     <div>
                         <p class="text-xs font-bold text-gray-800">Diajukan</p>
-                        <p class="text-[11px] text-gray-400">{{ $borrowing->created_at->translatedFormat('d M Y, H:i') }}</p>
+                        <p class="text-[11px] text-gray-400">{{ $borrowing->created_at->translatedFormat('d F Y, H:i') . ' WIB' }}</p>
                     </div>
                 </div>
                 @if($borrowing->updated_at != $borrowing->created_at)
@@ -95,7 +109,7 @@
                     <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><i class="ph ph-arrows-clockwise text-blue-600 text-sm"></i></div>
                     <div>
                         <p class="text-xs font-bold text-gray-800">{{ $borrowing->status }}</p>
-                        <p class="text-[11px] text-gray-400">{{ $borrowing->updated_at->translatedFormat('d M Y, H:i') }}</p>
+                        <p class="text-[11px] text-gray-400">{{ $borrowing->updated_at->translatedFormat('d F Y, H:i') . ' WIB' }}</p>
                     </div>
                 </div>
                 @endif

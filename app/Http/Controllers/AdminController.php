@@ -180,6 +180,9 @@ class AdminController extends Controller
                 'nama_kegiatan' => $item->purpose,
                 'jenis_kegiatan' => 'Peminjaman Inventaris',
                 'tanggal' => $item->borrow_date,
+                'borrowing_time' => $item->borrowing_time,
+                'return_date' => $item->return_date,
+                'return_time' => $item->return_time,
                 'status' => $item->status,
                 'created_at' => $item->created_at,
                 'jenis' => 'Inventaris'

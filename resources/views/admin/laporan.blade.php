@@ -94,6 +94,9 @@
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-700">
                         {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}
+                        @if(!empty($item->borrowing_time))
+                            <div class="text-xs text-gray-500 font-medium">{{ \Carbon\Carbon::parse($item->borrowing_time)->format('H:i') }} WIB</div>
+                        @endif
                     </td>
                     <td class="px-6 py-4">
                         @php
@@ -110,8 +113,8 @@
                             {{ $item->status }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-500">
-                        {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d M Y, H:i') }}
+                    <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                        {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y, H:i') . ' WIB' }}
                     </td>
                 </tr>
                 @empty

@@ -12,7 +12,7 @@
     <i class="ph ph-check-circle text-lg"></i> {{ session('success') }}
 </div>
 @endif
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-sm text-red-700">
     @foreach($errors->all() as $e)<p>{{ $e }}</p>@endforeach
 </div>
@@ -40,8 +40,10 @@
                     <div><dt class="text-gray-500 text-xs">Instansi</dt><dd class="text-gray-900">{{ $borrowing->institution ?? '-' }}</dd></div>
                     <div class="sm:col-span-2"><dt class="text-gray-500 text-xs">Penanggung Jawab</dt><dd class="text-gray-900">{{ $borrowing->penanggung_jawab }}</dd></div>
                     <div class="sm:col-span-2"><dt class="text-gray-500 text-xs">Keperluan</dt><dd class="text-gray-900">{{ $borrowing->purpose }}</dd></div>
-                    <div><dt class="text-gray-500 text-xs">Tanggal Pinjam</dt><dd class="text-gray-900">{{ $borrowing->borrow_date->format('d M Y') }}</dd></div>
-                    <div><dt class="text-gray-500 text-xs">Tanggal Kembali</dt><dd class="text-gray-900">{{ $borrowing->return_date->format('d M Y') }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Tanggal Peminjaman</dt><dd class="text-gray-900 font-medium">{{ $borrowing->borrow_date->translatedFormat('d F Y') }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Jam Peminjaman</dt><dd class="text-gray-900 font-medium">{{ $borrowing->borrowing_time ? \Carbon\Carbon::parse($borrowing->borrowing_time)->format('H:i') . ' WIB' : '-' }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Tanggal Pengembalian</dt><dd class="text-gray-900 font-medium">{{ $borrowing->return_date->translatedFormat('d F Y') }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Jam Pengembalian</dt><dd class="text-gray-900 font-medium">{{ $borrowing->return_time ? \Carbon\Carbon::parse($borrowing->return_time)->format('H:i') . ' WIB' : '-' }}</dd></div>
                     @if($borrowing->notes)
                     <div class="sm:col-span-2"><dt class="text-gray-500 text-xs">Catatan</dt><dd class="text-gray-900">{{ $borrowing->notes }}</dd></div>
                     @endif
@@ -72,7 +74,7 @@
         @endif
     </div>
 
-    {{-- Status Update --}}
+    {{-- Status Update & Reminder Monitoring --}}
     <div class="space-y-6">
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
             <h3 class="text-sm font-bold text-gray-900 mb-4">Ubah Status</h3>
@@ -94,6 +96,48 @@
                     <button type="submit" class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow transition">Simpan Perubahan</button>
                 </div>
             </form>
+        </div>
+
+        {{-- Monitoring Email Reminder Pengembalian --}}
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <h3 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <i class="ph ph-envelope-simple text-blue-600"></i> Status Reminder Email
+            </h3>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <span class="text-gray-500 block mb-1">Status Pengingat:</span>
+                    @if($borrowing->reminder_sent_at)
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                            <i class="ph ph-check-circle"></i> Berhasil dikirim
+                        </span>
+                    @else
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                            <i class="ph ph-clock"></i> Belum dikirim
+                        </span>
+                    @endif
+                </div>
+
+                <div>
+                    <span class="text-gray-500 block mb-1">Waktu Pengiriman Terakhir:</span>
+                    <span class="font-medium text-gray-800">
+                        {{ $borrowing->reminder_sent_at ? $borrowing->reminder_sent_at->translatedFormat('d F Y, H:i') . ' WIB' : '-' }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="text-gray-500 block mb-1">Status Pengembalian:</span>
+                    <span class="font-medium {{ in_array($borrowing->status, ['Dikembalikan', 'Selesai']) ? 'text-emerald-700' : 'text-gray-800' }}">
+                        {{ in_array($borrowing->status, ['Dikembalikan', 'Selesai']) ? 'Sudah Dikembalikan (' . $borrowing->status . ')' : 'Belum Dikembalikan' }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="text-gray-500 block mb-1">Email Penerima:</span>
+                    <span class="font-medium text-gray-800 break-all">
+                        {{ $borrowing->user->email ?? '-' }}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

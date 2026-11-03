@@ -72,8 +72,8 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pinjam</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Kembali</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Waktu Pinjam</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Waktu Kembali</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
                 </tr>
@@ -82,8 +82,18 @@
                 @forelse($riwayat as $r)
                 <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $r->request_code }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $r->borrow_date->format('d M Y') }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">{{ $r->return_date->format('d M Y') }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">
+                        <div>{{ $r->borrow_date->translatedFormat('d M Y') }}</div>
+                        @if($r->borrowing_time)
+                            <div class="text-xs text-gray-500 font-medium">{{ \Carbon\Carbon::parse($r->borrowing_time)->format('H:i') }} WIB</div>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-700">
+                        <div>{{ $r->return_date->translatedFormat('d M Y') }}</div>
+                        @if($r->return_time)
+                            <div class="text-xs text-gray-500 font-medium">{{ \Carbon\Carbon::parse($r->return_time)->format('H:i') }} WIB</div>
+                        @endif
+                    </td>
                     <td class="px-6 py-4">
                         @php
                             $bc = 'bg-gray-100 text-gray-800';

@@ -13,8 +13,8 @@
         <div class="bg-gray-50 rounded-xl p-4 mb-6 text-left">
             <div class="text-sm space-y-2">
                 <div class="flex justify-between"><span class="text-gray-500">Kode Pengajuan</span><span class="font-bold text-gray-900">{{ $borrowing->request_code }}</span></div>
-                <div class="flex justify-between"><span class="text-gray-500">Tanggal Pinjam</span><span class="text-gray-700">{{ $borrowing->borrow_date->format('d M Y') }}</span></div>
-                <div class="flex justify-between"><span class="text-gray-500">Tanggal Kembali</span><span class="text-gray-700">{{ $borrowing->return_date->format('d M Y') }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Tanggal & Jam Pinjam</span><span class="text-gray-700 font-medium">{{ $borrowing->borrow_date->translatedFormat('d F Y') }}{{ $borrowing->borrowing_time ? ' (' . \Carbon\Carbon::parse($borrowing->borrowing_time)->format('H:i') . ' WIB)' : '' }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Tanggal & Jam Kembali</span><span class="text-gray-700 font-medium">{{ $borrowing->return_date->translatedFormat('d F Y') }}{{ $borrowing->return_time ? ' (' . \Carbon\Carbon::parse($borrowing->return_time)->format('H:i') . ' WIB)' : '' }}</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">Status</span><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">{{ $borrowing->status }}</span></div>
             </div>
         </div>
