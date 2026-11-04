@@ -7,7 +7,7 @@
         <i class="ph ph-arrow-left"></i> Kembali
     </a>
     <h1 class="text-2xl font-bold text-gray-900">Form Pengajuan Sertifikat / Piagam</h1>
-    <p class="text-sm text-gray-500 mt-1">Lengkapi data di bawah untuk mengajukan pembuatan sertifikat atau piagam.</p>
+    <p class="text-sm text-gray-500 mt-1">Lengkapi data di bawah ini. Sertifikat akan di-generate secara otomatis sesuai template resmi Kecamatan Cikampek.</p>
 </div>
 
 @if($errors->any())
@@ -31,75 +31,101 @@
                 <i class="ph ph-user text-purple-500"></i> Data Pemohon
             </h2>
         </div>
-        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Pemohon <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Pemohon / Akun <span class="text-red-500">*</span></label>
                 <input type="text" name="applicant_name" value="{{ old('applicant_name', $user->name) }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor HP <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor HP / WhatsApp <span class="text-red-500">*</span></label>
                 <input type="text" name="phone" value="{{ old('phone', $user->no_hp) }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Dokumen <span class="text-red-500">*</span></label>
                 <select name="document_type" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none">
-                    <option value="">-- Pilih jenis --</option>
-                    <option value="Sertifikat" {{ old('document_type') == 'Sertifikat' ? 'selected' : '' }}>Sertifikat</option>
+                    <option value="Sertifikat" {{ old('document_type', 'Sertifikat') == 'Sertifikat' ? 'selected' : '' }}>Sertifikat</option>
                     <option value="Piagam" {{ old('document_type') == 'Piagam' ? 'selected' : '' }}>Piagam</option>
                 </select>
             </div>
         </div>
     </div>
 
-    {{-- Detail Kegiatan --}}
+    {{-- Data yang Tertera pada Sertifikat --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <div class="px-6 py-4 border-b border-gray-200 bg-emerald-50/60 flex items-center justify-between">
             <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                <i class="ph ph-calendar-blank text-purple-500"></i> Detail Kegiatan
+                <i class="ph ph-certificate text-emerald-600 text-lg"></i> Data yang Dicetak pada Sertifikat / Piagam
             </h2>
+            <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg">Auto-Generated</span>
         </div>
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-5">
+            <div>
+                <label class="block text-sm font-bold text-gray-800 mb-1">
+                    Nama Penerima di Sertifikat <span class="text-red-500">*</span>
+                </label>
+                <input type="text" name="certificate_name" value="{{ old('certificate_name', $user->name) }}" required class="w-full px-4 py-3 rounded-xl border border-emerald-300 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 outline-none bg-emerald-50/20" placeholder="Contoh: Adrian Prasetya, S.Kom.">
+                <p class="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
+                    <i class="ph ph-info text-emerald-600"></i> Nama ini yang akan dicetak dengan tulisan kaligrafi di lembar sertifikat resmi.
+                </p>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan <span class="text-red-500">*</span></label>
-                    <input type="text" name="activity_name" value="{{ old('activity_name') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Nama kegiatan">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan / Proyek <span class="text-red-500">*</span></label>
+                    <input type="text" name="activity_name" id="activity_name" value="{{ old('activity_name') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Proyek Marketing / Pelatihan Kepemimpinan">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tema / Judul Kegiatan</label>
-                    <input type="text" name="activity_theme" value="{{ old('activity_theme') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Opsional">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tema / Judul Kegiatan (Opsional)</label>
+                    <input type="text" name="activity_theme" value="{{ old('activity_theme') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Optimalisasi Pemasaran Digital">
                 </div>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Kegiatan <span class="text-red-500">*</span></label>
-                    <input type="date" name="activity_date" value="{{ old('activity_date') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none">
+                    <input type="date" name="activity_date" value="{{ old('activity_date', date('Y-m-d')) }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tempat Kegiatan <span class="text-red-500">*</span></label>
-                    <input type="text" name="activity_place" value="{{ old('activity_place') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Lokasi kegiatan">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tempat Pelaksanaan <span class="text-red-500">*</span></label>
+                    <input type="text" name="activity_place" value="{{ old('activity_place', 'Kecamatan Cikampek') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Aula Kecamatan Cikampek">
                 </div>
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Keperluan <span class="text-red-500">*</span></label>
-                <textarea name="purpose" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Jelaskan keperluan pengajuan sertifikat/piagam">{{ old('purpose') }}</textarea>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan Tambahan</label>
-                <textarea name="description" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Opsional">{{ old('description') }}</textarea>
+                <div class="flex items-center justify-between mb-1">
+                    <label class="block text-sm font-bold text-gray-800">
+                        Teks / Keterangan Kegiatan di Bawah Nama
+                    </label>
+                    <button type="button" onclick="isiContohTeks()" class="text-xs text-emerald-600 hover:text-emerald-800 font-semibold flex items-center gap-1">
+                        <i class="ph ph-magic-wand"></i> Gunakan Contoh Teks
+                    </button>
+                </div>
+                <textarea name="certificate_text" id="certificate_text" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Atas kontribusi dan dedikasi dalam Proyek Marketing, serta kinerja, kreativitas, dan profesionalisme dalam mencapai tujuan proyek.">{{ old('certificate_text') }}</textarea>
+                <p class="text-xs text-gray-400 mt-1">
+                    Kalimat ini akan dicetak tepat di bawah nama penerima. Jika dikosongkan, sistem akan otomatis membuat kalimat standar berdasarkan nama kegiatan.
+                </p>
             </div>
         </div>
     </div>
 
-    {{-- Dokumen --}}
+    {{-- Detail Keperluan & Lampiran --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
         <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
             <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                <i class="ph ph-file-arrow-up text-purple-500"></i> Upload Dokumen
+                <i class="ph ph-info text-purple-500"></i> Keperluan & Dokumen Pendukung
             </h2>
         </div>
-        <div class="p-6">
+        <div class="p-6 space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Surat Permohonan</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Keperluan Pengajuan <span class="text-red-500">*</span></label>
+                <textarea name="purpose" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Permohonan sertifikat penghargaan untuk peserta magang / kegiatan kepemudaan">{{ old('purpose') }}</textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan Tambahan (Opsional)</label>
+                <textarea name="description" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Catatan opsional untuk admin">{{ old('description') }}</textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Surat Permohonan / Berkas Pendukung (Opsional)</label>
                 <input type="file" name="application_file" accept=".pdf,.jpg,.jpeg,.png" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-600 hover:file:bg-purple-100">
                 <p class="text-xs text-gray-400 mt-1">Format: PDF, JPG, JPEG, PNG. Maks 5MB.</p>
             </div>
@@ -108,9 +134,19 @@
 
     <div class="flex justify-end gap-3">
         <a href="{{ route('masyarakat.sertifikat.index') }}" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition">Batal</a>
-        <button type="submit" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-semibold shadow transition flex items-center gap-2">
+        <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow transition flex items-center gap-2">
             <i class="ph ph-paper-plane-tilt"></i> Kirim Pengajuan
         </button>
     </div>
 </form>
+
+<script>
+function isiContohTeks() {
+    var act = document.getElementById('activity_name').value.trim();
+    if (!act) {
+        act = "Proyek Marketing";
+    }
+    document.getElementById('certificate_text').value = "Atas kontribusi dan dedikasi dalam " + act + ", serta kinerja, kreativitas, dan profesionalisme dalam mencapai tujuan proyek.";
+}
+</script>
 @endsection

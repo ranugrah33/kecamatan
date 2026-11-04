@@ -88,7 +88,7 @@
                                 <i class="ph ph-download-simple"></i> Surat Izin
                             </a>
                         @endif
-                        @if($item['jenis_key'] == 'sertifikat' && $item['status'] === 'Selesai' && !empty($item['file_surat_final']))
+                        @if($item['jenis_key'] == 'sertifikat' && in_array($item['status'], ['Disetujui', 'Sertifikat Tersedia', 'Selesai']) && !empty($item['file_surat_final']))
                             <a href="{{ route('masyarakat.sertifikat.download', $item['id']) }}" class="px-3 py-1 bg-purple-500 text-white rounded-md hover:bg-purple-600 text-xs flex items-center gap-1 shadow-sm transition">
                                 <i class="ph ph-download-simple"></i> Sertifikat
                             </a>

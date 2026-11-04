@@ -39,10 +39,15 @@ class AdminInventoryBorrowingController extends Controller
         $oldStatus = $borrowing->status;
         $newStatus = $request->status;
 
+        $holdingStockStatuses = ['Disetujui', 'Sedang Dipinjam'];
+        $wasHolding = in_array($oldStatus, $holdingStockStatuses);
+        $isHolding = in_array($newStatus, $holdingStockStatuses);
+
         DB::beginTransaction();
         try {
-            // When status changes to "Disetujui" — reduce available stock
-            if ($newStatus === 'Disetujui' && !in_array($oldStatus, ['Disetujui', 'Sedang Dipinjam'])) {
+            // Ketika status berubah menjadi status yang menahan stok (Disetujui / Sedang Dipinjam)
+            // dan sebelumnya belum menahan stok — kurangi stok yang tersedia
+            if ($isHolding && !$wasHolding) {
                 foreach ($borrowing->details as $detail) {
                     $item = InventoryItem::find($detail->inventory_item_id);
                     if ($item->available_quantity < $detail->quantity) {
@@ -53,17 +58,9 @@ class AdminInventoryBorrowingController extends Controller
                 }
             }
 
-            // When status changes to "Dikembalikan" or "Selesai" from borrowed state — restore stock
-            if (in_array($newStatus, ['Dikembalikan', 'Selesai']) && in_array($oldStatus, ['Disetujui', 'Sedang Dipinjam'])) {
-                foreach ($borrowing->details as $detail) {
-                    $item = InventoryItem::find($detail->inventory_item_id);
-                    $newAvailable = min($item->total_quantity, $item->available_quantity + $detail->quantity);
-                    $item->update(['available_quantity' => $newAvailable]);
-                }
-            }
-
-            // When status changes to "Ditolak" from approved state — restore stock
-            if ($newStatus === 'Ditolak' && in_array($oldStatus, ['Disetujui', 'Sedang Dipinjam'])) {
+            // Ketika status berubah dari yang menahan stok ke status yang melepas stok
+            // (misal: Dikembalikan, Selesai, Ditolak, Diajukan, Diproses) — pulihkan stok
+            if ($wasHolding && !$isHolding) {
                 foreach ($borrowing->details as $detail) {
                     $item = InventoryItem::find($detail->inventory_item_id);
                     $newAvailable = min($item->total_quantity, $item->available_quantity + $detail->quantity);
