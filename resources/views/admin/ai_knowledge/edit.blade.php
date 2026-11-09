@@ -10,7 +10,7 @@
         </a>
         <div>
             <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Edit Knowledge AI</h2>
-            <p class="text-sm text-gray-500 mt-1">Perbarui informasi untuk Asisten Digital.</p>
+            <p class="text-sm text-gray-500 mt-1">Perbarui informasi dan pengetahuan untuk Chatbot SIPAF.</p>
         </div>
     </div>
 
@@ -32,7 +32,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-gray-700">Kategori <span class="text-red-500">*</span></label>
-                    <input type="text" name="category" value="{{ old('category', $knowledge->category) }}" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+                    <select name="category" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat }}" {{ old('category', $knowledge->category) == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-500">Pilih kategori yang sesuai untuk data ini.</p>
                 </div>
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-gray-700">Judul Informasi <span class="text-red-500">*</span></label>
@@ -43,21 +48,25 @@
             <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700">Contoh Pertanyaan <span class="text-red-500">*</span></label>
                 <textarea name="question" required rows="2" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition resize-none">{{ old('question', $knowledge->question) }}</textarea>
+                <p class="text-xs text-gray-500">Pertanyaan umum atau variasi pertanyaan yang diajukan masyarakat.</p>
             </div>
 
             <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700">Jawaban / Informasi <span class="text-red-500">*</span></label>
                 <textarea name="answer" required rows="6" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition resize-y">{{ old('answer', $knowledge->answer) }}</textarea>
+                <p class="text-xs text-gray-500">Informasi ini akan dijadikan konteks resmi oleh AI untuk menjawab pertanyaan warga.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-gray-700">Kata Kunci (Keywords)</label>
                     <input type="text" name="keywords" value="{{ old('keywords', $knowledge->keywords) }}" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+                    <p class="text-xs text-gray-500">Pisahkan dengan koma untuk mempermudah pencarian.</p>
                 </div>
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-gray-700">Prioritas <span class="text-red-500">*</span></label>
                     <input type="number" name="priority" value="{{ old('priority', $knowledge->priority) }}" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+                    <p class="text-xs text-gray-500">Angka lebih tinggi = lebih diutamakan saat context diurutkan.</p>
                 </div>
             </div>
 

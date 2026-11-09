@@ -187,15 +187,15 @@
                     </div>
                     <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
-                            <span class="stat-card-number" data-target="112780">0</span>
-                            <span class="stat-card-unit">+ jiwa</span>
+                            <span class="stat-card-number" data-target="128584">0</span>
+                            <span class="stat-card-unit">jiwa</span>
                         </div>
                         <div class="stat-card-title">Jumlah Penduduk</div>
-                        <div class="stat-card-desc">Perkiraan 112.780 – 123.000 jiwa masyarakat terdata</div>
+                        <div class="stat-card-desc">128.584 jiwa (65.194 Laki-laki &amp; 63.390 Perempuan)</div>
                     </div>
                     <div class="stat-card-footer">
                         <span class="stat-card-tag">
-                            <i class="ph ph-chart-line-up"></i> Data BPS Karawang 2024
+                            <i class="ph ph-chart-line-up"></i> Data BPS Karawang 2025
                         </span>
                     </div>
                 </div>
@@ -210,15 +210,15 @@
                     </div>
                     <div class="stat-card-main">
                         <div class="stat-card-value-wrap">
-                            <span class="stat-card-number" data-target="47.60" data-decimal="true">0,00</span>
+                            <span class="stat-card-number" data-target="36.34" data-decimal="true">0,00</span>
                             <span class="stat-card-unit">km²</span>
                         </div>
                         <div class="stat-card-title">Luas Wilayah</div>
-                        <div class="stat-card-desc">Sekitar 47,60 kilometer persegi koridor strategis</div>
+                        <div class="stat-card-desc">36,34 kilometer persegi koridor strategis</div>
                     </div>
                     <div class="stat-card-footer">
                         <span class="stat-card-tag">
-                            <i class="ph ph-compass"></i> Koridor Pantura & Simpul Tol
+                            <i class="ph ph-chart-line-up"></i> Data BPS Karawang 2025
                         </span>
                     </div>
                 </div>
@@ -357,8 +357,14 @@
 
             <div class="stat-modal-grid">
                 <div class="stat-modal-fact">
-                    <div class="stat-modal-fact-label">Luas Wilayah</div>
-                    <div class="stat-modal-fact-value" id="modalDesaLuas">0,97 km²</div>
+                    <div class="stat-modal-fact-label">Luas Wilayah (BPS 2025)</div>
+                    <div class="stat-modal-fact-value" id="modalDesaLuas">0,50 km²</div>
+                    <div class="stat-modal-fact-sub" id="modalDesaLuasPersen" style="font-size: 11.5px; color: #94a3b8; margin-top: 3px;">1,39% wilayah kecamatan</div>
+                </div>
+                <div class="stat-modal-fact">
+                    <div class="stat-modal-fact-label">Jumlah Penduduk (BPS 2025)</div>
+                    <div class="stat-modal-fact-value" id="modalDesaPenduduk">-</div>
+                    <div class="stat-modal-fact-sub" id="modalDesaPendudukDetail" style="font-size: 11.5px; color: #94a3b8; margin-top: 3px;">-</div>
                 </div>
                 <div class="stat-modal-fact">
                     <div class="stat-modal-fact-label">Kode Pos</div>
@@ -367,10 +373,6 @@
                 <div class="stat-modal-fact">
                     <div class="stat-modal-fact-label">Status Wilayah</div>
                     <div class="stat-modal-fact-value" id="modalDesaStatus">Desa Mandiri</div>
-                </div>
-                <div class="stat-modal-fact">
-                    <div class="stat-modal-fact-label">Kecamatan</div>
-                    <div class="stat-modal-fact-value">Cikampek (Karawang)</div>
                 </div>
             </div>
 

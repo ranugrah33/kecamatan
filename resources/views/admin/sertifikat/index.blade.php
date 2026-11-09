@@ -29,7 +29,6 @@
                 <tr class="bg-gray-50/80">
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Kode</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Pemohon</th>
-                    <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Nama di Sertifikat</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Jenis</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Nama Kegiatan</th>
                     <th class="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-400 uppercase">Tanggal</th>
@@ -48,18 +47,16 @@
                 <tr class="hover:bg-gray-50/80 transition">
                     <td class="px-4 py-3 text-xs font-bold text-gray-900">{{ $r->request_code }}</td>
                     <td class="px-4 py-3 text-xs text-gray-700">{{ $r->applicant_name }}</td>
-                    <td class="px-4 py-3 text-xs font-semibold text-emerald-800">{{ $r->certificate_name ?: $r->applicant_name }}</td>
                     <td class="px-4 py-3 text-xs text-gray-500">{{ $r->document_type }}</td>
                     <td class="px-4 py-3 text-xs text-gray-700">{{ $r->activity_name }}</td>
                     <td class="px-4 py-3 text-xs text-gray-500">{{ $r->created_at->format('d M Y') }}</td>
                     <td class="px-4 py-3"><span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-{{ $color }}-100 text-{{ $color }}-700">{{ $r->status }}</span></td>
-                    <td class="px-4 py-3 flex items-center gap-2">
+                    <td class="px-4 py-3">
                         <a href="{{ route('admin.sertifikat.show', $r->id) }}" class="text-blue-500 hover:text-blue-700 text-xs font-medium">Detail →</a>
-                        <a href="{{ route('admin.sertifikat.cetak', $r->id) }}" target="_blank" class="p-1 text-emerald-600 hover:text-emerald-800" title="Cetak PDF"><i class="ph ph-printer"></i></a>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="px-4 py-8 text-center text-xs text-gray-500">Belum ada pengajuan.</td></tr>
+                <tr><td colspan="7" class="px-4 py-8 text-center text-xs text-gray-500">Belum ada pengajuan.</td></tr>
                 @endforelse
             </tbody>
         </table>

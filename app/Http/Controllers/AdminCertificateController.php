@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\CertificateRequest;
 use App\Models\CertificateFile;
 use Illuminate\Support\Facades\Auth;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminCertificateController extends Controller
 {
@@ -56,39 +55,6 @@ class AdminCertificateController extends Controller
         $certRequest->update($data);
 
         return redirect()->route('admin.sertifikat.show', $id)->with('success', 'Status pengajuan berhasil diperbarui!');
-    }
-
-    public function cetakSertifikat($id)
-    {
-        $certRequest = CertificateRequest::with('user')->findOrFail($id);
-
-        // Jika belum ada nomor sertifikat, buat otomatis
-        if (empty($certRequest->nomor_sertifikat)) {
-            $year = date('Y');
-            $count = CertificateRequest::whereNotNull('nomor_sertifikat')->whereYear('created_at', $year)->count() + 1;
-            $nomor = str_pad($count, 3, '0', STR_PAD_LEFT);
-            $nomor_sertifikat = "421.1/{$nomor}/Kec-Ckp/{$year}";
-
-            $newStatus = in_array($certRequest->status, ['Diajukan', 'Diproses']) ? 'Disetujui' : $certRequest->status;
-
-            $certRequest->update([
-                'nomor_sertifikat' => $nomor_sertifikat,
-                'status' => $newStatus,
-            ]);
-        }
-
-        $bgPath = public_path('images/sertifikat-bg.png');
-        $bgNeutralPath = public_path('images/sertifikat-frame-bg.png');
-        $ttdPath = public_path('images/tanda-camat.png');
-
-        $bgBase64 = file_exists($bgPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($bgPath)) : '';
-        $bgNeutralBase64 = file_exists($bgNeutralPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($bgNeutralPath)) : '';
-        $ttdBase64 = file_exists($ttdPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($ttdPath)) : '';
-
-        $pdf = Pdf::loadView('admin.sertifikat.pdf', compact('certRequest', 'bgBase64', 'bgNeutralBase64', 'ttdBase64'))
-            ->setPaper('a4', 'landscape');
-
-        return $pdf->stream('draft_' . strtolower($certRequest->document_type) . '_' . $certRequest->request_code . '.pdf');
     }
 
     public function uploadCertificateFinal(Request $request, $id)

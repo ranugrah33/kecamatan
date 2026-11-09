@@ -11,7 +11,7 @@
             </div>
             <div>
                 <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Knowledge Base AI</h1>
-                <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">Kelola data informasi untuk Asisten Digital Kecamatan.</p>
+                <p class="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">Kelola data informasi dan pengetahuan untuk Chatbot Asisten SIPAF Kecamatan Cikampek.</p>
             </div>
         </div>
         <a href="{{ route('admin.ai_knowledge.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition shadow-sm">
@@ -31,10 +31,25 @@
     @endif
 
     <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
-        <div class="p-4 border-b border-gray-200/80 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <form action="{{ route('admin.ai_knowledge.index') }}" method="GET" class="relative w-full sm:w-96">
-                <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Cari pertanyaan, judul, kategori..." class="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+        <div class="p-4 border-b border-gray-200/80 bg-gray-50/50">
+            <form action="{{ route('admin.ai_knowledge.index') }}" method="GET" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
+                <div class="relative flex-1">
+                    <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                    <input type="text" name="search" value="{{ $search }}" placeholder="Cari pertanyaan, kata kunci, judul, atau isi..." class="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+                </div>
+                <div class="w-full sm:w-64">
+                    <select name="category" onchange="this.form.submit()" class="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl text-sm text-gray-700 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition">
+                        <option value="">Semua Kategori</option>
+                        @foreach($allCategories as $cat)
+                            <option value="{{ $cat }}" {{ ($category ?? '') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @if($search || ($category ?? ''))
+                    <a href="{{ route('admin.ai_knowledge.index') }}" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center gap-1.5 transition">
+                        <i class="ph ph-x text-base"></i> Reset
+                    </a>
+                @endif
             </form>
         </div>
         <div class="overflow-x-auto">
@@ -42,7 +57,7 @@
                 <thead>
                     <tr class="bg-gray-50 border-b border-gray-200/80 text-xs text-gray-500 uppercase tracking-wider">
                         <th class="px-6 py-4 font-semibold">Kategori & Judul</th>
-                        <th class="px-6 py-4 font-semibold w-1/3">Pertanyaan</th>
+                        <th class="px-6 py-4 font-semibold w-2/5">Pertanyaan & Kata Kunci</th>
                         <th class="px-6 py-4 font-semibold text-center w-24">Prioritas</th>
                         <th class="px-6 py-4 font-semibold text-center w-28">Status</th>
                         <th class="px-6 py-4 font-semibold text-right w-32">Aksi</th>
@@ -50,15 +65,31 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100 text-sm">
                     @forelse($knowledges as $knowledge)
+                    @php
+                        $badgeClass = match($knowledge->category) {
+                            'Profil Kecamatan' => 'bg-purple-50 text-purple-700 border-purple-200/70',
+                            'Persyaratan Umum' => 'bg-amber-50 text-amber-700 border-amber-200/70',
+                            'Pelayanan SIPAF' => 'bg-emerald-50 text-emerald-700 border-emerald-200/70',
+                            'Prosedur Pelayanan' => 'bg-blue-50 text-blue-700 border-blue-200/70',
+                            'Informasi Umum' => 'bg-cyan-50 text-cyan-700 border-cyan-200/70',
+                            'FAQ (Frequently Asked Questions)' => 'bg-slate-100 text-slate-700 border-slate-300',
+                            default => 'bg-gray-50 text-gray-700 border-gray-200'
+                        };
+                    @endphp
                     <tr class="hover:bg-gray-50/50 transition">
                         <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-medium bg-blue-50 text-blue-700 mb-1 border border-blue-200/60">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-semibold mb-1 border {{ $badgeClass }}">
                                 {{ $knowledge->category }}
                             </span>
-                            <p class="font-medium text-gray-900">{{ $knowledge->title }}</p>
+                            <p class="font-semibold text-gray-900">{{ $knowledge->title }}</p>
                         </td>
                         <td class="px-6 py-4">
-                            <p class="text-gray-600 line-clamp-2" title="{{ $knowledge->question }}">{{ $knowledge->question }}</p>
+                            <p class="text-gray-800 line-clamp-2" title="{{ $knowledge->question }}">{{ $knowledge->question }}</p>
+                            @if($knowledge->keywords)
+                                <p class="text-xs text-gray-400 mt-1 line-clamp-1" title="{{ $knowledge->keywords }}">
+                                    <i class="ph ph-tag text-gray-400"></i> {{ $knowledge->keywords }}
+                                </p>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-center">
                             <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-700 font-semibold text-xs border border-gray-200">
@@ -79,7 +110,7 @@
                                 <a href="{{ route('admin.ai_knowledge.edit', $knowledge->id) }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
                                     <i class="ph ph-pencil-simple text-lg"></i>
                                 </a>
-                                <form action="{{ route('admin.ai_knowledge.destroy', $knowledge->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
+                                <form action="{{ route('admin.ai_knowledge.destroy', $knowledge->id) }}" method="POST" onsubmit="return confirm('Hapus data knowledge base ini?');">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition" title="Hapus">
                                         <i class="ph ph-trash text-lg"></i>
@@ -94,7 +125,10 @@
                             <div class="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-3">
                                 <i class="ph ph-database text-2xl text-gray-400"></i>
                             </div>
-                            <p class="text-gray-500 font-medium">Tidak ada data knowledge base.</p>
+                            <p class="text-gray-500 font-medium">Tidak ada data knowledge base yang cocok.</p>
+                            @if($search || ($category ?? ''))
+                                <a href="{{ route('admin.ai_knowledge.index') }}" class="text-sm text-blue-600 hover:underline mt-2 inline-block">Reset filter pencarian</a>
+                            @endif
                         </td>
                     </tr>
                     @endforelse

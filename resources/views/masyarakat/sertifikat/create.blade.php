@@ -7,7 +7,7 @@
         <i class="ph ph-arrow-left"></i> Kembali
     </a>
     <h1 class="text-2xl font-bold text-gray-900">Form Pengajuan Sertifikat / Piagam</h1>
-    <p class="text-sm text-gray-500 mt-1">Lengkapi data di bawah ini. Sertifikat akan di-generate secara otomatis sesuai template resmi Kecamatan Cikampek.</p>
+    <p class="text-sm text-gray-500 mt-1">Lengkapi data di bawah untuk mengajukan permohonan sertifikat atau piagam.</p>
 </div>
 
 @if($errors->any())
@@ -50,29 +50,18 @@
         </div>
     </div>
 
-    {{-- Data yang Tertera pada Sertifikat --}}
+    {{-- Detail Kegiatan --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-        <div class="px-6 py-4 border-b border-gray-200 bg-emerald-50/60 flex items-center justify-between">
+        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
             <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                <i class="ph ph-certificate text-emerald-600 text-lg"></i> Data yang Dicetak pada Sertifikat / Piagam
+                <i class="ph ph-calendar-blank text-purple-500"></i> Detail Kegiatan
             </h2>
-            <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg">Auto-Generated</span>
         </div>
-        <div class="p-6 space-y-5">
-            <div>
-                <label class="block text-sm font-bold text-gray-800 mb-1">
-                    Nama Penerima di Sertifikat <span class="text-red-500">*</span>
-                </label>
-                <input type="text" name="certificate_name" value="{{ old('certificate_name', $user->name) }}" required class="w-full px-4 py-3 rounded-xl border border-emerald-300 text-sm font-semibold text-gray-900 focus:ring-2 focus:ring-emerald-200 focus:border-emerald-500 outline-none bg-emerald-50/20" placeholder="Contoh: Adrian Prasetya, S.Kom.">
-                <p class="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
-                    <i class="ph ph-info text-emerald-600"></i> Nama ini yang akan dicetak dengan tulisan kaligrafi di lembar sertifikat resmi.
-                </p>
-            </div>
-
+        <div class="p-6 space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan / Proyek <span class="text-red-500">*</span></label>
-                    <input type="text" name="activity_name" id="activity_name" value="{{ old('activity_name') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Proyek Marketing / Pelatihan Kepemimpinan">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan / Acara <span class="text-red-500">*</span></label>
+                    <input type="text" name="activity_name" id="activity_name" value="{{ old('activity_name') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Pelatihan Kewirausahaan Pemuda">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tema / Judul Kegiatan (Opsional)</label>
@@ -90,21 +79,6 @@
                     <input type="text" name="activity_place" value="{{ old('activity_place', 'Kecamatan Cikampek') }}" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Aula Kecamatan Cikampek">
                 </div>
             </div>
-
-            <div>
-                <div class="flex items-center justify-between mb-1">
-                    <label class="block text-sm font-bold text-gray-800">
-                        Teks / Keterangan Kegiatan di Bawah Nama
-                    </label>
-                    <button type="button" onclick="isiContohTeks()" class="text-xs text-emerald-600 hover:text-emerald-800 font-semibold flex items-center gap-1">
-                        <i class="ph ph-magic-wand"></i> Gunakan Contoh Teks
-                    </button>
-                </div>
-                <textarea name="certificate_text" id="certificate_text" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Atas kontribusi dan dedikasi dalam Proyek Marketing, serta kinerja, kreativitas, dan profesionalisme dalam mencapai tujuan proyek.">{{ old('certificate_text') }}</textarea>
-                <p class="text-xs text-gray-400 mt-1">
-                    Kalimat ini akan dicetak tepat di bawah nama penerima. Jika dikosongkan, sistem akan otomatis membuat kalimat standar berdasarkan nama kegiatan.
-                </p>
-            </div>
         </div>
     </div>
 
@@ -118,7 +92,7 @@
         <div class="p-6 space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Keperluan Pengajuan <span class="text-red-500">*</span></label>
-                <textarea name="purpose" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Permohonan sertifikat penghargaan untuk peserta magang / kegiatan kepemudaan">{{ old('purpose') }}</textarea>
+                <textarea name="purpose" rows="2" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-purple-200 focus:border-purple-400 outline-none" placeholder="Contoh: Permohonan sertifikat penghargaan untuk peserta pelatihan / kegiatan kepemudaan">{{ old('purpose') }}</textarea>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan Tambahan (Opsional)</label>
@@ -134,19 +108,9 @@
 
     <div class="flex justify-end gap-3">
         <a href="{{ route('masyarakat.sertifikat.index') }}" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition">Batal</a>
-        <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow transition flex items-center gap-2">
+        <button type="submit" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-semibold shadow transition flex items-center gap-2">
             <i class="ph ph-paper-plane-tilt"></i> Kirim Pengajuan
         </button>
     </div>
 </form>
-
-<script>
-function isiContohTeks() {
-    var act = document.getElementById('activity_name').value.trim();
-    if (!act) {
-        act = "Proyek Marketing";
-    }
-    document.getElementById('certificate_text').value = "Atas kontribusi dan dedikasi dalam " + act + ", serta kinerja, kreativitas, dan profesionalisme dalam mencapai tujuan proyek.";
-}
-</script>
 @endsection

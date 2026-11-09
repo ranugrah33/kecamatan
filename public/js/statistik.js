@@ -24,9 +24,13 @@
             kategori: 'pusat',
             kategoriLabel: 'Pusat Niaga & Stasiun',
             icon: 'ph-buildings',
-            luas: '0,97 km²',
+            luas: '0,50 km²',
+            persentaseLuas: '1,39%',
             kodePos: '41373',
             status: 'Desa Mandiri',
+            penduduk: '6.646 jiwa',
+            pendudukLaki: '3.398',
+            pendudukPerempuan: '3.248',
             ringkasan: 'Jantung perniagaan timur Karawang dengan simpul utama Stasiun Besar Cikampek, pasar induk regional, dan pusat perbankan.',
             profil: 'Desa Cikampek Kota merupakan episentrum pertumbuhan ekonomi kecamatan. Menjadi simpul pertemuan jalur rel kereta api utama pulau Jawa dan kawasan perdagangan grosir pasar tradisional modern.',
             potensi: 'Pusat Perdagangan & Jasa, Kawasan Transit Kereta Api Cepat/Antarkota, Perhotelan & Restoran, Sentra Bisnis Ekspedisi.',
@@ -39,9 +43,13 @@
             kategori: 'pusat',
             kategoriLabel: 'Pusat Pemerintahan',
             icon: 'ph-bank',
-            luas: '2,27 km²',
+            luas: '3,47 km²',
+            persentaseLuas: '9,54%',
             kodePos: '41373',
             status: 'Desa Mandiri',
+            penduduk: '20.645 jiwa',
+            pendudukLaki: '10.430',
+            pendudukPerempuan: '10.215',
             ringkasan: 'Pusat pelayanan birokrasi & administrasi terpadu tempat berdirinya Kantor Kecamatan Cikampek, Polsek, dan Puskesmas DTP.',
             profil: 'Dawuan Tengah merupakan ibukota administratif Kecamatan Cikampek. Seluruh kantor koordinasi pelayanan umum, keamanan, dan kesehatan primer berada di poros wilayah ini.',
             potensi: 'Pusat Layanan Administrasi Publik, Koridor Bisnis Ahmad Yani, Sarana Kesehatan Rujukan, Kompleks Institusi Pemerintahan.',
@@ -54,9 +62,13 @@
             kategori: 'pusat',
             kategoriLabel: 'Niaga & Kuliner Pantura',
             icon: 'ph-storefront',
-            luas: '1,94 km²',
+            luas: '2,11 km²',
+            persentaseLuas: '5,80%',
             kodePos: '41373',
             status: 'Desa Mandiri',
+            penduduk: '26.887 jiwa',
+            pendudukLaki: '13.559',
+            pendudukPerempuan: '13.328',
             ringkasan: 'Persimpangan vital jalur utama Pantura dan akses Purwakarta/Bandung, sentra niaga ritel, dan kuliner khas Cikampek.',
             profil: 'Wilayah dengan aksesibilitas tinggi yang menghubungkan Karawang dengan jalur arteri antar-provinsi. Menjadi pusat UMKM makanan khas, bengkel otomotif, dan logistik jalur darat.',
             potensi: 'Sentra Kuliner Khas Cikampek, Industri Jasa Otomotif, Pergudangan Skala Menengah, Ritel Komersial.',
@@ -69,9 +81,13 @@
             kategori: 'pusat',
             kategoriLabel: 'Permukiman & UMKM',
             icon: 'ph-users-three',
-            luas: '1,12 km²',
+            luas: '0,59 km²',
+            persentaseLuas: '1,61%',
             kodePos: '41373',
             status: 'Desa Maju',
+            penduduk: '10.766 jiwa',
+            pendudukLaki: '5.496',
+            pendudukPerempuan: '5.270',
             ringkasan: 'Kawasan permukiman padat produktif dengan komunitas masyarakat aktif, sentra wirausaha rumahan, dan kerajinan.',
             profil: 'Desa Cikampek Timur memiliki densitas penduduk yang harmonis dengan berbagai unit usaha mikro masyarakat dan pusat pengrajin industri kreatif rumahan.',
             potensi: 'Industri Kreatif Rumahan, Budidaya Ikan Tawar, Jasa Boga & Katering, Koperasi Warga Produktif.',
@@ -84,9 +100,13 @@
             kategori: 'pariwisata',
             kategoriLabel: 'Agrikultur & Komunitas',
             icon: 'ph-plant',
-            luas: '1,22 km²',
+            luas: '1,00 km²',
+            persentaseLuas: '2,76%',
             kodePos: '41373',
             status: 'Desa Maju',
+            penduduk: '10.968 jiwa',
+            pendudukLaki: '5.556',
+            pendudukPerempuan: '5.412',
             ringkasan: 'Wilayah perpaduan permukiman hijau asri dan kawasan agrikultur modern sebagai lumbung ketahanan pangan lokal.',
             profil: 'Cikampek Selatan memiliki hamparan lahan pertanian subur yang didukung irigasi teknis serta pengembangan perumahan modern berkonsep ramah lingkungan.',
             potensi: 'Pertanian Padi Unggul, Agrowisata Edukasi Tani, Pengembangan Perumahan Asri, Peternakan Terpadu.',
@@ -99,9 +119,13 @@
             kategori: 'pariwisata',
             kategoriLabel: 'Budaya & Kearifan Lokal',
             icon: 'ph-sparkle',
-            luas: '1,87 km²',
+            luas: '2,36 km²',
+            persentaseLuas: '6,48%',
             kodePos: '41373',
             status: 'Desa Berkembang',
+            penduduk: '5.798 jiwa',
+            pendudukLaki: '2.971',
+            pendudukPerempuan: '2.827',
             ringkasan: 'Kawasan pemekaran sarat sejarah lokal dengan tradisi gotong royong kental, sanggar seni budaya, dan agrowisata.',
             profil: 'Desa Cikampek Pusaka memegang teguh warisan tradisi leluhur Sunda Karawang dengan lanskap perbukitan landai yang asri dan udara sejuk.',
             potensi: 'Seni Pertunjukan Tradisional, Wisata Budaya Lokal, Kerajinan Tangan Bambu, Ketahanan Pangan Nabati.',
@@ -114,9 +138,13 @@
             kategori: 'industri',
             kategoriLabel: 'Niaga & Pergudangan Tol',
             icon: 'ph-warehouse',
-            luas: '3,19 km²',
+            luas: '4,11 km²',
+            persentaseLuas: '11,30%',
             kodePos: '41373',
             status: 'Desa Mandiri',
+            penduduk: '17.709 jiwa',
+            pendudukLaki: '8.948',
+            pendudukPerempuan: '8.761',
             ringkasan: 'Koridor strategis penghubung akses jalan tol dengan fasilitas pergudangan logistik modern dan sentra industri penunjang.',
             profil: 'Dawuan Barat merupakan pilar pendukung arus pergerakan logistik barang industri berkat kedekatannya dengan akses gerbang jalan tol Jakarta-Cikampek.',
             potensi: 'Pergudangan & Depo Kontainer, Sentra Logistik Nasional, Industri Pengemasan, Workshop Otomotif Berat.',
@@ -129,9 +157,13 @@
             kategori: 'industri',
             kategoriLabel: 'Sentra Pendidikan',
             icon: 'ph-graduation-cap',
-            luas: '2,80 km²',
+            luas: '3,00 km²',
+            persentaseLuas: '8,26%',
             kodePos: '41373',
             status: 'Desa Maju',
+            penduduk: '18.201 jiwa',
+            pendudukLaki: '9.250',
+            pendudukPerempuan: '8.951',
             ringkasan: 'Pusat institusi edukasi sekolah menengah & kejuruan terkemuka serta pemukiman dinamis ramah keluarga.',
             profil: 'Dawuan Timur dikenal sebagai pusat pembinaan generasi muda melalui konsentrasi lembaga pendidikan kejuruan yang menyuplai tenaga kerja siap pakai untuk kawasan industri.',
             potensi: 'Pusat Lembaga Pendidikan SMK/SMA, Hunian Kos & Asrama Siswa, Penyediaan Tenaga Kerja Terampil, Wirausaha Digital.',
@@ -144,9 +176,13 @@
             kategori: 'industri',
             kategoriLabel: 'Kawasan Industri Strategis',
             icon: 'ph-factory',
-            luas: '19,91 km²',
+            luas: '13,66 km²',
+            persentaseLuas: '37,59%',
             kodePos: '41373',
             status: 'Desa Mandiri',
+            penduduk: '5.622 jiwa',
+            pendudukLaki: '2.868',
+            pendudukPerempuan: '2.754',
             ringkasan: 'Kawasan industri bertaraf internasional penggerak manufaktur nasional (Kawasan Industri Pupuk Kujang & BIC).',
             profil: 'Desa Kalihurip merupakan kawasan industri terpadu paling bergengsi di Cikampek dengan keberadaan pabrik pupuk nasional PT Pupuk Kujang dan berbagai industri multinasional.',
             potensi: 'Industri Kimia & Pupuk Nasional, Manufaktur Otomotif & Mesin, Lapangan Kerja Ribuan Karyawan, Perhotelan Bisnis.',
@@ -159,9 +195,13 @@
             kategori: 'pariwisata',
             kategoriLabel: 'Wisata Alam Situ Kamojing',
             icon: 'ph-drop',
-            luas: '12,31 km²',
+            luas: '5,55 km²',
+            persentaseLuas: '15,27%',
             kodePos: '41373',
             status: 'Desa Maju',
+            penduduk: '5.342 jiwa',
+            pendudukLaki: '2.718',
+            pendudukPerempuan: '2.624',
             ringkasan: 'Destinasi wisata danau buatan bersejarah Situ Kamojing (sejak 1912), konservasi resapan air, dan kuliner apung.',
             profil: 'Desa Kamojing memiliki keindahan eksotis danau Situ Kamojing yang dibangun pada masa Hindia Belanda. Merupakan paru-paru hijau Cikampek sekaligus destinasi wisata keluarga favorit.',
             potensi: 'Pariwisata Danau & Sunset Spot, Wisata Kuliner Apung Sunda, Konservasi Air Irigasi, Olahraga Dayung & Memancing.',
@@ -251,10 +291,10 @@
                 const currentVal = targetVal * ease;
 
                 if (isDecimal) {
-                    // e.g. 47,60
+                    // e.g. 36,34
                     counter.textContent = currentVal.toFixed(2).replace('.', ',');
                 } else {
-                    // e.g. 112.780
+                    // e.g. 128.584
                     counter.textContent = Math.round(currentVal).toLocaleString('id-ID');
                 }
 
@@ -392,7 +432,10 @@
                         <p class="desa-desc">${desa.ringkasan}</p>
                     </div>
                     <div class="desa-meta">
-                        <span><i class="ph ph-map-pin"></i> ${desa.luas}</span>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span><i class="ph ph-map-pin"></i> ${desa.luas}</span>
+                            <span><i class="ph ph-users"></i> ${desa.penduduk}</span>
+                        </div>
                         <button type="button" class="desa-btn-detail">
                             Detail <i class="ph ph-arrow-right"></i>
                         </button>
@@ -446,6 +489,9 @@
         const titleEl = document.getElementById('modalDesaTitle');
         const badgeEl = document.getElementById('modalDesaBadge');
         const luasEl = document.getElementById('modalDesaLuas');
+        const luasPersenEl = document.getElementById('modalDesaLuasPersen');
+        const pendudukEl = document.getElementById('modalDesaPenduduk');
+        const pendudukDetailEl = document.getElementById('modalDesaPendudukDetail');
         const posEl = document.getElementById('modalDesaKodePos');
         const statusEl = document.getElementById('modalDesaStatus');
         const descEl = document.getElementById('modalDesaDesc');
@@ -458,6 +504,9 @@
         if (titleEl) titleEl.textContent = `Desa ${desa.nama}`;
         if (badgeEl) badgeEl.textContent = `${desa.kategoriLabel} • #${desa.id}`;
         if (luasEl) luasEl.textContent = desa.luas;
+        if (luasPersenEl) luasPersenEl.textContent = `${desa.persentaseLuas} wilayah kecamatan`;
+        if (pendudukEl) pendudukEl.textContent = desa.penduduk;
+        if (pendudukDetailEl) pendudukDetailEl.textContent = `L: ${desa.pendudukLaki} • P: ${desa.pendudukPerempuan}`;
         if (posEl) posEl.textContent = desa.kodePos;
         if (statusEl) statusEl.textContent = desa.status;
         if (descEl) descEl.textContent = desa.profil;
@@ -478,7 +527,7 @@
 
         if (copyBtn) {
             copyBtn.onclick = function () {
-                const infoText = `Desa ${desa.nama} - Kec. Cikampek, Kab. Karawang\nKategori: ${desa.kategoriLabel}\nLuas: ${desa.luas}\nKode Pos: ${desa.kodePos}\nPotensi: ${desa.potensi}`;
+                const infoText = `Desa ${desa.nama} - Kec. Cikampek, Kab. Karawang\nKategori: ${desa.kategoriLabel}\nLuas: ${desa.luas} (${desa.persentaseLuas} wilayah - BPS 2025)\nJumlah Penduduk: ${desa.penduduk} (L: ${desa.pendudukLaki}, P: ${desa.pendudukPerempuan} - BPS 2025)\nKode Pos: ${desa.kodePos}\nStatus: ${desa.status}\nPotensi: ${desa.potensi}`;
                 navigator.clipboard.writeText(infoText).then(() => {
                     playDigitalBeep(1760, 0.12, 'sine');
                     showToast(`Data Desa ${desa.nama} berhasil disalin!`);

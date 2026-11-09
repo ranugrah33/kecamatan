@@ -18,8 +18,8 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     {{-- Main Info --}}
     <div class="lg:col-span-2 space-y-6">
-        {{-- Area Download jika sudah disetujui / selesai --}}
-        @if(in_array($certRequest->status, ['Disetujui', 'Sertifikat Tersedia', 'Selesai']))
+        {{-- Area Download jika sertifikat final sudah diunggah oleh admin --}}
+        @if($certRequest->file_sertifikat_final || ($certRequest->files && $certRequest->files->count() > 0))
         <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200 p-6 shadow-xs">
             <div class="flex items-start gap-4 mb-4">
                 <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center flex-shrink-0 text-emerald-600">
@@ -28,32 +28,30 @@
                 <div>
                     <h3 class="text-base font-bold text-emerald-950">{{ $certRequest->document_type }} Anda Telah Tersedia!</h3>
                     <p class="text-xs text-emerald-700 mt-0.5 leading-relaxed">
-                        Permohonan telah disetujui oleh pihak Kecamatan Cikampek. Silakan unduh dokumen Anda di bawah ini:
+                        Sertifikat/piagam final telah diunggah oleh pihak Kecamatan Cikampek. Silakan unduh dokumen Anda di bawah ini:
                     </p>
                 </div>
             </div>
 
             <div class="flex flex-wrap gap-3 pt-2">
-                {{-- Download Auto-Generated PDF --}}
-                <a href="{{ route('masyarakat.sertifikat.download_pdf', $certRequest->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-sm transition">
-                    <i class="ph ph-file-pdf text-lg"></i> Unduh {{ $certRequest->document_type }} (PDF)
-                </a>
-
-                {{-- Download File Final jika admin unggah file scan stempel --}}
                 @if($certRequest->file_sertifikat_final)
-                <a href="{{ route('masyarakat.sertifikat.download_final', $certRequest->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-sm transition">
+                <a href="{{ route('masyarakat.sertifikat.download_final', $certRequest->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-sm transition">
                     <i class="ph ph-download-simple text-lg"></i> Unduh Berkas Final (TTD/Cap)
+                </a>
+                @elseif($certRequest->files && $certRequest->files->count() > 0)
+                <a href="{{ route('masyarakat.sertifikat.download', $certRequest->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-sm transition">
+                    <i class="ph ph-download-simple text-lg"></i> Unduh {{ $certRequest->document_type }}
                 </a>
                 @endif
             </div>
         </div>
         @endif
 
-        {{-- Detail Konten Sertifikat --}}
+        {{-- Detail Informasi Pengajuan --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                 <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-                    <i class="ph ph-certificate text-emerald-600"></i> Konten Sertifikat / Piagam
+                    <i class="ph ph-info text-purple-600"></i> Informasi Pengajuan
                 </h2>
                 @php
                     $bc = 'bg-gray-100 text-gray-800';
@@ -63,12 +61,7 @@
                 @endphp
                 <span class="px-3 py-1 text-xs font-bold rounded-full {{ $bc }}">{{ $certRequest->status }}</span>
             </div>
-            <div class="p-6 space-y-4">
-                <div class="bg-emerald-50/40 p-4 rounded-xl border border-emerald-100">
-                    <span class="text-xs text-gray-500 font-medium block">Nama Penerima Tercetak:</span>
-                    <p class="text-xl font-bold text-gray-900 mt-0.5">{{ $certRequest->certificate_name ?: $certRequest->applicant_name }}</p>
-                </div>
-
+            <div class="p-6">
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
                     <div>
                         <dt class="text-gray-500 text-xs font-medium">Kode Pengajuan</dt>
@@ -85,9 +78,23 @@
                         <dd class="text-gray-900 font-semibold mt-0.5">{{ $certRequest->document_type }}</dd>
                     </div>
                     <div>
+                        <dt class="text-gray-500 text-xs font-medium">Nama Pemohon</dt>
+                        <dd class="text-gray-900 font-medium mt-0.5">{{ $certRequest->applicant_name }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-gray-500 text-xs font-medium">Nomor HP / WhatsApp</dt>
+                        <dd class="text-gray-900 mt-0.5">{{ $certRequest->phone ?? '-' }}</dd>
+                    </div>
+                    <div>
                         <dt class="text-gray-500 text-xs font-medium">Nama Kegiatan</dt>
                         <dd class="text-gray-900 font-semibold mt-0.5">{{ $certRequest->activity_name }}</dd>
                     </div>
+                    @if($certRequest->activity_theme)
+                    <div>
+                        <dt class="text-gray-500 text-xs font-medium">Tema / Judul Kegiatan</dt>
+                        <dd class="text-gray-900 mt-0.5">{{ $certRequest->activity_theme }}</dd>
+                    </div>
+                    @endif
                     <div>
                         <dt class="text-gray-500 text-xs font-medium">Tanggal Kegiatan</dt>
                         <dd class="text-gray-900 mt-0.5">{{ $certRequest->activity_date->translatedFormat('d F Y') }}</dd>
@@ -98,16 +105,16 @@
                     </div>
 
                     <div class="sm:col-span-2">
-                        <dt class="text-gray-500 text-xs font-medium">Teks / Kalimat Keterangan di Bawah Nama</dt>
-                        <dd class="text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100 mt-1 font-serif italic text-xs leading-relaxed">
-                            "{{ $certRequest->certificate_text ?: ('Atas kontribusi dan partisipasi aktif dalam ' . $certRequest->activity_name . ', serta dedikasi dan kinerja yang ditunjukkan dalam mencapai tujuan kegiatan.') }}"
-                        </dd>
-                    </div>
-
-                    <div class="sm:col-span-2">
                         <dt class="text-gray-500 text-xs font-medium">Keperluan</dt>
                         <dd class="text-gray-900 mt-0.5">{{ $certRequest->purpose }}</dd>
                     </div>
+
+                    @if($certRequest->description)
+                    <div class="sm:col-span-2">
+                        <dt class="text-gray-500 text-xs font-medium">Keterangan Tambahan</dt>
+                        <dd class="text-gray-900 mt-0.5">{{ $certRequest->description }}</dd>
+                    </div>
+                    @endif
 
                     @if($certRequest->rejection_reason)
                     <div class="sm:col-span-2 bg-red-50 p-3.5 rounded-xl border border-red-200">

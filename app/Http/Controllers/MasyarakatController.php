@@ -266,7 +266,7 @@ class MasyarakatController extends Controller
                     'updated_at' => \Carbon\Carbon::parse($c->updated_at)->translatedFormat('d M Y, H:i') . ' WIB',
                     'id' => $c->id,
                     'route' => 'masyarakat.sertifikat.show',
-                    'file_surat_final' => ($c->latestFile || $c->file_sertifikat_final || in_array($c->status, ['Disetujui', 'Sertifikat Tersedia', 'Selesai'])) ? true : null
+                    'file_surat_final' => ($c->latestFile || $c->file_sertifikat_final) ? true : null
                 ];
             }
         }

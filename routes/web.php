@@ -79,7 +79,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/sertifikat', [AdminCertificateController::class, 'index'])->name('admin.sertifikat.index');
     Route::get('/admin/sertifikat/{id}', [AdminCertificateController::class, 'show'])->name('admin.sertifikat.show');
     Route::put('/admin/sertifikat/{id}/status', [AdminCertificateController::class, 'updateStatus'])->name('admin.sertifikat.updateStatus');
-    Route::get('/admin/sertifikat/{id}/cetak', [AdminCertificateController::class, 'cetakSertifikat'])->name('admin.sertifikat.cetak');
     Route::post('/admin/sertifikat/{id}/upload-final', [AdminCertificateController::class, 'uploadCertificateFinal'])->name('admin.sertifikat.upload_final');
     Route::post('/admin/sertifikat/{id}/upload', [AdminCertificateController::class, 'uploadCertificate'])->name('admin.sertifikat.upload');
     Route::get('/admin/sertifikat/{id}/download-permohonan', [AdminCertificateController::class, 'downloadApplication'])->name('admin.sertifikat.downloadApplication');
@@ -128,7 +127,6 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::get('/masyarakat/sertifikat/create', [CertificateRequestController::class, 'create'])->name('masyarakat.sertifikat.create');
     Route::post('/masyarakat/sertifikat', [CertificateRequestController::class, 'store'])->name('masyarakat.sertifikat.store');
     Route::get('/masyarakat/sertifikat/{id}', [CertificateRequestController::class, 'show'])->name('masyarakat.sertifikat.show');
-    Route::get('/masyarakat/sertifikat/{id}/download-pdf', [CertificateRequestController::class, 'downloadPdf'])->name('masyarakat.sertifikat.download_pdf');
     Route::get('/masyarakat/sertifikat/{id}/download-final', [CertificateRequestController::class, 'downloadFinal'])->name('masyarakat.sertifikat.download_final');
     Route::get('/masyarakat/sertifikat/{id}/download', [CertificateRequestController::class, 'download'])->name('masyarakat.sertifikat.download');
 });

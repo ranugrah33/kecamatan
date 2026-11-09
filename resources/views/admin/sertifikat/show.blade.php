@@ -4,20 +4,11 @@
 @section('content')
 <div class="mb-6">
     <a href="{{ route('admin.sertifikat.index') }}" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 mb-2"><i class="ph ph-arrow-left"></i> Kembali</a>
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <h1 class="text-xl font-bold text-gray-900">Detail Pengajuan: {{ $certRequest->request_code }}</h1>
-            @if($certRequest->nomor_sertifikat)
-                <p class="text-xs text-gray-500 font-medium mt-0.5">Nomor Sertifikat: <span class="font-bold text-gray-800">{{ $certRequest->nomor_sertifikat }}</span></p>
-            @endif
-        </div>
-
-        {{-- Tombol Cetak / Generate Draft Sertifikat --}}
-        <div class="flex items-center gap-2">
-            <a href="{{ route('admin.sertifikat.cetak', $certRequest->id) }}" target="_blank" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-2">
-                <i class="ph ph-printer text-lg"></i> Cetak / Generate Sertifikat (PDF)
-            </a>
-        </div>
+    <div>
+        <h1 class="text-xl font-bold text-gray-900">Detail Pengajuan: {{ $certRequest->request_code }}</h1>
+        @if($certRequest->nomor_sertifikat)
+            <p class="text-xs text-gray-500 font-medium mt-0.5">Nomor Sertifikat: <span class="font-bold text-gray-800">{{ $certRequest->nomor_sertifikat }}</span></p>
+        @endif
     </div>
 </div>
 
@@ -34,56 +25,10 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2 space-y-6">
-        {{-- Data Sertifikat yang Akan Dicetak --}}
-        <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm overflow-hidden">
-            <div class="px-5 py-4 border-b border-emerald-100 bg-emerald-50/50 flex items-center justify-between">
-                <h2 class="text-sm font-bold text-emerald-900 flex items-center gap-2">
-                    <i class="ph ph-certificate text-emerald-600 text-lg"></i> Konten yang Dicetak pada Sertifikat
-                </h2>
-                <span class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800">
-                    {{ $certRequest->document_type }}
-                </span>
-            </div>
-            <div class="p-5 space-y-4">
-                <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-xs">
-                    <span class="text-xs text-gray-400 font-medium block mb-1">Nama Penerima di Sertifikat:</span>
-                    <p class="text-xl font-bold text-gray-900 tracking-wide">{{ $certRequest->certificate_name ?: $certRequest->applicant_name }}</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <span class="text-xs text-gray-400 font-medium block">Kegiatan / Proyek:</span>
-                        <p class="text-gray-900 font-semibold">{{ $certRequest->activity_name }}</p>
-                    </div>
-                    <div>
-                        <span class="text-xs text-gray-400 font-medium block">Tanggal Kegiatan:</span>
-                        <p class="text-gray-900 font-semibold">{{ $certRequest->activity_date->translatedFormat('d F Y') }}</p>
-                    </div>
-                    <div>
-                        <span class="text-xs text-gray-400 font-medium block">Tempat:</span>
-                        <p class="text-gray-900 font-semibold">{{ $certRequest->activity_place }}</p>
-                    </div>
-                    @if($certRequest->activity_theme)
-                    <div>
-                        <span class="text-xs text-gray-400 font-medium block">Tema:</span>
-                        <p class="text-gray-900">{{ $certRequest->activity_theme }}</p>
-                    </div>
-                    @endif
-                </div>
-
-                <div class="border-t border-gray-100 pt-3">
-                    <span class="text-xs text-gray-400 font-medium block mb-1">Teks / Keterangan di Bawah Nama:</span>
-                    <p class="text-sm text-gray-700 bg-gray-50 p-3.5 rounded-xl border border-gray-200/60 leading-relaxed font-serif italic">
-                        "{{ $certRequest->certificate_text ?: ('Atas kontribusi dan partisipasi aktif dalam ' . $certRequest->activity_name . ', serta dedikasi dan kinerja yang ditunjukkan dalam mencapai tujuan kegiatan.') }}"
-                    </p>
-                </div>
-            </div>
-        </div>
-
         {{-- Request Info --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm">
             <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h2 class="text-sm font-bold text-gray-900">Data Pemohon</h2>
+                <h2 class="text-sm font-bold text-gray-900">Data Permohonan</h2>
                 @php
                     $bc = 'bg-gray-100 text-gray-800';
                     if (in_array($certRequest->status, ['Selesai', 'Sertifikat Tersedia'])) $bc = 'bg-green-100 text-green-800';
@@ -94,8 +39,15 @@
             </div>
             <div class="p-5">
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                    <div><dt class="text-gray-500 text-xs">Nama Pemohon (Akun)</dt><dd class="text-gray-900 font-medium">{{ $certRequest->applicant_name }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Nama Pemohon</dt><dd class="text-gray-900 font-medium">{{ $certRequest->applicant_name }}</dd></div>
                     <div><dt class="text-gray-500 text-xs">No. HP / WhatsApp</dt><dd class="text-gray-900 font-medium">{{ $certRequest->phone ?? '-' }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Jenis Dokumen</dt><dd class="text-gray-900 font-semibold">{{ $certRequest->document_type }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Nama Kegiatan</dt><dd class="text-gray-900 font-medium">{{ $certRequest->activity_name }}</dd></div>
+                    @if($certRequest->activity_theme)
+                    <div><dt class="text-gray-500 text-xs">Tema / Judul Kegiatan</dt><dd class="text-gray-900">{{ $certRequest->activity_theme }}</dd></div>
+                    @endif
+                    <div><dt class="text-gray-500 text-xs">Tanggal Kegiatan</dt><dd class="text-gray-900">{{ $certRequest->activity_date->translatedFormat('d F Y') }}</dd></div>
+                    <div><dt class="text-gray-500 text-xs">Tempat Kegiatan</dt><dd class="text-gray-900">{{ $certRequest->activity_place }}</dd></div>
                     <div class="sm:col-span-2"><dt class="text-gray-500 text-xs">Keperluan Pengajuan</dt><dd class="text-gray-900">{{ $certRequest->purpose }}</dd></div>
                     @if($certRequest->description)
                     <div class="sm:col-span-2"><dt class="text-gray-500 text-xs">Keterangan Tambahan</dt><dd class="text-gray-900">{{ $certRequest->description }}</dd></div>

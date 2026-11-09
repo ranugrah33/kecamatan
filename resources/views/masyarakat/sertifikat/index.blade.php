@@ -72,7 +72,7 @@
                         <a href="{{ route('masyarakat.sertifikat.show', $r->id) }}" class="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">
                             <i class="ph ph-eye"></i> Detail
                         </a>
-                        @if($r->status == 'Selesai' && $r->latestFile)
+                        @if($r->status == 'Selesai' && ($r->file_sertifikat_final || $r->latestFile))
                         <a href="{{ route('masyarakat.sertifikat.download', $r->id) }}" class="px-3 py-1 bg-purple-500 text-white rounded-md hover:bg-purple-600 text-xs flex items-center gap-1 shadow-sm transition">
                             <i class="ph ph-download-simple"></i> Unduh
                         </a>

@@ -43,5 +43,7 @@ class DatabaseSeeder extends Seeder
             'fasilitas' => ['Meja', 'Kursi', 'Sound System', 'Toilet', 'Mic', 'Kipas'],
             'ketentuan' => '1. Menjaga kebersihan aula. 2. Tidak merusak fasilitas. 3. Mematuhi jam operasional.'
         ]);
+
+        $this->call(AiKnowledgeSeeder::class);
     }
 }

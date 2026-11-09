@@ -36,5 +36,17 @@ return [
         'model' => env('GEMINI_MODEL', 'gemini-3.6-flash'),
     ],
 
+    'groq' => [
+        'api_key' => env('GROQ_API_KEY'),
+        'model' => env('GROQ_MODEL', 'qwen/qwen3.8-27b'),
+    ],
+
+    'ai' => [
+        'primary' => env('AI_PRIMARY', 'gemini'),
+        'fallback' => env('AI_FALLBACK', 'groq'),
+        'timeout' => (int) env('AI_TIMEOUT', 20),
+        'max_retries' => (int) env('AI_MAX_RETRIES', 1),
+    ],
+
 ];
 
