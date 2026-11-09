@@ -2,9 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Izin Peminjaman Aula - {{ $peminjaman->nomor_pengajuan }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Surat Persetujuan Peminjaman Aula - {{ $peminjaman->nomor_pengajuan }}</title>
     <style>
+        @page {
+            size: A4 portrait;
+            margin: 20mm 25mm 20mm 25mm;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Times New Roman', Times, serif;
             line-height: 1.5;
@@ -18,7 +27,8 @@
         /* Kop Surat */
         .kop-table {
             width: 100%;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
+            border-collapse: collapse;
         }
         .kop-logo-container {
             width: 15%;
@@ -26,152 +36,161 @@
             vertical-align: middle;
         }
         .kop-logo {
-            width: 75px; /* Sesuaikan ukuran logo */
+            width: 75px;
             height: auto;
         }
         .kop-text {
             width: 85%;
             text-align: center;
             vertical-align: middle;
-            padding-right: 15%; /* Mengimbangi logo di kiri agar teks benar-benar di tengah */
+            padding-right: 15%; /* Mengimbangi logo di kiri agar teks tepat di tengah kertas */
         }
         .kop-text h1 {
-            font-size: 16pt;
+            font-size: 15pt;
             font-weight: normal;
             margin: 0;
-            font-family: 'Times New Roman', Times, serif;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         .kop-text h2 {
-            font-size: 20pt;
+            font-size: 18pt;
             font-weight: bold;
             margin: 2px 0;
-            font-family: 'Times New Roman', Times, serif;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
         .kop-text p {
             font-size: 11pt;
-            margin: 2px 0;
-            font-family: 'Times New Roman', Times, serif;
+            margin: 2px 0 0 0;
         }
 
         .kop-surat-border {
-            border-top: 3px solid #000;
+            border-top: 2px solid #000;
             border-bottom: 1px solid #000;
             height: 2px;
-            margin-bottom: 10px;
-            margin-top: 5px;
+            margin-bottom: 16px;
+            margin-top: 8px;
         }
 
-        /* Tanggal & Tempat */
+        /* Tanggal Surat (Kanan Atas) */
         .tanggal-surat {
             text-align: right;
-            margin-bottom: 5px;
+            margin-bottom: 12px;
+            font-size: 12pt;
         }
 
-        /* Nomor, Sifat, dll */
+        /* Nomor, Sifat, Lampiran, Perihal (Kiri) */
         .meta-surat {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            border-collapse: collapse;
         }
         .meta-label {
-            width: 80px;
-            padding: 0;
+            width: 85px;
+            padding: 1px 0;
             vertical-align: top;
+            font-size: 12pt;
         }
         .meta-colon {
-            width: 15px;
-            padding: 0;
+            width: 18px;
+            padding: 1px 0;
             vertical-align: top;
+            font-size: 12pt;
         }
         .meta-value {
-            padding: 0;
-            font-weight: bold;
+            padding: 1px 0;
             vertical-align: top;
+            font-size: 12pt;
         }
 
-        /* Yth */
+        /* Yth. Tujuan Surat */
         .tujuan-surat {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            line-height: 1.4;
         }
         .tujuan-surat p {
             margin: 0;
         }
 
-        /* Isi Surat */
-        .isi-surat {
-            text-align: justify;
+        /* Salam Pembuka */
+        .salam-pembuka {
+            margin-bottom: 12px;
         }
-        .isi-surat p {
-            margin-bottom: 10px;
-            text-indent: 40px;
+        .salam-pembuka p {
+            margin: 0;
         }
 
-        /* Detail Kegiatan */
-        .detail-kegiatan {
-            width: 90%;
-            margin: 0 auto 15px 40px;
+        /* Isi Paragraf */
+        .isi-surat {
+            text-align: justify;
+            margin-bottom: 10px;
+            line-height: 1.5;
         }
-        .detail-label {
-            width: 120px;
+        .isi-surat p {
+            margin: 0 0 10px 0;
+        }
+
+        /* Rincian Kegiatan (Tabel tanpa bullet) */
+        .rincian-kegiatan {
+            width: 100%;
+            margin: 6px 0 14px 28px;
+            border-collapse: collapse;
+        }
+        .rincian-label {
+            width: 150px;
             padding: 2px 0;
             vertical-align: top;
+            font-size: 12pt;
         }
-        .detail-colon {
-            width: 15px;
+        .rincian-colon {
+            width: 18px;
             padding: 2px 0;
             vertical-align: top;
+            font-size: 12pt;
         }
-        .detail-value {
+        .rincian-value {
             padding: 2px 0;
             vertical-align: top;
+            font-size: 12pt;
         }
 
         /* Penutup */
         .penutup {
-            margin-bottom: 40px;
             text-align: justify;
-            text-indent: 40px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .penutup p {
+            margin: 0;
         }
 
         /* Tanda Tangan */
         .tanda-tangan-container {
             width: 100%;
+            margin-top: 20px;
         }
         .tanda-tangan {
             float: right;
             text-align: center;
-            width: 300px;
-            margin-top: 10px;
-        }
-        .tanda-tangan p {
-            margin: 0;
+            width: 260px;
         }
         .jabatan {
-            margin-bottom: 80px;
-        }
-        .nama-camat {
+            margin: 0 0 10px 0;
+            font-size: 12pt;
             font-weight: bold;
-            text-decoration: underline;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .ttd-image {
+            width: 210px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+            border-bottom: 1px solid #000;
+            margin-bottom: 3px;
         }
 
-        /* Area Tanda Tangan Elektronik placeholder for standard formatting */
-        .ttd-box {
-            border: 1px solid #000;
-            padding: 10px;
-            margin-top: 10px;
-            text-align: left;
-            font-size: 10pt;
-        }
-        .ttd-box-logo {
-            float: left;
-            width: 40px;
-            margin-right: 10px;
-        }
-        .ttd-box-text {
-            float: left;
-            width: 220px;
-        }
         .clearfix::after {
             content: "";
             clear: both;
@@ -197,10 +216,12 @@
     </table>
     <div class="kop-surat-border"></div>
 
+    <!-- Tanggal Surat -->
     <div class="tanggal-surat">
-        Karawang, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}
+        Cikampek, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
     </div>
 
+    <!-- Nomor, Sifat, Lampiran, Perihal -->
     <table class="meta-surat">
         <tr>
             <td class="meta-label">Nomor</td>
@@ -220,53 +241,75 @@
         <tr>
             <td class="meta-label">Perihal</td>
             <td class="meta-colon">:</td>
-            <td class="meta-value"><b>Perizinan Peminjaman Aula</b></td>
+            <td class="meta-value"><strong>Persetujuan Peminjaman Aula</strong></td>
         </tr>
     </table>
 
+    <!-- Tujuan Surat -->
+    @php
+        $namaPenerima = $peminjaman->user->name ?? $peminjaman->penanggung_jawab;
+        $sapaan = (stripos($namaPenerima, 'Saudara') === 0 || stripos($namaPenerima, 'Bpk') === 0 || stripos($namaPenerima, 'Ibu') === 0) ? '' : 'Saudara ';
+    @endphp
     <div class="tujuan-surat">
-        <p>Yth. {{ $peminjaman->user->name }}</p>
+        <p>Yth. {{ $sapaan }}{{ $namaPenerima }}</p>
         <p>Di Tempat</p>
     </div>
 
+    <!-- Salam Pembuka -->
+    <div class="salam-pembuka">
+        <p>Dengan hormat,</p>
+    </div>
+
+    <!-- Paragraf Pembuka -->
     <div class="isi-surat">
         <p>
-            Sehubungan dengan rencana pelaksanaan kegiatan, melalui surat permohonan Nomor: {{ $peminjaman->nomor_surat_permohonan ?? '-' }}, kami selaku masyarakat mengajukan permohonan izin peminjaman Aula Kecamatan Cikampek untuk digunakan sebagai tempat pelaksanaan kegiatan Pada :
+            Berdasarkan surat permohonan Nomor: {{ $peminjaman->nomor_surat_permohonan ?? '-' }}, perihal permohonan peminjaman Aula Kecamatan Cikampek, dengan ini kami menyampaikan bahwa permohonan peminjaman aula dapat disetujui untuk pelaksanaan kegiatan dengan rincian sebagai berikut:
         </p>
     </div>
 
-    <table class="detail-kegiatan">
+    <!-- Rincian Kegiatan -->
+    <table class="rincian-kegiatan">
         <tr>
-            <td class="detail-label">Hari / Tanggal</td>
-            <td class="detail-colon">:</td>
-            <td class="detail-value">{{ \Carbon\Carbon::parse($peminjaman->tanggal)->locale('id')->translatedFormat('l / d F Y') }}</td>
+            <td class="rincian-label">Hari/Tanggal</td>
+            <td class="rincian-colon">:</td>
+            <td class="rincian-value">{{ \Carbon\Carbon::parse($peminjaman->tanggal)->locale('id')->translatedFormat('l, j F Y') }}</td>
         </tr>
         <tr>
-            <td class="detail-label">Waktu</td>
-            <td class="detail-colon">:</td>
-            <td class="detail-value">{{ substr($peminjaman->jam_mulai, 0, 5) }} WIB - {{ substr($peminjaman->jam_selesai, 0, 5) }} WIB</td>
+            <td class="rincian-label">Waktu</td>
+            <td class="rincian-colon">:</td>
+            <td class="rincian-value">{{ \Carbon\Carbon::parse($peminjaman->jam_mulai)->format('H.i') }} - {{ \Carbon\Carbon::parse($peminjaman->jam_selesai)->format('H.i') }} WIB</td>
         </tr>
         <tr>
-            <td class="detail-label">Tempat</td>
-            <td class="detail-colon">:</td>
-            <td class="detail-value">Aula Kecamatan Cikampek</td>
+            <td class="rincian-label">Tempat</td>
+            <td class="rincian-colon">:</td>
+            <td class="rincian-value">{{ $peminjaman->aula->nama_aula ?? 'Aula Kecamatan Cikampek' }}</td>
         </tr>
         <tr>
-            <td class="detail-label">Penanggung Jawab</td>
-            <td class="detail-colon">:</td>
-            <td class="detail-value">{{ $peminjaman->penanggung_jawab ?? '-' }}</td>
+            <td class="rincian-label">Penanggung Jawab</td>
+            <td class="rincian-colon">:</td>
+            <td class="rincian-value">{{ $peminjaman->penanggung_jawab ?? '-' }}</td>
         </tr>
     </table>
 
-    <div class="penutup">
-        Demikian undangan ini disampaikan. Atas perhatian dan kehadiran Bapak, kami ucapkan terima kasih.
+    <!-- Paragraf Himbauan -->
+    <div class="isi-surat">
+        <p>
+            Sehubungan dengan hal tersebut, pemohon diharapkan dapat menggunakan fasilitas aula dengan tertib, menjaga kebersihan, serta bertanggung jawab atas fasilitas yang digunakan.
+        </p>
     </div>
 
+    <!-- Paragraf Penutup -->
+    <div class="penutup">
+        <p>
+            Demikian surat persetujuan ini disampaikan untuk dapat dipergunakan sebagaimana mestinya. Atas perhatian dan kerja samanya, kami ucapkan terima kasih.
+        </p>
+    </div>
+
+    <!-- Tanda Tangan -->
     <div class="tanda-tangan-container clearfix">
         <div class="tanda-tangan">
             <p class="jabatan">CAMAT CIKAMPEK</p>
-            
-            <img src="{{ public_path('images/tanda-camat.png') }}" alt="Tanda Tangan Camat" style="width: 200px; height: auto; margin: 15px auto; display: block;">
+            <img src="{{ public_path('images/tanda-camat.png') }}" alt="Tanda Tangan Elektronik Camat" class="ttd-image">
         </div>
     </div>
 

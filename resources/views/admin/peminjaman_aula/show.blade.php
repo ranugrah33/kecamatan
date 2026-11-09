@@ -216,6 +216,11 @@
                         <form action="{{ route('admin.peminjaman_aula.uploadSuratFinal', $peminjaman->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                             @csrf
                             <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Surat Resmi (Opsional)</label>
+                                <input type="text" name="nomor_surat_izin" value="{{ old('nomor_surat_izin', $peminjaman->nomor_surat_izin) }}" placeholder="Contoh: 400.2/008/Kec-Ckp/2026" class="w-full px-3 py-2 border rounded-lg text-sm text-gray-700 bg-gray-50 focus:bg-white">
+                                <p class="text-xs text-gray-500 mt-1">Masukkan nomor surat fisik dari buku agenda.</p>
+                            </div>
+                            <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Upload Surat Ditandatangani</label>
                                 <input type="file" name="file_surat_final" accept=".pdf,.jpg,.jpeg,.png" required class="w-full px-3 py-2 border rounded-lg text-sm text-gray-700 bg-gray-50">
                                 <p class="text-xs text-gray-500 mt-1">Format: PDF, JPG, PNG (Maks 2MB).</p>

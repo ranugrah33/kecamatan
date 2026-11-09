@@ -57,27 +57,21 @@ class AdminPeminjamanAulaController extends Controller
             return redirect()->back()->withErrors('Surat hanya dapat dicetak jika status Disetujui.');
         }
 
-        // Jika belum punya nomor_surat_izin, buat nomor urut
-        if (empty($peminjaman->nomor_surat_izin)) {
-            $year = date('Y');
-            $count = PeminjamanAula::whereNotNull('nomor_surat_izin')->whereYear('created_at', $year)->count() + 1;
-            $nomor = str_pad($count, 3, '0', STR_PAD_LEFT);
-            $nomor_surat = "400.2/{$nomor}/Kec-Ckp/{$year}";
-            
+        if ($peminjaman->status === 'Disetujui') {
             $peminjaman->update([
-                'nomor_surat_izin' => $nomor_surat,
-                'status' => $peminjaman->status == 'Disetujui' ? 'Surat Diproses' : $peminjaman->status
+                'status' => 'Surat Diproses'
             ]);
         }
 
         $pdf = Pdf::loadView('admin.peminjaman_aula.surat', compact('peminjaman'));
-        return $pdf->download('draft_surat_izin_' . $peminjaman->nomor_pengajuan . '.pdf');
+        return $pdf->stream('draft_surat_izin_' . $peminjaman->nomor_pengajuan . '.pdf');
     }
 
     public function uploadSuratFinal(Request $request, $id)
     {
         $request->validate([
-            'file_surat_final' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048'
+            'file_surat_final' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'nomor_surat_izin' => 'nullable|string|max:255'
         ]);
 
         $peminjaman = PeminjamanAula::findOrFail($id);
@@ -87,10 +81,16 @@ class AdminPeminjamanAulaController extends Controller
             $filename = time() . '_surat_final_' . $peminjaman->nomor_pengajuan . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('surat_izin', $filename, 'public');
             
-            $peminjaman->update([
+            $data = [
                 'file_surat_final' => $path,
                 'status' => 'Surat Tersedia'
-            ]);
+            ];
+
+            if ($request->filled('nomor_surat_izin')) {
+                $data['nomor_surat_izin'] = $request->nomor_surat_izin;
+            }
+            
+            $peminjaman->update($data);
             
             return redirect()->back()->with('success', 'Surat final berhasil diunggah. Masyarakat kini dapat mendownloadnya.');
         }
