@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\PeminjamanAula;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class AdminPeminjamanAulaController extends Controller
 {
@@ -35,7 +35,7 @@ class AdminPeminjamanAulaController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Menunggu Verifikasi,Surat Diproses,Disetujui,Surat Tersedia,Selesai,Ditolak,Perlu Perbaikan',
+            'status' => 'required|in:Menunggu Verifikasi,Perlu Perbaikan,Surat Diproses,Surat Tersedia,Selesai,Ditolak',
             'catatan_petugas' => 'nullable|string'
         ]);
 
@@ -46,6 +46,12 @@ class AdminPeminjamanAulaController extends Controller
             'catatan_petugas' => $request->catatan_petugas
         ]);
 
+        // Jika status diubah menjadi Surat Tersedia dan file final ada serta belum dinotifikasikan, kirimkan email
+        if ($peminjaman->status === PeminjamanAula::STATUS_SURAT_TERSEDIA) {
+            $peminjaman->refresh();
+            $peminjaman->sendSuratFinalNotificationIfNeeded();
+        }
+
         return redirect()->route('admin.peminjaman_aula.show', $id)->with('success', 'Status pengajuan berhasil diperbarui!');
     }
 
@@ -53,13 +59,13 @@ class AdminPeminjamanAulaController extends Controller
     {
         $peminjaman = PeminjamanAula::with(['user.masyarakat'])->findOrFail($id);
         
-        if (!in_array($peminjaman->status, ['Disetujui', 'Surat Diproses', 'Surat Tersedia'])) {
-            return redirect()->back()->withErrors('Surat hanya dapat dicetak jika status Disetujui.');
+        if (!in_array($peminjaman->status, [PeminjamanAula::STATUS_SURAT_DIPROSES, PeminjamanAula::STATUS_SURAT_TERSEDIA, PeminjamanAula::STATUS_DISETUJUI])) {
+            return redirect()->back()->withErrors('Surat draft hanya dapat dicetak jika status pengajuan sedang diproses (Surat Diproses).');
         }
 
-        if ($peminjaman->status === 'Disetujui') {
+        if ($peminjaman->status === PeminjamanAula::STATUS_DISETUJUI) {
             $peminjaman->update([
-                'status' => 'Surat Diproses'
+                'status' => PeminjamanAula::STATUS_SURAT_DIPROSES
             ]);
         }
 
@@ -83,7 +89,7 @@ class AdminPeminjamanAulaController extends Controller
             
             $data = [
                 'file_surat_final' => $path,
-                'status' => 'Surat Tersedia'
+                'status' => PeminjamanAula::STATUS_SURAT_TERSEDIA
             ];
 
             if ($request->filled('nomor_surat_izin')) {
@@ -91,10 +97,32 @@ class AdminPeminjamanAulaController extends Controller
             }
             
             $peminjaman->update($data);
+            $peminjaman->refresh();
+
+            // Kirim notifikasi email otomatis hanya jika file surat final berhasil disimpan dan belum pernah dinotifikasikan
+            $emailSent = $peminjaman->sendSuratFinalNotificationIfNeeded();
             
-            return redirect()->back()->with('success', 'Surat final berhasil diunggah. Masyarakat kini dapat mendownloadnya.');
+            $message = $emailSent
+                ? 'Surat final berhasil diunggah. Notifikasi email telah otomatis dikirimkan ke pemohon.'
+                : 'Surat final berhasil diunggah. Masyarakat kini dapat mendownloadnya.';
+
+            return redirect()->back()->with('success', $message);
         }
         
         return redirect()->back()->withErrors('Gagal mengunggah file.');
+    }
+
+    public function downloadSurat($id)
+    {
+        $peminjaman = PeminjamanAula::findOrFail($id);
+
+        if (!$peminjaman->file_surat_final || !Storage::disk('public')->exists($peminjaman->file_surat_final)) {
+            return redirect()->back()->withErrors('File surat izin belum tersedia atau tidak ditemukan di penyimpanan server.');
+        }
+
+        $extension = pathinfo($peminjaman->file_surat_final, PATHINFO_EXTENSION) ?: 'pdf';
+        $safeName = 'Surat_Izin_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $peminjaman->nomor_pengajuan) . '.' . $extension;
+
+        return Storage::disk('public')->download($peminjaman->file_surat_final, $safeName);
     }
 }

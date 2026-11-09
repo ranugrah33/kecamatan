@@ -14,14 +14,14 @@
                 </div>
             </div>
             <div>
-                @if(in_array($peminjaman->status, ['Disetujui', 'Selesai', 'Surat Tersedia']))
-                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-green-100 text-green-800">{{ $peminjaman->status }}</span>
-                @elseif(in_array($peminjaman->status, ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses']))
-                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-blue-100 text-blue-800">{{ $peminjaman->status }}</span>
+                @if(in_array($peminjaman->status, ['Surat Tersedia', 'Selesai', 'Disetujui']))
+                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-green-100 text-green-800">{{ $peminjaman->status_label }}</span>
+                @elseif(in_array($peminjaman->status, ['Menunggu Verifikasi', 'Surat Diproses', 'Diproses']))
+                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-blue-100 text-blue-800">{{ $peminjaman->status_label }}</span>
                 @elseif($peminjaman->status == 'Perlu Perbaikan')
-                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ $peminjaman->status }}</span>
+                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ $peminjaman->status_label }}</span>
                 @else
-                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-red-100 text-red-800">{{ $peminjaman->status }}</span>
+                    <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-red-100 text-red-800">{{ $peminjaman->status_label }}</span>
                 @endif
             </div>
         </div>
@@ -167,17 +167,19 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ubah Status</label>
                             <select name="status" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 outline-none">
-                                <option value="Menunggu Verifikasi" {{ $peminjaman->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
-                                <option value="Surat Diproses" {{ $peminjaman->status == 'Surat Diproses' ? 'selected' : '' }}>Surat Diproses (Draft)</option>
-                                <option value="Disetujui" {{ $peminjaman->status == 'Disetujui' ? 'selected' : '' }}>Setujui Pengajuan</option>
-                                <option value="Surat Tersedia" {{ $peminjaman->status == 'Surat Tersedia' ? 'selected' : '' }}>Surat Tersedia (Final)</option>
-                                <option value="Selesai" {{ $peminjaman->status == 'Selesai' ? 'selected' : '' }}>Selesai (Kegiatan Rampung)</option>
-                                <option value="Ditolak" {{ $peminjaman->status == 'Ditolak' ? 'selected' : '' }}>Tolak Pengajuan</option>
-                                <option value="Perlu Perbaikan" {{ $peminjaman->status == 'Perlu Perbaikan' ? 'selected' : '' }}>Perlu Perbaikan</option>
+                                <option value="Menunggu Verifikasi" {{ $peminjaman->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>1. Menunggu Verifikasi</option>
+                                <option value="Perlu Perbaikan" {{ $peminjaman->status == 'Perlu Perbaikan' ? 'selected' : '' }}>2. Perlu Perbaikan</option>
+                                <option value="Surat Diproses" {{ $peminjaman->status == 'Surat Diproses' ? 'selected' : '' }}>3. Surat Diproses (Draft)</option>
+                                <option value="Surat Tersedia" {{ $peminjaman->status == 'Surat Tersedia' ? 'selected' : '' }}>4. Surat Tersedia (Final)</option>
+                                <option value="Selesai" {{ $peminjaman->status == 'Selesai' ? 'selected' : '' }}>5. Selesai (Kegiatan Rampung)</option>
+                                <option value="Ditolak" {{ $peminjaman->status == 'Ditolak' ? 'selected' : '' }}>6. Ditolak</option>
+                                @if(!in_array($peminjaman->status, ['Menunggu Verifikasi', 'Perlu Perbaikan', 'Surat Diproses', 'Surat Tersedia', 'Selesai', 'Ditolak']))
+                                    <option value="{{ $peminjaman->status }}" selected>{{ $peminjaman->status_label }}</option>
+                                @endif
                             </select>
                         </div>
                         
-                        @if(in_array($peminjaman->status, ['Disetujui', 'Surat Tersedia']))
+                        @if(in_array($peminjaman->status, ['Surat Tersedia', 'Disetujui']))
                             @php
                                 $tanggalStr = $peminjaman->tanggal instanceof \Carbon\Carbon ? $peminjaman->tanggal->format('Y-m-d') : substr((string)$peminjaman->tanggal, 0, 10);
                                 $waktuSelesaiOtomatis = \Carbon\Carbon::parse($tanggalStr . ' ' . $peminjaman->jam_selesai)->addMinutes(30);
@@ -200,7 +202,7 @@
                 </div>
 
                 <!-- Proses Surat Perizinan -->
-                @if(in_array($peminjaman->status, ['Disetujui', 'Surat Diproses', 'Surat Tersedia', 'Selesai']))
+                @if(in_array($peminjaman->status, ['Surat Diproses', 'Surat Tersedia', 'Selesai', 'Disetujui']))
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                         <h3 class="font-medium text-gray-900">Proses Surat Perizinan</h3>
@@ -223,7 +225,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Upload Surat Ditandatangani</label>
                                 <input type="file" name="file_surat_final" accept=".pdf,.jpg,.jpeg,.png" required class="w-full px-3 py-2 border rounded-lg text-sm text-gray-700 bg-gray-50">
-                                <p class="text-xs text-gray-500 mt-1">Format: PDF, JPG, PNG (Maks 2MB).</p>
+                                <p class="text-xs text-gray-500 mt-1">Format: PDF, JPG, PNG (Maks 2MB). Sistem akan otomatis memperbarui status menjadi <strong>Surat Tersedia (Final)</strong> dan mengirim notifikasi email.</p>
                             </div>
                             <button type="submit" class="w-full flex items-center justify-center gap-2 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition">
                                 <i class="ph ph-upload-simple text-lg"></i> Upload Surat Ditandatangani
@@ -231,9 +233,21 @@
                         </form>
                         
                         @if($peminjaman->file_surat_final)
-                        <div class="mt-4 p-3 bg-green-50 border border-green-100 rounded-lg flex items-center justify-between">
-                            <span class="text-sm text-green-800 font-medium">Surat Final Tersedia</span>
-                            <a href="{{ asset('storage/' . $peminjaman->file_surat_final) }}" target="_blank" class="text-sm text-green-700 hover:text-green-900 font-semibold underline">Lihat File</a>
+                        <div class="mt-4 p-3 bg-green-50 border border-green-100 rounded-lg space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-green-800 font-medium">Surat Final Tersedia</span>
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ asset('storage/' . $peminjaman->file_surat_final) }}" target="_blank" class="text-sm text-green-700 hover:text-green-900 font-semibold underline">Lihat File</a>
+                                    <span class="text-gray-300">|</span>
+                                    <a href="{{ route('admin.peminjaman_aula.downloadSurat', $peminjaman->id) }}" class="text-sm text-green-700 hover:text-green-900 font-semibold underline">Unduh File</a>
+                                </div>
+                            </div>
+                            @if($peminjaman->surat_notified_at)
+                                <div class="text-xs text-green-700 flex items-center gap-1.5 pt-1 border-t border-green-200/60">
+                                    <i class="ph ph-envelope-simple-check text-sm"></i>
+                                    <span>Notifikasi email telah dikirim ke pemohon ({{ $peminjaman->surat_notified_at->translatedFormat('d M Y, H:i') }} WIB).</span>
+                                </div>
+                            @endif
                         </div>
                         @endif
                     </div>
@@ -241,6 +255,4 @@
                 @endif
             </div>
         </div>
-    </div>
-</div>
 @endsection

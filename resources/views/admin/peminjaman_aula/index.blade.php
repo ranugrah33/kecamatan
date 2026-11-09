@@ -12,10 +12,11 @@
             <select name="status" class="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white text-gray-600" onchange="this.form.submit()">
                 <option value="">Semua Status</option>
                 <option value="Menunggu Verifikasi" {{ request('status') == 'Menunggu Verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
-                <option value="Disetujui" {{ request('status') == 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
-                <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-                <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
                 <option value="Perlu Perbaikan" {{ request('status') == 'Perlu Perbaikan' ? 'selected' : '' }}>Perlu Perbaikan</option>
+                <option value="Surat Diproses" {{ request('status') == 'Surat Diproses' ? 'selected' : '' }}>Surat Diproses (Draft)</option>
+                <option value="Surat Tersedia" {{ request('status') == 'Surat Tersedia' ? 'selected' : '' }}>Surat Tersedia (Final)</option>
+                <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai (Kegiatan Rampung)</option>
+                <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
             </select>
         </form>
     </div>
@@ -48,14 +49,14 @@
                         <span class="text-xs text-gray-400">{{ substr($item->jam_mulai, 0, 5) }} - {{ substr($item->jam_selesai, 0, 5) }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        @if($item->status == 'Disetujui' || $item->status == 'Selesai' || $item->status == 'Surat Tersedia')
-                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-700">{{ $item->status }}</span>
-                        @elseif($item->status == 'Menunggu Verifikasi' || $item->status == 'Diproses' || $item->status == 'Surat Diproses')
-                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-700">{{ $item->status }}</span>
+                        @if($item->status == 'Surat Tersedia' || $item->status == 'Selesai' || $item->status == 'Disetujui')
+                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-700">{{ $item->status_label }}</span>
+                        @elseif($item->status == 'Menunggu Verifikasi' || $item->status == 'Surat Diproses' || $item->status == 'Diproses')
+                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-700">{{ $item->status_label }}</span>
                         @elseif($item->status == 'Perlu Perbaikan')
-                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-700">{{ $item->status }}</span>
+                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-700">{{ $item->status_label }}</span>
                         @else
-                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-700">{{ $item->status }}</span>
+                            <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-700">{{ $item->status_label }}</span>
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -78,4 +79,3 @@
     </div>
 </div>
 @endsection
-

@@ -84,7 +84,7 @@
                             <i class="ph ph-eye"></i> Detail
                         </a>
                         @if($item['jenis_key'] == 'aula' && in_array($item['status'], ['Surat Tersedia', 'Selesai']) && !empty($item['file_surat_final']))
-                            <a href="{{ asset('storage/' . $item['file_surat_final']) }}" target="_blank" class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-xs flex items-center gap-1 shadow-sm transition">
+                            <a href="{{ route('masyarakat.peminjaman_aula.downloadSurat', $item['id']) }}" class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-xs flex items-center gap-1 shadow-sm transition">
                                 <i class="ph ph-download-simple"></i> Surat Izin
                             </a>
                         @endif

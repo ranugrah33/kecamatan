@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/peminjaman-aula/{id}/status', [AdminPeminjamanAulaController::class, 'updateStatus'])->name('admin.peminjaman_aula.updateStatus');
     Route::get('/admin/peminjaman-aula/{id}/cetak-surat', [AdminPeminjamanAulaController::class, 'cetakSurat'])->name('admin.peminjaman_aula.cetakSurat');
     Route::post('/admin/peminjaman-aula/{id}/upload-surat', [AdminPeminjamanAulaController::class, 'uploadSuratFinal'])->name('admin.peminjaman_aula.uploadSuratFinal');
+    Route::get('/admin/peminjaman-aula/{id}/download-surat', [AdminPeminjamanAulaController::class, 'downloadSurat'])->name('admin.peminjaman_aula.downloadSurat');
 
     // Kelola Barang Inventaris
     Route::get('/admin/inventaris', [AdminInventoryController::class, 'index'])->name('admin.inventaris.index');
@@ -114,6 +116,7 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::get('/masyarakat/peminjaman-aula/sukses/{id}', [PeminjamanAulaController::class, 'sukses'])->name('masyarakat.peminjaman_aula.sukses');
     Route::get('/masyarakat/peminjaman-aula/{id}', [PeminjamanAulaController::class, 'show'])->name('masyarakat.peminjaman_aula.show');
     Route::put('/masyarakat/peminjaman-aula/{id}/cancel', [PeminjamanAulaController::class, 'cancel'])->name('masyarakat.peminjaman_aula.cancel');
+    Route::get('/masyarakat/peminjaman-aula/{id}/download-surat', [PeminjamanAulaController::class, 'downloadSurat'])->name('masyarakat.peminjaman_aula.downloadSurat');
 
     // Peminjaman Inventaris
     Route::get('/masyarakat/peminjaman-inventaris', [InventoryBorrowingController::class, 'index'])->name('masyarakat.peminjaman_inventaris.index');
@@ -130,3 +133,11 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::get('/masyarakat/sertifikat/{id}/download-final', [CertificateRequestController::class, 'downloadFinal'])->name('masyarakat.sertifikat.download_final');
     Route::get('/masyarakat/sertifikat/{id}/download', [CertificateRequestController::class, 'download'])->name('masyarakat.sertifikat.download');
 });
+
+// Fallback direct storage route if storage symlink is not available in environment
+Route::get('/storage/{path}', function ($path) {
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404);
+    }
+    return Storage::disk('public')->response($path);
+})->where('path', '.*');

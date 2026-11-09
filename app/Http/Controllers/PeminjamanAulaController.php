@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Aula;
 use App\Models\PeminjamanAula;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PeminjamanAulaController extends Controller
 {
@@ -158,5 +159,21 @@ class PeminjamanAulaController extends Controller
         }
 
         return redirect()->back()->withErrors(['msg' => 'Pengajuan tidak dapat dibatalkan pada status saat ini.']);
+    }
+
+    public function downloadSurat($id)
+    {
+        $peminjaman = PeminjamanAula::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        if (!$peminjaman->file_surat_final || !Storage::disk('public')->exists($peminjaman->file_surat_final)) {
+            return redirect()->back()->withErrors('File surat izin belum tersedia atau tidak ditemukan di penyimpanan server.');
+        }
+
+        $extension = pathinfo($peminjaman->file_surat_final, PATHINFO_EXTENSION) ?: 'pdf';
+        $safeName = 'Surat_Izin_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $peminjaman->nomor_pengajuan) . '.' . $extension;
+
+        return Storage::disk('public')->download($peminjaman->file_surat_final, $safeName);
     }
 }
