@@ -132,7 +132,8 @@ class PeminjamanAulaController extends Controller
             'status' => 'Menunggu Verifikasi',
         ]);
 
-        return redirect()->route('masyarakat.peminjaman_aula.sukses', $peminjaman->id);
+        return redirect()->route('masyarakat.peminjaman_aula.sukses', $peminjaman->id)
+            ->with('success', 'Pengajuan peminjaman aula berhasil dikirim! Silakan periksa kotak masuk atau folder spam email Anda untuk pembaruan status permohonan.');
     }
 
     public function sukses($id)

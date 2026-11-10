@@ -242,7 +242,15 @@
                 </div>
             </div>
 
-        <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+        <div class="mt-6 p-4 bg-amber-50/80 border border-amber-200 rounded-xl text-xs sm:text-sm text-amber-900 flex items-start gap-3">
+            <i class="ph ph-envelope-simple text-amber-600 text-xl shrink-0 mt-0.5"></i>
+            <div class="leading-relaxed">
+                <span class="font-bold text-amber-950 block mb-0.5">Pemberitahuan Pengiriman Notifikasi & Surat:</span>
+                Setelah pengajuan diajukan, status verifikasi dan Surat Izin Peminjaman Aula resmi akan dikirimkan otomatis ke email Anda (<strong>{{ $user->email }}</strong>). Harap periksa Kotak Masuk (Inbox) serta bagian/folder <strong>Spam</strong> email Anda.
+            </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-lg">
             <label class="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" x-model="isConfirmed" class="mt-1 w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
                 <span class="text-sm text-blue-900 font-medium">Saya memastikan data yang saya masukkan sudah benar dan saya bertanggung jawab atas kebenarannya.</span>

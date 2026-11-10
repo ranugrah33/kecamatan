@@ -232,6 +232,17 @@
             </div>
         @endif
 
+        <!-- Informasi Notifikasi Email & Folder Spam -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 shadow-xs">
+            <div class="flex items-start gap-2.5">
+                <i class="ph ph-envelope-simple text-amber-600 text-lg shrink-0 mt-0.5"></i>
+                <div class="leading-relaxed">
+                    <span class="font-bold block text-amber-950 mb-0.5">Pemberitahuan Email &amp; Folder Spam:</span>
+                    Informasi verifikasi dan berkas Surat Izin Final dikirimkan ke email terdaftar Anda (<strong>{{ $peminjaman->user->email ?? Auth::user()->email }}</strong>). Apabila tidak ada di Kotak Masuk (Inbox), mohon periksa bagian / folder <strong>Spam</strong> atau <strong>Junk</strong>.
+                </div>
+            </div>
+        </div>
+
         <!-- Surat Izin Tersedia -->
         @if(in_array($peminjaman->status, ['Surat Tersedia', 'Selesai']) && $peminjaman->file_surat_final)
         <div class="bg-green-50 rounded-xl shadow-sm border border-green-200 overflow-hidden">
@@ -240,7 +251,11 @@
                     <i class="ph-fill ph-check-circle text-green-600 text-2xl"></i>
                     <h3 class="font-bold text-green-900">Surat Izin Tersedia</h3>
                 </div>
-                <p class="text-sm text-green-800 mb-5">✅ Surat Perizinan Peminjaman Aula telah tersedia dan dapat didownload.</p>
+                <p class="text-sm text-green-800 mb-1">✅ Surat Perizinan Peminjaman Aula telah tersedia dan dapat didownload.</p>
+                <p class="text-xs text-green-700 mb-5 flex items-center gap-1.5">
+                    <i class="ph ph-envelope-check text-base shrink-0"></i>
+                    <span>Surat izin juga telah dikirim ke email Anda. Cek Kotak Masuk atau folder <strong>Spam</strong> jika belum terlihat.</span>
+                </p>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <a href="{{ route('masyarakat.peminjaman_aula.downloadSurat', $peminjaman->id) }}" class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition shadow-sm">
                         <i class="ph ph-download-simple text-lg"></i> Download Surat
