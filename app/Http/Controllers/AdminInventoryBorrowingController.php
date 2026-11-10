@@ -93,10 +93,22 @@ class AdminInventoryBorrowingController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.peminjaman_inventaris.show', $id)->with('success', 'Status pengajuan berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui status.');
         }
+
+        // Kirim email notifikasi jika status benar-benar berubah (di luar transaksi DB)
+        if ($oldStatus !== $newStatus) {
+            $borrowing->refresh();
+
+            if ($newStatus === InventoryBorrowing::STATUS_DISETUJUI) {
+                $borrowing->sendApprovalNotification();
+            } elseif ($newStatus === InventoryBorrowing::STATUS_DITOLAK) {
+                $borrowing->sendRejectionNotification();
+            }
+        }
+
+        return redirect()->route('admin.peminjaman_inventaris.show', $id)->with('success', 'Status pengajuan berhasil diperbarui!');
     }
 }

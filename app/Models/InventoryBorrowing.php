@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Mail\InventoryBorrowingApprovedMail;
+use App\Mail\InventoryBorrowingRejectedMail;
 
 class InventoryBorrowing extends Model
 {
@@ -160,5 +164,59 @@ class InventoryBorrowing extends Model
             return '-';
         }
         return $this->created_at->translatedFormat('d F Y, H:i') . ' WIB';
+    }
+
+    /**
+     * Kirim email notifikasi persetujuan peminjaman barang inventaris ke pemohon
+     */
+    public function sendApprovalNotification(): bool
+    {
+        $this->loadMissing(['user', 'details.item']);
+
+        $recipientEmail = $this->user->email ?? null;
+        if (empty($recipientEmail) || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+            Log::warning("Pengiriman email persetujuan inventaris dilewati: email pemohon kosong atau tidak valid pada transaksi {$this->request_code} (ID: {$this->id}, User ID: {$this->user_id}).");
+            return false;
+        }
+
+        try {
+            Mail::to($recipientEmail)->send(new InventoryBorrowingApprovedMail($this));
+            Log::info("Email persetujuan peminjaman inventaris [{$this->request_code}] berhasil dikirim ke {$recipientEmail}.");
+            return true;
+        } catch (\Throwable $e) {
+            Log::error("Gagal mengirim email persetujuan peminjaman inventaris [{$this->request_code}] ke {$recipientEmail}: " . $e->getMessage(), [
+                'borrowing_id' => $this->id,
+                'request_code' => $this->request_code,
+                'error' => $e->getMessage(),
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Kirim email notifikasi penolakan peminjaman barang inventaris ke pemohon
+     */
+    public function sendRejectionNotification(): bool
+    {
+        $this->loadMissing(['user', 'details.item']);
+
+        $recipientEmail = $this->user->email ?? null;
+        if (empty($recipientEmail) || !filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+            Log::warning("Pengiriman email penolakan inventaris dilewati: email pemohon kosong atau tidak valid pada transaksi {$this->request_code} (ID: {$this->id}, User ID: {$this->user_id}).");
+            return false;
+        }
+
+        try {
+            Mail::to($recipientEmail)->send(new InventoryBorrowingRejectedMail($this));
+            Log::info("Email penolakan peminjaman inventaris [{$this->request_code}] berhasil dikirim ke {$recipientEmail}.");
+            return true;
+        } catch (\Throwable $e) {
+            Log::error("Gagal mengirim email penolakan peminjaman inventaris [{$this->request_code}] ke {$recipientEmail}: " . $e->getMessage(), [
+                'borrowing_id' => $this->id,
+                'request_code' => $this->request_code,
+                'error' => $e->getMessage(),
+            ]);
+            return false;
+        }
     }
 }
