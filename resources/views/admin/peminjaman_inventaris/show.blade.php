@@ -25,13 +25,17 @@
             <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h2 class="text-sm font-bold text-gray-900">Data Pemohon</h2>
                 @php
-                    $bc = 'bg-gray-100 text-gray-800';
-                    if (in_array($borrowing->status, ['Disetujui','Dikembalikan','Selesai'])) $bc = 'bg-green-100 text-green-800';
-                    elseif ($borrowing->status == 'Diproses') $bc = 'bg-blue-100 text-blue-800';
-                    elseif ($borrowing->status == 'Ditolak') $bc = 'bg-rose-100 text-rose-800';
-                    elseif ($borrowing->status == 'Sedang Dipinjam') $bc = 'bg-amber-100 text-amber-800';
+                    $displayStatus = $borrowing->status_label;
+                    $bc = match($displayStatus) {
+                        'Menunggu Persetujuan' => 'bg-blue-100 text-blue-800',
+                        'Disetujui' => 'bg-emerald-100 text-emerald-800',
+                        'Sedang Dipinjam' => 'bg-amber-100 text-amber-800',
+                        'Ditolak' => 'bg-rose-100 text-rose-800',
+                        'Selesai' => 'bg-green-100 text-green-800',
+                        default => 'bg-gray-100 text-gray-800',
+                    };
                 @endphp
-                <span class="px-3 py-1 text-xs font-bold rounded-full {{ $bc }}">{{ $borrowing->status }}</span>
+                <span class="px-3 py-1 text-xs font-bold rounded-full {{ $bc }}">{{ $displayStatus }}</span>
             </div>
             <div class="p-5">
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
@@ -78,14 +82,26 @@
     <div class="space-y-6">
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
             <h3 class="text-sm font-bold text-gray-900 mb-4">Ubah Status</h3>
+            @if($borrowing->isFinalStatus())
+                <div class="p-3.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-600 mb-3">
+                    <i class="ph ph-lock-key font-bold text-gray-500 mr-1"></i>
+                    Status <strong>{{ $displayStatus }}</strong> merupakan status akhir transaksi. Status ini tidak dapat diubah kembali.
+                </div>
+                @if($borrowing->rejection_reason)
+                <div class="text-xs text-gray-600">
+                    <span class="font-medium text-gray-500 block mb-1">Alasan Penolakan / Catatan:</span>
+                    <p class="text-gray-800">{{ $borrowing->rejection_reason }}</p>
+                </div>
+                @endif
+            @else
             <form action="{{ route('admin.peminjaman_inventaris.updateStatus', $borrowing->id) }}" method="POST">
                 @csrf @method('PUT')
                 <div class="space-y-3">
                     <div>
                         <label class="block text-xs font-medium text-gray-600 mb-1">Status</label>
                         <select name="status" required class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-200 outline-none">
-                            @foreach(['Diajukan','Diproses','Disetujui','Ditolak','Sedang Dipinjam','Dikembalikan','Selesai'] as $s)
-                            <option value="{{ $s }}" {{ $borrowing->status == $s ? 'selected' : '' }}>{{ $s }}</option>
+                            @foreach(\App\Models\InventoryBorrowing::STATUSES as $s)
+                            <option value="{{ $s }}" {{ $displayStatus == $s ? 'selected' : '' }}>{{ $s }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -96,6 +112,7 @@
                     <button type="submit" class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow transition">Simpan Perubahan</button>
                 </div>
             </form>
+            @endif
         </div>
 
         {{-- Monitoring Email Reminder Pengembalian --}}
@@ -127,7 +144,7 @@
                 <div>
                     <span class="text-gray-500 block mb-1">Status Pengembalian:</span>
                     <span class="font-medium {{ in_array($borrowing->status, ['Dikembalikan', 'Selesai']) ? 'text-emerald-700' : 'text-gray-800' }}">
-                        {{ in_array($borrowing->status, ['Dikembalikan', 'Selesai']) ? 'Sudah Dikembalikan (' . $borrowing->status . ')' : 'Belum Dikembalikan' }}
+                        {{ in_array($borrowing->status, ['Dikembalikan', 'Selesai']) ? 'Sudah Dikembalikan (Selesai)' : 'Belum Dikembalikan' }}
                     </span>
                 </div>
 

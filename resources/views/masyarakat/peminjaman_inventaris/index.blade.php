@@ -96,13 +96,17 @@
                     </td>
                     <td class="px-6 py-4">
                         @php
-                            $bc = 'bg-gray-100 text-gray-800';
-                            if (in_array($r->status, ['Disetujui','Dikembalikan','Selesai'])) $bc = 'bg-green-100 text-green-800';
-                            elseif (in_array($r->status, ['Diproses'])) $bc = 'bg-blue-100 text-blue-800';
-                            elseif ($r->status == 'Ditolak') $bc = 'bg-rose-100 text-rose-800';
-                            elseif ($r->status == 'Sedang Dipinjam') $bc = 'bg-amber-100 text-amber-800';
+                            $displayStatus = $r->status_label;
+                            $bc = match($displayStatus) {
+                                'Menunggu Persetujuan' => 'bg-blue-100 text-blue-800',
+                                'Disetujui' => 'bg-emerald-100 text-emerald-800',
+                                'Sedang Dipinjam' => 'bg-amber-100 text-amber-800',
+                                'Ditolak' => 'bg-rose-100 text-rose-800',
+                                'Selesai' => 'bg-green-100 text-green-800',
+                                default => 'bg-gray-100 text-gray-800',
+                            };
                         @endphp
-                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $bc }}">{{ $r->status }}</span>
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $bc }}">{{ $displayStatus }}</span>
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('masyarakat.peminjaman_inventaris.show', $r->id) }}" class="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">

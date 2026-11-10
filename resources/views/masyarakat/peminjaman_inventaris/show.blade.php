@@ -22,13 +22,17 @@
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                 <h2 class="text-sm font-bold text-gray-900">Informasi Pengajuan</h2>
                 @php
-                    $bc = 'bg-gray-100 text-gray-800';
-                    if (in_array($borrowing->status, ['Disetujui','Dikembalikan','Selesai'])) $bc = 'bg-green-100 text-green-800';
-                    elseif ($borrowing->status == 'Diproses') $bc = 'bg-blue-100 text-blue-800';
-                    elseif ($borrowing->status == 'Ditolak') $bc = 'bg-rose-100 text-rose-800';
-                    elseif ($borrowing->status == 'Sedang Dipinjam') $bc = 'bg-amber-100 text-amber-800';
+                    $displayStatus = $borrowing->status_label;
+                    $bc = match($displayStatus) {
+                        'Menunggu Persetujuan' => 'bg-blue-100 text-blue-800',
+                        'Disetujui' => 'bg-emerald-100 text-emerald-800',
+                        'Sedang Dipinjam' => 'bg-amber-100 text-amber-800',
+                        'Ditolak' => 'bg-rose-100 text-rose-800',
+                        'Selesai' => 'bg-green-100 text-green-800',
+                        default => 'bg-gray-100 text-gray-800',
+                    };
                 @endphp
-                <span class="px-3 py-1 text-xs font-bold rounded-full {{ $bc }}">{{ $borrowing->status }}</span>
+                <span class="px-3 py-1 text-xs font-bold rounded-full {{ $bc }}">{{ $displayStatus }}</span>
             </div>
             <div class="p-6">
                 <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -100,7 +104,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center"><i class="ph ph-paper-plane-tilt text-indigo-600 text-sm"></i></div>
                     <div>
-                        <p class="text-xs font-bold text-gray-800">Diajukan</p>
+                        <p class="text-xs font-bold text-gray-800">Pengajuan Masuk</p>
                         <p class="text-[11px] text-gray-400">{{ $borrowing->created_at->translatedFormat('d F Y, H:i') . ' WIB' }}</p>
                     </div>
                 </div>
@@ -108,7 +112,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><i class="ph ph-arrows-clockwise text-blue-600 text-sm"></i></div>
                     <div>
-                        <p class="text-xs font-bold text-gray-800">{{ $borrowing->status }}</p>
+                        <p class="text-xs font-bold text-gray-800">{{ $borrowing->status_label }}</p>
                         <p class="text-[11px] text-gray-400">{{ $borrowing->updated_at->translatedFormat('d F Y, H:i') . ' WIB' }}</p>
                     </div>
                 </div>

@@ -196,7 +196,7 @@
 
     @php
         $pendingCount = \App\Models\PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count()
-            + \App\Models\InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + \App\Models\InventoryBorrowing::whereIn('status', [\App\Models\InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN, 'Diajukan', 'Diproses'])->count()
             + \App\Models\CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
     @endphp
 

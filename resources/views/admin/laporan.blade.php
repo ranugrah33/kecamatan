@@ -101,6 +101,8 @@
                     <td class="px-6 py-4">
                         @php
                             $statusColor = match($item->status) {
+                                'Menunggu Persetujuan' => 'bg-blue-100 text-blue-800',
+                                'Sedang Dipinjam' => 'bg-amber-100 text-amber-800',
                                 'Menunggu Verifikasi', 'Diajukan', 'Menunggu Dokumen' => 'bg-yellow-100 text-yellow-800',
                                 'Diproses', 'Surat Diproses' => 'bg-blue-100 text-blue-800',
                                 'Perlu Perbaikan' => 'bg-orange-100 text-orange-800',

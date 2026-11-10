@@ -9,6 +9,69 @@ class InventoryBorrowing extends Model
 {
     use HasFactory;
 
+    // 5 Status Baru Peminjaman Barang Inventaris
+    public const STATUS_MENUNGGU_PERSETUJUAN = 'Menunggu Persetujuan';
+    public const STATUS_DISETUJUI = 'Disetujui';
+    public const STATUS_DITOLAK = 'Ditolak';
+    public const STATUS_SEDANG_DIPINJAM = 'Sedang Dipinjam';
+    public const STATUS_SELESAI = 'Selesai';
+
+    // Status Legacy (untuk kompatibilitas data lama)
+    public const STATUS_DIAJUKAN = 'Diajukan';
+    public const STATUS_DIPROSES = 'Diproses';
+    public const STATUS_DIKEMBALIKAN = 'Dikembalikan';
+
+    public const STATUSES = [
+        self::STATUS_MENUNGGU_PERSETUJUAN,
+        self::STATUS_DISETUJUI,
+        self::STATUS_DITOLAK,
+        self::STATUS_SEDANG_DIPINJAM,
+        self::STATUS_SELESAI,
+    ];
+
+    /**
+     * Pemetaan status lama ke status baru
+     */
+    public static function mapLegacyStatus(?string $status): ?string
+    {
+        return match ($status) {
+            'Diajukan', 'Diproses' => self::STATUS_MENUNGGU_PERSETUJUAN,
+            'Dikembalikan' => self::STATUS_SELESAI,
+            default => $status,
+        };
+    }
+
+    /**
+     * Cek apakah status merupakan status akhir (final)
+     */
+    public function isFinalStatus(): bool
+    {
+        return in_array($this->status, [self::STATUS_DITOLAK, self::STATUS_SELESAI, 'Dikembalikan']);
+    }
+
+    /**
+     * Label status yang disederhanakan untuk tampilan (backward-compatible)
+     */
+    public function getStatusLabelAttribute(): string
+    {
+        return self::mapLegacyStatus($this->status) ?? self::STATUS_MENUNGGU_PERSETUJUAN;
+    }
+
+    /**
+     * Konfigurasi warna badge status
+     */
+    public function getStatusBadgeColorAttribute(): string
+    {
+        return match ($this->status_label) {
+            self::STATUS_MENUNGGU_PERSETUJUAN => 'blue',
+            self::STATUS_DISETUJUI => 'emerald',
+            self::STATUS_SEDANG_DIPINJAM => 'amber',
+            self::STATUS_DITOLAK => 'rose',
+            self::STATUS_SELESAI => 'emerald',
+            default => 'gray',
+        };
+    }
+
     protected $fillable = [
         'user_id',
         'request_code',

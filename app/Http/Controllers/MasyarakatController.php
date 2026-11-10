@@ -57,12 +57,13 @@ class MasyarakatController extends Controller
         // --- Peminjaman Inventaris ---
         $inventoryBorrowings = \App\Models\InventoryBorrowing::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         foreach($inventoryBorrowings->take(2) as $b) {
+            $displayStatus = $b->status_label;
             $statusColor = 'blue';
-            if(in_array($b->status, ['Disetujui', 'Dikembalikan', 'Selesai'])) {
+            if(in_array($displayStatus, ['Disetujui', 'Dikembalikan', 'Selesai'])) {
                 $statusColor = 'emerald';
-            } elseif(in_array($b->status, ['Ditolak'])) {
+            } elseif(in_array($displayStatus, ['Ditolak'])) {
                 $statusColor = 'rose';
-            } elseif($b->status == 'Sedang Dipinjam') {
+            } elseif($displayStatus == 'Sedang Dipinjam') {
                 $statusColor = 'amber';
             }
 
@@ -71,7 +72,7 @@ class MasyarakatController extends Controller
                 'iconBg' => 'indigo',
                 'jenis' => 'Peminjaman Inventaris',
                 'tgl' => \Carbon\Carbon::parse($b->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
-                'status' => $b->status,
+                'status' => $displayStatus,
                 'statusColor' => $statusColor,
                 'route' => 'masyarakat.peminjaman_inventaris.show',
                 'id' => $b->id
@@ -79,18 +80,18 @@ class MasyarakatController extends Controller
 
             $notifIcon = 'ph-info';
             $notifColor = 'blue';
-            if(in_array($b->status, ['Disetujui', 'Dikembalikan', 'Selesai'])) {
+            if(in_array($displayStatus, ['Disetujui', 'Dikembalikan', 'Selesai'])) {
                 $notifIcon = 'ph-check-circle'; $notifColor = 'emerald';
-            } elseif($b->status == 'Ditolak') {
+            } elseif($displayStatus == 'Ditolak') {
                 $notifIcon = 'ph-x-circle'; $notifColor = 'rose';
-            } elseif($b->status == 'Sedang Dipinjam') {
+            } elseif($displayStatus == 'Sedang Dipinjam') {
                 $notifIcon = 'ph-warning-circle'; $notifColor = 'amber';
             }
 
             $notifDisplay[] = [
                 'icon' => $notifIcon,
                 'color' => $notifColor,
-                'msg' => 'Peminjaman Inventaris: ' . $b->status,
+                'msg' => 'Peminjaman Inventaris: ' . $displayStatus,
                 'time' => \Carbon\Carbon::parse($b->updated_at)->diffForHumans()
             ];
         }
@@ -232,7 +233,7 @@ class MasyarakatController extends Controller
         if (in_array($filter, ['semua', 'inventaris'])) {
             $borrowings = \App\Models\InventoryBorrowing::with('details.item')->where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
             foreach($borrowings as $b) {
-                if ($statusFilter && $b->status !== $statusFilter) continue;
+                if ($statusFilter && $b->status !== $statusFilter && $b->status_label !== $statusFilter) continue;
                 $itemNames = $b->details->map(fn($d) => $d->item->name ?? '-')->implode(', ');
                 $riwayat[] = [
                     'nomor' => $b->request_code,
@@ -240,7 +241,7 @@ class MasyarakatController extends Controller
                     'jenis_key' => 'inventaris',
                     'tanggal' => \Carbon\Carbon::parse($b->created_at)->translatedFormat('d M Y, H:i') . ' WIB',
                     'raw_date' => $b->created_at,
-                    'status' => $b->status,
+                    'status' => $b->status_label,
                     'catatan' => $b->rejection_reason ?? $itemNames,
                     'updated_at' => \Carbon\Carbon::parse($b->updated_at)->translatedFormat('d M Y, H:i') . ' WIB',
                     'id' => $b->id,
@@ -299,9 +300,10 @@ class MasyarakatController extends Controller
         // Peminjaman Inventaris
         $borrowings = \App\Models\InventoryBorrowing::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
         foreach($borrowings as $b) {
+            $displayStatus = $b->status_label;
             $notifikasi[] = [
-                'judul' => 'Peminjaman Inventaris: ' . $b->status,
-                'pesan' => 'Pengajuan peminjaman barang inventaris (' . $b->request_code . ') saat ini berstatus ' . $b->status . '.',
+                'judul' => 'Peminjaman Inventaris: ' . $displayStatus,
+                'pesan' => 'Pengajuan peminjaman barang inventaris (' . $b->request_code . ') saat ini berstatus ' . $displayStatus . '.',
                 'waktu' => \Carbon\Carbon::parse($b->updated_at)->diffForHumans(),
                 'waktu_sort' => $b->updated_at,
                 'dibaca' => in_array($b->status, ['Selesai', 'Dikembalikan'])

@@ -20,7 +20,7 @@ class AdminController extends Controller
         $total_permohonan = $total_aula + $total_inventaris + $total_sertifikat;
 
         $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count()
-            + InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + InventoryBorrowing::whereIn('status', [InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN, 'Diajukan', 'Diproses'])->count()
             + CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
 
         $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak', 'Surat Tersedia', 'Selesai'])->count()
@@ -104,7 +104,7 @@ class AdminController extends Controller
         $total_permohonan = $total_aula + $total_inventaris + $total_sertifikat;
 
         $menunggu_review = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Perlu Perbaikan', 'Surat Diproses'])->count()
-            + InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + InventoryBorrowing::whereIn('status', [InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN, 'Diajukan', 'Diproses'])->count()
             + CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
 
         $selesai = PeminjamanAula::whereIn('status', ['Disetujui', 'Ditolak', 'Surat Tersedia', 'Selesai'])->count()
@@ -157,7 +157,7 @@ class AdminController extends Controller
             + CertificateRequest::where('status', 'Ditolak')->count();
             
         $menunggu = PeminjamanAula::whereIn('status', ['Menunggu Verifikasi', 'Diproses', 'Surat Diproses', 'Perlu Perbaikan'])->count()
-            + InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses'])->count()
+            + InventoryBorrowing::whereIn('status', [InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN, 'Diajukan', 'Diproses'])->count()
             + CertificateRequest::whereIn('status', ['Diajukan', 'Diproses', 'Menunggu Dokumen'])->count();
         
         $aula = PeminjamanAula::with('user')->get()->map(function($item) {
@@ -183,7 +183,7 @@ class AdminController extends Controller
                 'borrowing_time' => $item->borrowing_time,
                 'return_date' => $item->return_date,
                 'return_time' => $item->return_time,
-                'status' => $item->status,
+                'status' => $item->status_label,
                 'created_at' => $item->created_at,
                 'jenis' => 'Inventaris'
             ];
@@ -298,7 +298,7 @@ class AdminController extends Controller
         // 2. Peminjaman Inventaris
         $borrowings = InventoryBorrowing::with(['user', 'details.item'])->orderBy('updated_at', 'desc')->take(50)->get();
         foreach ($borrowings as $b) {
-            $isPending = in_array($b->status, ['Diajukan', 'Diproses']);
+            $isPending = in_array($b->status, [InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN, 'Diajukan', 'Diproses']);
             $pemohon = $b->user->name ?? $b->applicant_name ?? 'Masyarakat';
             $itemList = $b->details->map(function ($d) {
                 return ($d->item->name ?? 'Barang') . ' (' . $d->quantity . ')';

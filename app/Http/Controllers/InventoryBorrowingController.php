@@ -140,7 +140,13 @@ class InventoryBorrowingController extends Controller
             }
 
             // Pengecekan bentrok jadwal rentang tanggal dan jam
-            $activeBorrowings = InventoryBorrowing::whereIn('status', ['Diajukan', 'Diproses', 'Disetujui', 'Sedang Dipinjam'])
+            $activeBorrowings = InventoryBorrowing::whereIn('status', [
+                InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN,
+                InventoryBorrowing::STATUS_DISETUJUI,
+                InventoryBorrowing::STATUS_SEDANG_DIPINJAM,
+                'Diajukan', // Kompatibilitas data transaksi lama
+                'Diproses', // Kompatibilitas data transaksi lama
+            ])
                 ->whereHas('details', function ($q) use ($item) {
                     $q->where('inventory_item_id', $item->id);
                 })
@@ -206,7 +212,7 @@ class InventoryBorrowingController extends Controller
                 'return_time' => $request->return_time,
                 'notes' => $request->notes,
                 'application_file' => $filePath,
-                'status' => 'Diajukan',
+                'status' => InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN,
             ]);
 
             foreach ($request->items as $itemData) {

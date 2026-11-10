@@ -15,7 +15,20 @@ class AdminInventoryBorrowingController extends Controller
         $query = InventoryBorrowing::with(['user', 'details.item']);
 
         if ($status) {
-            $query->where('status', $status);
+            if ($status === InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN) {
+                $query->whereIn('status', [
+                    InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN,
+                    'Diajukan',
+                    'Diproses',
+                ]);
+            } elseif ($status === InventoryBorrowing::STATUS_SELESAI) {
+                $query->whereIn('status', [
+                    InventoryBorrowing::STATUS_SELESAI,
+                    'Dikembalikan',
+                ]);
+            } else {
+                $query->where('status', $status);
+            }
         }
 
         $borrowings = $query->orderBy('created_at', 'desc')->get();
@@ -30,8 +43,9 @@ class AdminInventoryBorrowingController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
+        $allowedStatuses = implode(',', InventoryBorrowing::STATUSES);
         $request->validate([
-            'status' => 'required|in:Diajukan,Diproses,Disetujui,Ditolak,Sedang Dipinjam,Dikembalikan,Selesai',
+            'status' => "required|in:{$allowedStatuses}",
             'rejection_reason' => 'nullable|string',
         ]);
 
@@ -39,7 +53,12 @@ class AdminInventoryBorrowingController extends Controller
         $oldStatus = $borrowing->status;
         $newStatus = $request->status;
 
-        $holdingStockStatuses = ['Disetujui', 'Sedang Dipinjam'];
+        // Aturan E: Status Ditolak dan Selesai merupakan status akhir dan tidak boleh kembali ke proses peminjaman
+        if ($oldStatus !== $newStatus && $borrowing->isFinalStatus()) {
+            return redirect()->back()->withErrors("Pengajuan dengan status '{$oldStatus}' merupakan status akhir dan tidak dapat diubah kembali.");
+        }
+
+        $holdingStockStatuses = [InventoryBorrowing::STATUS_DISETUJUI, InventoryBorrowing::STATUS_SEDANG_DIPINJAM];
         $wasHolding = in_array($oldStatus, $holdingStockStatuses);
         $isHolding = in_array($newStatus, $holdingStockStatuses);
 

@@ -17,7 +17,7 @@
 {{-- Filter --}}
 <div class="mb-4 flex flex-wrap gap-2">
     <a href="{{ route('admin.peminjaman_inventaris.index') }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ !request('status') ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50' }}">Semua</a>
-    @foreach(['Diajukan','Diproses','Disetujui','Ditolak','Sedang Dipinjam','Dikembalikan','Selesai'] as $s)
+    @foreach(\App\Models\InventoryBorrowing::STATUSES as $s)
     <a href="{{ route('admin.peminjaman_inventaris.index', ['status' => $s]) }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request('status') == $s ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50' }}">{{ $s }}</a>
     @endforeach
 </div>
@@ -39,15 +39,20 @@
             <tbody class="divide-y divide-gray-50">
                 @forelse($borrowings as $b)
                 @php
-                    $color = 'blue';
-                    if (in_array($b->status, ['Disetujui','Dikembalikan','Selesai'])) $color = 'green';
-                    if ($b->status == 'Ditolak') $color = 'red';
-                    if ($b->status == 'Sedang Dipinjam') $color = 'yellow';
+                    $displayStatus = $b->status_label;
+                    $badgeClass = match($displayStatus) {
+                        'Menunggu Persetujuan' => 'bg-blue-100 text-blue-700',
+                        'Disetujui' => 'bg-emerald-100 text-emerald-700',
+                        'Sedang Dipinjam' => 'bg-amber-100 text-amber-700',
+                        'Ditolak' => 'bg-rose-100 text-rose-700',
+                        'Selesai' => 'bg-green-100 text-green-700',
+                        default => 'bg-gray-100 text-gray-700',
+                    };
                 @endphp
                 <tr class="hover:bg-gray-50/80 transition">
                     <td class="px-4 py-3 text-xs font-bold text-gray-900">{{ $b->request_code }}</td>
-                    <td class="px-4 py-3 text-xs text-gray-700">{{ $b->user->name }}</td>
-                    <td class="px-4 py-3 text-xs text-gray-500">{{ $b->details->map(fn($d) => $d->item->name . ' ('. $d->quantity .')')->implode(', ') }}</td>
+                    <td class="px-4 py-3 text-xs text-gray-700">{{ $b->user->name ?? $b->applicant_name }}</td>
+                    <td class="px-4 py-3 text-xs text-gray-500">{{ $b->details->map(fn($d) => ($d->item->name ?? 'Barang') . ' ('. $d->quantity .')')->implode(', ') }}</td>
                     <td class="px-4 py-3 text-xs text-gray-700">
                         <div>{{ $b->borrow_date->translatedFormat('d M Y') }}</div>
                         @if($b->borrowing_time)
@@ -60,7 +65,7 @@
                             <div class="text-[10px] text-gray-500 font-medium">{{ \Carbon\Carbon::parse($b->return_time)->format('H:i') }} WIB</div>
                         @endif
                     </td>
-                    <td class="px-4 py-3"><span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-{{ $color }}-100 text-{{ $color }}-700">{{ $b->status }}</span></td>
+                    <td class="px-4 py-3"><span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full {{ $badgeClass }}">{{ $displayStatus }}</span></td>
                     <td class="px-4 py-3"><a href="{{ route('admin.peminjaman_inventaris.show', $b->id) }}" class="text-blue-500 hover:text-blue-700 text-xs font-medium">Detail →</a></td>
                 </tr>
                 @empty

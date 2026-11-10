@@ -66,7 +66,7 @@
                         @php
                             $badgeClass = 'bg-gray-100 text-gray-800';
                             $s = $item['status'];
-                            if (in_array($s, ['Diajukan', 'Menunggu Verifikasi'])) $badgeClass = 'bg-gray-100 text-gray-800';
+                            if (in_array($s, ['Diajukan', 'Menunggu Verifikasi', 'Menunggu Persetujuan'])) $badgeClass = 'bg-blue-100 text-blue-800';
                             elseif (in_array($s, ['Diproses', 'Surat Diproses', 'Menunggu Dokumen'])) $badgeClass = 'bg-blue-100 text-blue-800';
                             elseif (in_array($s, ['Disetujui', 'Surat Tersedia', 'Selesai', 'Dikembalikan'])) $badgeClass = 'bg-green-100 text-green-800';
                             elseif (in_array($s, ['Ditolak', 'Dibatalkan'])) $badgeClass = 'bg-rose-100 text-rose-800';
