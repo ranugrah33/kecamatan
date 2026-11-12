@@ -34,11 +34,30 @@ return [
     'gemini' => [
         'api_key' => env('GEMINI_API_KEY'),
         'model' => env('GEMINI_MODEL', 'gemini-3.6-flash'),
+        'max_output_tokens' => max(256, min(8192, (int) env('GEMINI_MAX_OUTPUT_TOKENS', 2048))),
+        'cooldown_seconds' => max(5, min(600, (int) env('GEMINI_COOLDOWN_SECONDS', 45))),
+        'cooldown_max_seconds' => max(30, min(600, (int) env('GEMINI_COOLDOWN_MAX_SECONDS', 180))),
     ],
 
     'groq' => [
         'api_key' => env('GROQ_API_KEY'),
         'model' => env('GROQ_MODEL', 'qwen/qwen3.8-27b'),
+        // Conservative default matching Groq on_demand OTPM account limit (1000 OTPM)
+        'max_tokens' => max(256, min(4096, (int) env('GROQ_MAX_TOKENS', 1024))),
+    ],
+
+    'tavily' => [
+        'api_key' => env('TAVILY_API_KEY'),
+        'endpoint' => env('TAVILY_ENDPOINT', 'https://api.tavily.com/search'),
+        'timeout' => (int) env('TAVILY_TIMEOUT', 8),
+        'search_depth' => env('TAVILY_SEARCH_DEPTH', 'basic'),
+        'max_results' => (int) env('TAVILY_MAX_RESULTS', 5),
+        'max_content_chars' => (int) env('TAVILY_MAX_CONTENT_CHARS', 500),
+        'max_context_chars' => (int) env('TAVILY_MAX_CONTEXT_CHARS', 3500),
+        'cache_ttl_minutes' => (int) env('TAVILY_CACHE_TTL_MINUTES', 60),
+        'per_minute_limit' => (int) env('TAVILY_PER_MINUTE_LIMIT', 15),
+        'daily_limit' => (int) env('TAVILY_DAILY_LIMIT', 80),
+        'enabled' => filter_var(env('TAVILY_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
     ],
 
     'ai' => [
@@ -46,6 +65,11 @@ return [
         'fallback' => env('AI_FALLBACK', 'groq'),
         'timeout' => (int) env('AI_TIMEOUT', 20),
         'max_retries' => (int) env('AI_MAX_RETRIES', 1),
+        'rag' => [
+            'max_results' => (int) env('AI_RAG_MAX_RESULTS', 4),
+            'min_score' => (float) env('AI_RAG_MIN_SCORE', 3.5),
+            'max_context_chars' => (int) env('AI_RAG_MAX_CONTEXT_CHARS', 6000),
+        ],
     ],
 
 ];
