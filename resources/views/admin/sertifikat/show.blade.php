@@ -92,14 +92,20 @@
             <h3 class="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <i class="ph ph-sliders text-blue-500"></i> Kelola Status
             </h3>
-            <form action="{{ route('admin.sertifikat.updateStatus', $certRequest->id) }}" method="POST">
+            @php
+                $selectedCertStatus = old('status', $certRequest->status);
+            @endphp
+            <form action="{{ route('admin.sertifikat.updateStatus', $certRequest->id) }}"
+                  method="POST"
+                  x-data="sipafStatusReasonForm(@js($selectedCertStatus), ['Ditolak'], $el)"
+                  @submit="handleSubmit($event)">
                 @csrf @method('PUT')
                 <div class="space-y-3.5">
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Status Pengajuan</label>
-                        <select name="status" required class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-200 outline-none">
+                        <select name="status" x-model="status" @change="onStatusChange()" required class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-200 outline-none">
                             @foreach(['Diajukan','Diproses','Disetujui','Sertifikat Tersedia','Selesai','Ditolak'] as $s)
-                            <option value="{{ $s }}" {{ $certRequest->status == $s ? 'selected' : '' }}>{{ $s }}</option>
+                            <option value="{{ $s }}" {{ $selectedCertStatus == $s ? 'selected' : '' }}>{{ $s }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -108,12 +114,46 @@
                         <input type="text" name="nomor_sertifikat" value="{{ old('nomor_sertifikat', $certRequest->nomor_sertifikat) }}" placeholder="Otomatis jika kosong" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-200 outline-none">
                         <span class="text-[11px] text-gray-400 mt-0.5 block">Format: 421.1/XXX/Kec-Ckp/YYYY</span>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Alasan Penolakan / Catatan</label>
-                        <textarea name="rejection_reason" rows="2" class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-200 outline-none" placeholder="Opsional bila ditolak">{{ $certRequest->rejection_reason }}</textarea>
+
+                    <div x-cloak x-show="requiresReason"
+                         class="p-3 rounded-lg border bg-red-50 border-red-200 text-red-900 text-xs leading-relaxed">
+                        <div class="flex items-start gap-2">
+                            <i class="ph ph-envelope-simple text-base text-red-600 shrink-0 mt-0.5"></i>
+                            <span>
+                                <strong>Wajib Isi Alasan Penolakan:</strong>
+                                Saat status berubah menjadi <strong>Ditolak</strong>, sistem akan otomatis mengirim email pemberitahuan ke pemohon beserta alasan penolakan.
+                            </span>
+                        </div>
                     </div>
-                    <button type="submit" class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow transition">
-                        Simpan Perubahan
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-xs font-semibold text-gray-700">
+                                <span x-text="isRejected ? 'Alasan Penolakan' : 'Alasan Penolakan / Catatan'">Alasan Penolakan / Catatan</span>
+                                <span x-cloak x-show="requiresReason" class="text-red-600 font-bold">*</span>
+                            </label>
+                            <span x-cloak x-show="requiresReason" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Wajib diisi</span>
+                        </div>
+                        <textarea name="rejection_reason"
+                                  x-ref="reasonTextarea"
+                                  x-model="reason"
+                                  @input="onReasonInput()"
+                                  :required="requiresReason"
+                                  rows="3"
+                                  class="w-full px-3 py-2 rounded-lg border text-sm focus:ring-2 outline-none transition"
+                                  :class="clientError || {{ $errors->has('rejection_reason') ? 'true' : 'false' }} ? 'border-red-500 ring-2 ring-red-100 focus:ring-red-200' : (requiresReason ? 'border-red-300 focus:ring-red-200 focus:border-red-500' : 'border-gray-300 focus:ring-blue-200')"
+                                  :placeholder="isRejected ? 'Tuliskan alasan penolakan pengajuan secara jelas...' : 'Opsional bila ditolak'"
+                                  placeholder="Opsional bila ditolak">{{ old('rejection_reason', $certRequest->rejection_reason) }}</textarea>
+                        <p x-cloak x-show="clientError" x-text="clientError" class="text-xs text-red-600 font-medium mt-1"></p>
+                        @error('rejection_reason')
+                            <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <button type="submit"
+                            :disabled="isSubmitting"
+                            :class="isSubmitting ? 'opacity-75 cursor-not-allowed' : ''"
+                            class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow transition">
+                        <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'">Simpan Perubahan</span>
                     </button>
                 </div>
             </form>
@@ -141,3 +181,5 @@
     </div>
 </div>
 @endsection
+
+@include('admin.partials.status_reason_script')

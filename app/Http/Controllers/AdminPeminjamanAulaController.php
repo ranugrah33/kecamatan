@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PeminjamanAula;
+use App\Services\PengajuanStatusNotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AdminPeminjamanAulaController extends Controller
@@ -32,27 +34,47 @@ class AdminPeminjamanAulaController extends Controller
         return view('admin.peminjaman_aula.show', compact('peminjaman'));
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, $id, PengajuanStatusNotificationService $notificationService)
     {
+        $reasonRequiredMessage = 'Alasan atau catatan admin wajib diisi ketika status diubah menjadi Perlu Perbaikan atau Ditolak.';
+
         $request->validate([
             'status' => 'required|in:Menunggu Verifikasi,Perlu Perbaikan,Surat Diproses,Surat Tersedia,Selesai,Ditolak',
-            'catatan_petugas' => 'nullable|string'
+            'catatan_petugas' => PengajuanStatusNotificationService::reasonRules(
+                $request->input('status'),
+                [PeminjamanAula::STATUS_PERLU_PERBAIKAN, PeminjamanAula::STATUS_DITOLAK],
+                $reasonRequiredMessage
+            ),
+        ], [
+            'catatan_petugas.required' => $reasonRequiredMessage,
         ]);
 
-        $peminjaman = PeminjamanAula::findOrFail($id);
-        
-        $peminjaman->update([
-            'status' => $request->status,
-            'catatan_petugas' => $request->catatan_petugas
-        ]);
+        $peminjaman = null;
+        $oldStatus = null;
+
+        DB::transaction(function () use ($request, $id, &$peminjaman, &$oldStatus): void {
+            $peminjaman = PeminjamanAula::where('id', $id)->lockForUpdate()->firstOrFail();
+            $oldStatus = $peminjaman->status;
+
+            $peminjaman->update([
+                'status' => $request->status,
+                'catatan_petugas' => $request->catatan_petugas,
+            ]);
+        });
+
+        $peminjaman->refresh();
 
         // Jika status diubah menjadi Surat Tersedia dan file final ada serta belum dinotifikasikan, kirimkan email
         if ($peminjaman->status === PeminjamanAula::STATUS_SURAT_TERSEDIA) {
-            $peminjaman->refresh();
             $peminjaman->sendSuratFinalNotificationIfNeeded();
         }
 
-        return redirect()->route('admin.peminjaman_aula.show', $id)->with('success', 'Status pengajuan berhasil diperbarui!');
+        // Kirim notifikasi email otomatis hanya jika status berubah menjadi Perlu Perbaikan atau Ditolak
+        $notifResult = $notificationService->notifyPeminjamanAulaIfNeeded($peminjaman, $oldStatus);
+
+        return redirect()
+            ->route('admin.peminjaman_aula.show', $id)
+            ->with('success', PengajuanStatusNotificationService::buildStatusSuccessMessage($notifResult));
     }
 
     public function cetakSurat($id)

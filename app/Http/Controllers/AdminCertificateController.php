@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CertificateRequest;
 use App\Models\CertificateFile;
+use App\Services\PengajuanStatusNotificationService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminCertificateController extends Controller
 {
@@ -28,33 +30,53 @@ class AdminCertificateController extends Controller
         return view('admin.sertifikat.show', compact('certRequest'));
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, $id, PengajuanStatusNotificationService $notificationService)
     {
+        $reasonRequiredMessage = 'Alasan penolakan wajib diisi ketika status diubah menjadi Ditolak.';
+
         $request->validate([
             'status' => 'required|in:Diajukan,Diproses,Disetujui,Sertifikat Tersedia,Selesai,Ditolak',
-            'rejection_reason' => 'nullable|string',
+            'rejection_reason' => PengajuanStatusNotificationService::reasonRules(
+                $request->input('status'),
+                ['Ditolak'],
+                $reasonRequiredMessage
+            ),
             'nomor_sertifikat' => 'nullable|string',
+        ], [
+            'rejection_reason.required' => $reasonRequiredMessage,
         ]);
 
-        $certRequest = CertificateRequest::findOrFail($id);
+        $certRequest = null;
+        $oldStatus = null;
 
-        $data = [
-            'status' => $request->status,
-            'rejection_reason' => $request->rejection_reason,
-        ];
+        DB::transaction(function () use ($request, $id, &$certRequest, &$oldStatus): void {
+            $certRequest = CertificateRequest::where('id', $id)->lockForUpdate()->firstOrFail();
+            $oldStatus = $certRequest->status;
 
-        if ($request->filled('nomor_sertifikat')) {
-            $data['nomor_sertifikat'] = $request->nomor_sertifikat;
-        } elseif (in_array($request->status, ['Disetujui', 'Sertifikat Tersedia', 'Selesai']) && empty($certRequest->nomor_sertifikat)) {
-            $year = date('Y');
-            $count = CertificateRequest::whereNotNull('nomor_sertifikat')->whereYear('created_at', $year)->count() + 1;
-            $nomor = str_pad($count, 3, '0', STR_PAD_LEFT);
-            $data['nomor_sertifikat'] = "421.1/{$nomor}/Kec-Ckp/{$year}";
-        }
+            $data = [
+                'status' => $request->status,
+                'rejection_reason' => $request->rejection_reason,
+            ];
 
-        $certRequest->update($data);
+            if ($request->filled('nomor_sertifikat')) {
+                $data['nomor_sertifikat'] = $request->nomor_sertifikat;
+            } elseif (in_array($request->status, ['Disetujui', 'Sertifikat Tersedia', 'Selesai']) && empty($certRequest->nomor_sertifikat)) {
+                $year = date('Y');
+                $count = CertificateRequest::whereNotNull('nomor_sertifikat')->whereYear('created_at', $year)->count() + 1;
+                $nomor = str_pad($count, 3, '0', STR_PAD_LEFT);
+                $data['nomor_sertifikat'] = "421.1/{$nomor}/Kec-Ckp/{$year}";
+            }
 
-        return redirect()->route('admin.sertifikat.show', $id)->with('success', 'Status pengajuan berhasil diperbarui!');
+            $certRequest->update($data);
+        });
+
+        $certRequest->refresh();
+
+        $notifResult = $notificationService->notifyCertificateRequestIfNeeded($certRequest, $oldStatus);
+
+        return redirect()
+            ->route('admin.sertifikat.show', $id)
+            ->with('success', PengajuanStatusNotificationService::buildStatusSuccessMessage($notifResult));
     }
 
     public function uploadCertificateFinal(Request $request, $id)

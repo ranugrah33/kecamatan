@@ -160,21 +160,28 @@
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-100">
                         <h3 class="font-medium text-gray-900">Tindakan Admin</h3>
                     </div>
-                    <form action="{{ route('admin.peminjaman_aula.updateStatus', $peminjaman->id) }}" method="POST" class="p-6 space-y-4">
+                    @php
+                        $selectedStatus = old('status', $peminjaman->status);
+                    @endphp
+                    <form action="{{ route('admin.peminjaman_aula.updateStatus', $peminjaman->id) }}"
+                          method="POST"
+                          class="p-6 space-y-4"
+                          x-data="sipafStatusReasonForm(@js($selectedStatus), ['Perlu Perbaikan', 'Ditolak'], $el)"
+                          @submit="handleSubmit($event)">
                         @csrf
                         @method('PUT')
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ubah Status</label>
-                            <select name="status" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 outline-none">
-                                <option value="Menunggu Verifikasi" {{ $peminjaman->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>1. Menunggu Verifikasi</option>
-                                <option value="Perlu Perbaikan" {{ $peminjaman->status == 'Perlu Perbaikan' ? 'selected' : '' }}>2. Perlu Perbaikan</option>
-                                <option value="Surat Diproses" {{ $peminjaman->status == 'Surat Diproses' ? 'selected' : '' }}>3. Surat Diproses (Draft)</option>
-                                <option value="Surat Tersedia" {{ $peminjaman->status == 'Surat Tersedia' ? 'selected' : '' }}>4. Surat Tersedia (Final)</option>
-                                <option value="Selesai" {{ $peminjaman->status == 'Selesai' ? 'selected' : '' }}>5. Selesai (Kegiatan Rampung)</option>
-                                <option value="Ditolak" {{ $peminjaman->status == 'Ditolak' ? 'selected' : '' }}>6. Ditolak</option>
+                            <select name="status" x-model="status" @change="onStatusChange()" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                <option value="Menunggu Verifikasi" {{ $selectedStatus == 'Menunggu Verifikasi' ? 'selected' : '' }}>1. Menunggu Verifikasi</option>
+                                <option value="Perlu Perbaikan" {{ $selectedStatus == 'Perlu Perbaikan' ? 'selected' : '' }}>2. Perlu Perbaikan</option>
+                                <option value="Surat Diproses" {{ $selectedStatus == 'Surat Diproses' ? 'selected' : '' }}>3. Surat Diproses (Draft)</option>
+                                <option value="Surat Tersedia" {{ $selectedStatus == 'Surat Tersedia' ? 'selected' : '' }}>4. Surat Tersedia (Final)</option>
+                                <option value="Selesai" {{ $selectedStatus == 'Selesai' ? 'selected' : '' }}>5. Selesai (Kegiatan Rampung)</option>
+                                <option value="Ditolak" {{ $selectedStatus == 'Ditolak' ? 'selected' : '' }}>6. Ditolak</option>
                                 @if(!in_array($peminjaman->status, ['Menunggu Verifikasi', 'Perlu Perbaikan', 'Surat Diproses', 'Surat Tersedia', 'Selesai', 'Ditolak']))
-                                    <option value="{{ $peminjaman->status }}" selected>{{ $peminjaman->status_label }}</option>
+                                    <option value="{{ $peminjaman->status }}" {{ $selectedStatus == $peminjaman->status ? 'selected' : '' }}>{{ $peminjaman->status_label }}</option>
                                 @endif
                             </select>
                         </div>
@@ -188,15 +195,49 @@
                                 <i class="ph ph-clock mr-1 font-bold"></i> Jadwal Selesai Otomatis: <strong>{{ $waktuSelesaiOtomatis->translatedFormat('d M Y, H:i') }} WIB</strong> (30 menit setelah jam kegiatan berakhir).
                             </div>
                         @endif
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Catatan Admin (Opsional)</label>
-                            <textarea name="catatan_petugas" rows="4" class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Tulis catatan atau alasan penolakan/perbaikan di sini...">{{ $peminjaman->catatan_petugas }}</textarea>
-                            <p class="text-xs text-gray-500 mt-1">Catatan ini akan muncul di riwayat pelapor.</p>
+
+                        <div x-cloak x-show="requiresReason"
+                             class="p-3 rounded-lg border text-xs leading-relaxed"
+                             :class="isRevision ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-red-50 border-red-200 text-red-900'">
+                            <div class="flex items-start gap-2">
+                                <i class="ph text-base shrink-0 mt-0.5" :class="isRevision ? 'ph-warning-circle text-amber-600' : 'ph-envelope-simple text-red-600'"></i>
+                                <span>
+                                    <strong x-text="isRevision ? 'Wajib Isi Catatan Perbaikan:' : 'Wajib Isi Alasan Penolakan:'"></strong>
+                                    Saat status berubah menjadi <strong x-text="status"></strong>, sistem akan otomatis mengirim email pemberitahuan ke pemohon beserta alasan yang Anda tulis.
+                                </span>
+                            </div>
                         </div>
                         
-                        <button type="submit" class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
-                            Simpan Perubahan
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="block text-sm font-medium text-gray-700">
+                                    <span x-text="isRevision ? 'Alasan / Catatan Perbaikan' : (isRejected ? 'Alasan Penolakan' : 'Catatan Admin (Opsional)')">Catatan Admin (Opsional)</span>
+                                    <span x-cloak x-show="requiresReason" class="text-red-600 font-bold">*</span>
+                                </label>
+                                <span x-cloak x-show="requiresReason" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Wajib diisi</span>
+                            </div>
+                            <textarea name="catatan_petugas"
+                                      x-ref="reasonTextarea"
+                                      x-model="reason"
+                                      @input="onReasonInput()"
+                                      :required="requiresReason"
+                                      rows="4"
+                                      class="w-full px-4 py-2 border rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                                      :class="clientError || {{ $errors->has('catatan_petugas') ? 'true' : 'false' }} ? 'border-red-500 ring-2 ring-red-100' : (requiresReason ? (isRevision ? 'border-amber-400 focus:ring-amber-200 focus:border-amber-500' : 'border-red-300 focus:ring-red-200 focus:border-red-500') : 'border-gray-300')"
+                                      :placeholder="isRevision ? 'Jelaskan bagian yang perlu diperbaiki oleh pemohon...' : (isRejected ? 'Jelaskan alasan penolakan pengajuan secara jelas...' : 'Tulis catatan atau alasan penolakan/perbaikan di sini...')"
+                                      placeholder="Tulis catatan atau alasan penolakan/perbaikan di sini...">{{ old('catatan_petugas', $peminjaman->catatan_petugas) }}</textarea>
+                            <p x-cloak x-show="clientError" x-text="clientError" class="text-xs text-red-600 font-medium mt-1"></p>
+                            @error('catatan_petugas')
+                                <p class="text-xs text-red-600 font-medium mt-1">{{ $message }}</p>
+                            @enderror
+                            <p class="text-xs text-gray-500 mt-1">Catatan ini akan muncul di riwayat pelapor dan dikirim melalui email bila status menjadi Perlu Perbaikan atau Ditolak.</p>
+                        </div>
+                        
+                        <button type="submit"
+                                :disabled="isSubmitting"
+                                :class="isSubmitting ? 'opacity-75 cursor-not-allowed' : ''"
+                                class="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+                            <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'">Simpan Perubahan</span>
                         </button>
                     </form>
                 </div>
@@ -256,3 +297,5 @@
             </div>
         </div>
 @endsection
+
+@include('admin.partials.status_reason_script')
