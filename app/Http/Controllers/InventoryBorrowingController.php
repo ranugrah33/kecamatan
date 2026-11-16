@@ -224,7 +224,8 @@ class InventoryBorrowingController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('masyarakat.peminjaman_inventaris.sukses', $borrowing->id);
+            return redirect()->route('masyarakat.peminjaman_inventaris.sukses', $borrowing->id)
+                ->with('success', 'Pengajuan peminjaman barang inventaris berhasil dikirim! Silakan periksa kotak masuk atau folder spam email Anda untuk pembaruan status permohonan.');
         } catch (\Exception $e) {
             DB::rollback();
             \Illuminate\Support\Facades\Log::error('Error Inventory Borrowing: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);

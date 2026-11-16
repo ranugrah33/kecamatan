@@ -17,6 +17,19 @@
     </a>
 </div>
 
+{{-- Banner Info Email & Spam --}}
+<div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl border border-indigo-100 p-4 mb-6 flex items-start gap-3">
+    <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0 text-indigo-600">
+        <i class="ph ph-envelope-simple text-xl"></i>
+    </div>
+    <div class="text-xs sm:text-sm text-indigo-950">
+        <span class="font-bold block mb-0.5">Informasi Notifikasi Email &amp; Folder Spam:</span>
+        <p class="text-indigo-800 leading-relaxed">
+            Status persetujuan peminjaman dan pengingat pengembalian barang akan dikirim langsung ke email Anda. Pastikan mengecek Kotak Masuk serta folder <strong>Spam</strong> secara berkala.
+        </p>
+    </div>
+</div>
+
 {{-- Daftar Barang Tersedia --}}
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
     <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">

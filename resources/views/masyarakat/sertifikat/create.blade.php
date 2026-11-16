@@ -106,6 +106,15 @@
         </div>
     </div>
 
+    <!-- Informasi Notifikasi Email & Folder Spam -->
+    <div class="mb-6 p-4 bg-amber-50/80 border border-amber-200 rounded-xl text-xs sm:text-sm text-amber-900 flex items-start gap-3">
+        <i class="ph ph-envelope-simple text-amber-600 text-xl shrink-0 mt-0.5"></i>
+        <div class="leading-relaxed">
+            <span class="font-bold text-amber-950 block mb-0.5">Pemberitahuan Pengiriman Notifikasi &amp; Berkas:</span>
+            Setelah pengajuan diajukan, status verifikasi serta berkas final sertifikat / piagam resmi akan dikirimkan otomatis ke email Anda (<strong>{{ $user->email }}</strong>). Harap periksa Kotak Masuk (Inbox) serta bagian/folder <strong>Spam</strong> email Anda.
+        </div>
+    </div>
+
     <div class="flex justify-end gap-3">
         <a href="{{ route('masyarakat.sertifikat.index') }}" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition">Batal</a>
         <button type="submit" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-semibold shadow transition flex items-center gap-2">

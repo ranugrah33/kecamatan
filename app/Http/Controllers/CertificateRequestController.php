@@ -88,7 +88,7 @@ class CertificateRequestController extends Controller
         ]);
 
         return redirect()->route('masyarakat.sertifikat.show', $certRequest->id)
-            ->with('success', 'Pengajuan sertifikat/piagam berhasil dikirim!');
+            ->with('success', 'Pengajuan sertifikat/piagam berhasil dikirim! Silakan periksa kotak masuk atau folder spam email Anda untuk pembaruan status permohonan.');
     }
 
     public function show($id)

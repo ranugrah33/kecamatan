@@ -29,7 +29,7 @@
                 <li>Anda membuat pengajuan sertifikat/piagam dengan mengisi form</li>
                 <li>Admin akan menerima dan memeriksa permohonan Anda</li>
                 <li>Admin membuat sertifikat/piagam dan mengunggah hasilnya</li>
-                <li>Anda mendapatkan notifikasi dan dapat mengunduh file</li>
+                <li>Anda mendapatkan notifikasi melalui email (periksa juga folder Spam) dan dapat mengunduh file</li>
             </ol>
         </div>
     </div>
