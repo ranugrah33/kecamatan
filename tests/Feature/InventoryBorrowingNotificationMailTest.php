@@ -9,10 +9,13 @@ use App\Models\InventoryBorrowing;
 use App\Models\InventoryBorrowingDetail;
 use App\Mail\InventoryBorrowingApprovedMail;
 use App\Mail\InventoryBorrowingRejectedMail;
+use App\Mail\InventoryBorrowingSuratFinalMail;
 use App\Mail\InventoryReturnReminderMail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class InventoryBorrowingNotificationMailTest extends TestCase
@@ -84,10 +87,12 @@ class InventoryBorrowingNotificationMailTest extends TestCase
     }
 
     /**
-     * Skenario 1: Pengajuan berubah menjadi Disetujui -> email persetujuan terkirim.
+     * Skenario 1: Pengajuan berubah menjadi Disetujui -> email persetujuan lama TIDAK dikirim.
+     * Notifikasi email utama hanya dikirim ketika surat final berhasil diunggah.
      */
     public function test_skenario_1_pengajuan_disetujui_mengirimkan_email_persetujuan(): void
     {
+        Storage::fake('local');
         Mail::fake();
 
         $borrowing = $this->createBorrowing(InventoryBorrowing::STATUS_MENUNGGU_PERSETUJUAN);
@@ -103,30 +108,53 @@ class InventoryBorrowingNotificationMailTest extends TestCase
         $fresh = $borrowing->fresh();
         $this->assertEquals(InventoryBorrowing::STATUS_DISETUJUI, $fresh->status);
 
-        // Verifikasi email dikirim ke email pemohon, bukan admin
-        Mail::assertSent(InventoryBorrowingApprovedMail::class, function ($mail) use ($borrowing) {
+        // KEBIJAKAN BARU: Tidak ada email persetujuan yang terkirim pada saat perubahan status menjadi Disetujui
+        Mail::assertNotSent(InventoryBorrowingApprovedMail::class);
+        Mail::assertNotSent(InventoryBorrowingSuratFinalMail::class);
+        Mail::assertNotSent(InventoryBorrowingRejectedMail::class);
+
+        // Stok barang tetap diproses/berkurang sesuai logika lama (10 -> 8)
+        $this->assertEquals(8, $this->item->fresh()->available_quantity);
+
+        // Ketika admin mengunggah Surat Persetujuan Final yang sudah ditandatangani
+        $file = UploadedFile::fake()->create('surat_persetujuan_final.pdf', 500, 'application/pdf');
+        $uploadResponse = $this->actingAs($this->admin)
+            ->post(route('admin.peminjaman_inventaris.uploadSuratFinal', $borrowing->id), [
+                'file_surat_final' => $file,
+                'nomor_surat' => '000.1.2/100/Kec-Ckp/2026',
+            ]);
+
+        $uploadResponse->assertRedirect(route('admin.peminjaman_inventaris.show', $borrowing->id));
+        $uploadResponse->assertSessionHas('success');
+
+        // Email notifikasi utama (surat final) terkirim ke pemohon
+        Mail::assertSent(InventoryBorrowingSuratFinalMail::class, function ($mail) use ($borrowing) {
             $hasRecipient = $mail->hasTo('warga.inventaris@gmail.com');
             $notAdmin = !$mail->hasTo('admin.test@cikampek.go.id');
             $correctCode = $mail->borrowing->id === $borrowing->id;
+            $correctSubject = $mail->envelope()->subject === 'Surat Persetujuan Peminjaman Inventaris Telah Terbit — SIPAF Kecamatan Cikampek';
 
             // Render view email dan verifikasi seluruh komponen wajib
             $rendered = $mail->render();
             $containsApplicant = str_contains($rendered, $borrowing->applicant_name);
             $containsCode = str_contains($rendered, $borrowing->request_code);
             $containsItem = str_contains($rendered, 'Sound Portable Wireless');
-            $containsQuantity = str_contains($rendered, '2 Unit');
+            $containsQuantity = str_contains($rendered, '2 unit');
             $containsBorrowDate = str_contains($rendered, 'Tanggal Peminjaman');
             $containsReturnInfo = str_contains($rendered, 'Tanggal Pengembalian');
-            $containsApprovalText = str_contains($rendered, 'DISETUJUI');
-            $containsGuide = str_contains($rendered, 'Petunjuk Pengambilan Barang');
+            $containsLocation = str_contains($rendered, 'Kantor Kecamatan Cikampek');
+            $containsProof = str_contains($rendered, 'surat persetujuan');
+            $containsPickupProof = str_contains($rendered, 'bukti') && str_contains($rendered, 'pengambilan');
+            $containsSteps = str_contains($rendered, 'LANGKAH PENGAMBILAN BARANG');
 
-            return $hasRecipient && $notAdmin && $correctCode
+            return $hasRecipient && $notAdmin && $correctCode && $correctSubject
                 && $containsApplicant && $containsCode && $containsItem
                 && $containsQuantity && $containsBorrowDate && $containsReturnInfo
-                && $containsApprovalText && $containsGuide;
+                && $containsLocation && $containsProof && $containsPickupProof && $containsSteps;
         });
 
-        Mail::assertNotSent(InventoryBorrowingRejectedMail::class);
+        // Email persetujuan lama tetap TIDAK dikirim
+        Mail::assertNotSent(InventoryBorrowingApprovedMail::class);
     }
 
     /**
@@ -258,13 +286,14 @@ class InventoryBorrowingNotificationMailTest extends TestCase
 
         $response = $this->actingAs($this->admin)
             ->put(route('admin.peminjaman_inventaris.updateStatus', $borrowing->id), [
-                'status' => InventoryBorrowing::STATUS_DISETUJUI,
+                'status' => InventoryBorrowing::STATUS_DITOLAK,
+                'rejection_reason' => 'Data persyaratan peminjaman belum lengkap.',
             ]);
 
         // Transaksi tetap sukses diperbarui di database
         $response->assertRedirect(route('admin.peminjaman_inventaris.show', $borrowing->id));
         $response->assertSessionHas('success');
-        $this->assertEquals(InventoryBorrowing::STATUS_DISETUJUI, $borrowing->fresh()->status);
+        $this->assertEquals(InventoryBorrowing::STATUS_DITOLAK, $borrowing->fresh()->status);
 
         // Tidak ada email yang terkirim
         Mail::assertNothingSent();
@@ -290,7 +319,7 @@ class InventoryBorrowingNotificationMailTest extends TestCase
         Log::shouldReceive('error')
             ->once()
             ->withArgs(function ($message) use ($borrowing) {
-                return str_contains($message, 'Gagal mengirim email persetujuan')
+                return str_contains($message, 'Gagal mengirim email')
                     && str_contains($message, $borrowing->request_code)
                     && str_contains($message, 'SMTP Connection timeout');
             });
@@ -301,13 +330,14 @@ class InventoryBorrowingNotificationMailTest extends TestCase
 
         $response = $this->actingAs($this->admin)
             ->put(route('admin.peminjaman_inventaris.updateStatus', $borrowing->id), [
-                'status' => InventoryBorrowing::STATUS_DISETUJUI,
+                'status' => InventoryBorrowing::STATUS_DITOLAK,
+                'rejection_reason' => 'Barang sedang diperbaiki',
             ]);
 
-        // Status transaksi TETAP tersimpan sebagai Disetujui
+        // Status transaksi TETAP tersimpan sebagai Ditolak
         $response->assertRedirect(route('admin.peminjaman_inventaris.show', $borrowing->id));
         $response->assertSessionHas('success');
-        $this->assertEquals(InventoryBorrowing::STATUS_DISETUJUI, $borrowing->fresh()->status);
+        $this->assertEquals(InventoryBorrowing::STATUS_DITOLAK, $borrowing->fresh()->status);
     }
 
     /**

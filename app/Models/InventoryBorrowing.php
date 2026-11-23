@@ -111,6 +111,46 @@ class InventoryBorrowing extends Model
         return $this->hasMany(InventoryBorrowingDetail::class, 'borrowing_id');
     }
 
+    public function documents()
+    {
+        return $this->hasMany(InventoryBorrowingDocument::class, 'inventory_borrowing_id')->orderBy('version', 'desc');
+    }
+
+    public function activeFinalDocument()
+    {
+        return $this->hasOne(InventoryBorrowingDocument::class, 'inventory_borrowing_id')
+            ->where('document_type', InventoryBorrowingDocument::TYPE_FINAL)
+            ->where('is_active', true);
+    }
+
+    public function finalDocuments()
+    {
+        return $this->hasMany(InventoryBorrowingDocument::class, 'inventory_borrowing_id')
+            ->where('document_type', InventoryBorrowingDocument::TYPE_FINAL)
+            ->orderBy('version', 'desc');
+    }
+
+    /**
+     * Dapatkan status dokumen terpisah dari status transaksi
+     */
+    public function getDocumentStatusLabelAttribute(): string
+    {
+        if ($this->activeFinalDocument()->exists()) {
+            return 'Surat Final Tersedia';
+        }
+
+        if (in_array($this->status, [
+            self::STATUS_DISETUJUI,
+            self::STATUS_SEDANG_DIPINJAM,
+            self::STATUS_SELESAI,
+            'Dikembalikan',
+        ])) {
+            return 'Draft Tersedia (Menunggu Surat Final)';
+        }
+
+        return 'Belum Dibuat';
+    }
+
     /**
      * Tampilan jam peminjaman format 24 jam WIB (contoh: 08:00 WIB)
      */

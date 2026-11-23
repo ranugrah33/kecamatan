@@ -76,6 +76,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/peminjaman-inventaris', [AdminInventoryBorrowingController::class, 'index'])->name('admin.peminjaman_inventaris.index');
     Route::get('/admin/peminjaman-inventaris/{id}', [AdminInventoryBorrowingController::class, 'show'])->name('admin.peminjaman_inventaris.show');
     Route::put('/admin/peminjaman-inventaris/{id}/status', [AdminInventoryBorrowingController::class, 'updateStatus'])->name('admin.peminjaman_inventaris.updateStatus');
+    Route::get('/admin/peminjaman-inventaris/{id}/draft-surat', [AdminInventoryBorrowingController::class, 'cetakDraftSurat'])->name('admin.peminjaman_inventaris.cetakDraftSurat');
+    Route::post('/admin/peminjaman-inventaris/{id}/upload-surat-final', [AdminInventoryBorrowingController::class, 'uploadSuratFinal'])->name('admin.peminjaman_inventaris.uploadSuratFinal');
+    Route::get('/admin/peminjaman-inventaris/{id}/download-surat-final/{documentId?}', [AdminInventoryBorrowingController::class, 'downloadSuratFinal'])->name('admin.peminjaman_inventaris.downloadSuratFinal');
 
     // Sertifikat / Piagam
     Route::get('/admin/sertifikat', [AdminCertificateController::class, 'index'])->name('admin.sertifikat.index');
@@ -124,6 +127,7 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::post('/masyarakat/peminjaman-inventaris', [InventoryBorrowingController::class, 'store'])->name('masyarakat.peminjaman_inventaris.store');
     Route::get('/masyarakat/peminjaman-inventaris/sukses/{id}', [InventoryBorrowingController::class, 'sukses'])->name('masyarakat.peminjaman_inventaris.sukses');
     Route::get('/masyarakat/peminjaman-inventaris/{id}', [InventoryBorrowingController::class, 'show'])->name('masyarakat.peminjaman_inventaris.show');
+    Route::get('/masyarakat/peminjaman-inventaris/{id}/download-surat', [InventoryBorrowingController::class, 'downloadSuratFinal'])->name('masyarakat.peminjaman_inventaris.downloadSurat');
 
     // Sertifikat / Piagam
     Route::get('/masyarakat/sertifikat', [CertificateRequestController::class, 'index'])->name('masyarakat.sertifikat.index');

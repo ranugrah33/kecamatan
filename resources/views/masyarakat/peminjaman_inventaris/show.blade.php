@@ -233,6 +233,47 @@
 
         {{-- Side Info --}}
         <div class="space-y-6">
+            {{-- DOKUMEN PERSETUJUAN --}}
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <h3 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="ph ph-file-text text-emerald-600 text-lg"></i> Dokumen Persetujuan
+                </h3>
+                @php
+                    $finalDoc = $borrowing->activeFinalDocument;
+                @endphp
+                @if($finalDoc)
+                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl space-y-3">
+                        <div class="flex items-center gap-2 text-emerald-900 font-bold text-xs sm:text-sm">
+                            <i class="ph ph-check-circle text-emerald-600 text-lg"></i>
+                            <span>Surat persetujuan telah tersedia.</span>
+                        </div>
+                        <p class="text-xs text-emerald-800 leading-relaxed">
+                            Surat persetujuan resmi peminjaman inventaris dari Kecamatan Cikampek telah ditandatangani dan siap diunduh.
+                        </p>
+                        @if($finalDoc->nomor_surat)
+                            <div class="text-xs text-emerald-950 font-medium">
+                                Nomor Surat: <span class="font-bold">{{ $finalDoc->nomor_surat }}</span>
+                            </div>
+                        @endif
+                        <div class="pt-1">
+                            <a href="{{ route('masyarakat.peminjaman_inventaris.downloadSurat', $borrowing->id) }}" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white text-xs font-semibold rounded-xl shadow-xs transition">
+                                <i class="ph ph-download-simple text-base"></i> Download Surat Persetujuan
+                            </a>
+                        </div>
+                    </div>
+                @else
+                    <div class="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
+                        <div class="flex items-center gap-2 text-gray-700 font-semibold text-xs">
+                            <i class="ph ph-clock text-amber-500 text-base"></i>
+                            <span>Status Surat: Dalam Proses</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Surat persetujuan sedang diproses oleh pihak Kecamatan.
+                        </p>
+                    </div>
+                @endif
+            </div>
+
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
                 <h3 class="text-sm font-bold text-gray-900 mb-3">Timeline Status</h3>
                 <div class="space-y-3">

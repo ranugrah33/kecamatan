@@ -9,6 +9,7 @@ use App\Models\InventoryBorrowingDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class InventoryBorrowingController extends Controller
@@ -245,11 +246,31 @@ class InventoryBorrowingController extends Controller
 
     public function show($id)
     {
-        $borrowing = InventoryBorrowing::with('details.item')
+        $borrowing = InventoryBorrowing::with(['details.item', 'activeFinalDocument'])
             ->where('id', $id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
         return view('masyarakat.peminjaman_inventaris.show', compact('borrowing'));
+    }
+
+    /**
+     * Unduh surat persetujuan final yang terotorisasi bagi masyarakat pemohon
+     */
+    public function downloadSuratFinal($id)
+    {
+        $borrowing = InventoryBorrowing::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $finalDoc = $borrowing->activeFinalDocument;
+        if (!$finalDoc || !Storage::disk('local')->exists($finalDoc->file_path)) {
+            return redirect()->back()->withErrors('Surat persetujuan belum tersedia atau berkas fisik tidak ditemukan di server.');
+        }
+
+        $extension = pathinfo($finalDoc->file_name, PATHINFO_EXTENSION) ?: 'pdf';
+        $safeName = 'Surat_Persetujuan_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $borrowing->request_code) . '.' . $extension;
+
+        return Storage::disk('local')->download($finalDoc->file_path, $safeName);
     }
 }
