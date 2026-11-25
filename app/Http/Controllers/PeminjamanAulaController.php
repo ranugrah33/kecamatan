@@ -25,8 +25,22 @@ class PeminjamanAulaController extends Controller
                                           ->orderBy('tanggal', 'asc')
                                           ->orderBy('jam_mulai', 'asc')
                                           ->get();
+
+        $booked_jadwal = $jadwal_disetujui->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'tanggal' => $item->tanggal->format('Y-m-d'),
+                'tanggal_formatted' => $item->tanggal->locale('id')->translatedFormat('l, d F Y'),
+                'tanggal_short' => $item->tanggal->locale('id')->translatedFormat('d M Y'),
+                'jam_mulai' => substr($item->jam_mulai, 0, 5),
+                'jam_selesai' => substr($item->jam_selesai, 0, 5),
+                'nama_kegiatan' => $item->nama_kegiatan,
+                'instansi' => $item->instansi ?: 'Masyarakat / Komunitas',
+                'status' => $item->status,
+            ];
+        });
                                  
-        return view('masyarakat.peminjaman_aula.index', compact('aula', 'riwayat', 'jadwal_disetujui'));
+        return view('masyarakat.peminjaman_aula.index', compact('aula', 'riwayat', 'jadwal_disetujui', 'booked_jadwal'));
     }
 
     public function create()

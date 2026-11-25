@@ -25,10 +25,14 @@ use App\Http\Controllers\PeminjamanAulaController;
 use App\Http\Controllers\InventoryBorrowingController;
 use App\Http\Controllers\CertificateRequestController;
 use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\DesaController;
 
 Route::get('/', function () {
     return view('beranda');
 })->name('beranda');
+
+// Profil 10 Desa (Unduh PDF Resmi)
+Route::get('/desa/{id}/pdf', [DesaController::class, 'downloadPdf'])->name('desa.pdf');
 
 // Chatbot Public Route
 Route::post('/chatbot/chat', [ChatbotController::class, 'chat'])->name('chatbot.chat')->middleware('throttle:15,1');

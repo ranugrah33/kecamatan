@@ -31,6 +31,9 @@
             penduduk: '6.646 jiwa',
             pendudukLaki: '3.398',
             pendudukPerempuan: '3.248',
+            kades: 'Ahmad Nurdin',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Kepala Desa Cikampek Kota',
             ringkasan: 'Jantung perniagaan timur Karawang dengan simpul utama Stasiun Besar Cikampek, pasar induk regional, dan pusat perbankan.',
             profil: 'Desa Cikampek Kota merupakan episentrum pertumbuhan ekonomi kecamatan. Menjadi simpul pertemuan jalur rel kereta api utama pulau Jawa dan kawasan perdagangan grosir pasar tradisional modern.',
             potensi: 'Pusat Perdagangan & Jasa, Kawasan Transit Kereta Api Cepat/Antarkota, Perhotelan & Restoran, Sentra Bisnis Ekspedisi.',
@@ -50,6 +53,9 @@
             penduduk: '20.645 jiwa',
             pendudukLaki: '10.430',
             pendudukPerempuan: '10.215',
+            kades: 'Jejen Jaenal Arifin, S.T.',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Kepala Desa Dawuan Tengah',
             ringkasan: 'Pusat pelayanan birokrasi & administrasi terpadu tempat berdirinya Kantor Kecamatan Cikampek, Polsek, dan Puskesmas DTP.',
             profil: 'Dawuan Tengah merupakan ibukota administratif Kecamatan Cikampek. Seluruh kantor koordinasi pelayanan umum, keamanan, dan kesehatan primer berada di poros wilayah ini.',
             potensi: 'Pusat Layanan Administrasi Publik, Koridor Bisnis Ahmad Yani, Sarana Kesehatan Rujukan, Kompleks Institusi Pemerintahan.',
@@ -69,6 +75,9 @@
             penduduk: '26.887 jiwa',
             pendudukLaki: '13.559',
             pendudukPerempuan: '13.328',
+            kades: 'Hj. Yuyun Yunengsih, A.Md.',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Kepala Desa Cikampek Barat',
             ringkasan: 'Persimpangan vital jalur utama Pantura dan akses Purwakarta/Bandung, sentra niaga ritel, dan kuliner khas Cikampek.',
             profil: 'Wilayah dengan aksesibilitas tinggi yang menghubungkan Karawang dengan jalur arteri antar-provinsi. Menjadi pusat UMKM makanan khas, bengkel otomotif, dan logistik jalur darat.',
             potensi: 'Sentra Kuliner Khas Cikampek, Industri Jasa Otomotif, Pergudangan Skala Menengah, Ritel Komersial.',
@@ -88,6 +97,9 @@
             penduduk: '10.766 jiwa',
             pendudukLaki: '5.496',
             pendudukPerempuan: '5.270',
+            kades: 'H. Samsul Bakhri',
+            jabatan: 'Kepala Desa (Periode 2026–2034)',
+            kadesCatatan: 'Terpilih dalam Pilkades Digital 22 November 2026',
             ringkasan: 'Kawasan permukiman padat produktif dengan komunitas masyarakat aktif, sentra wirausaha rumahan, dan kerajinan.',
             profil: 'Desa Cikampek Timur memiliki densitas penduduk yang harmonis dengan berbagai unit usaha mikro masyarakat dan pusat pengrajin industri kreatif rumahan.',
             potensi: 'Industri Kreatif Rumahan, Budidaya Ikan Tawar, Jasa Boga & Katering, Koperasi Warga Produktif.',
@@ -107,6 +119,9 @@
             penduduk: '10.968 jiwa',
             pendudukLaki: '5.556',
             pendudukPerempuan: '5.412',
+            kades: 'Edi Suparjono',
+            jabatan: 'Kepala Desa (Masa Bakti 2026–2034)',
+            kadesCatatan: 'Dilantik pada 16 Maret 2026',
             ringkasan: 'Wilayah perpaduan permukiman hijau asri dan kawasan agrikultur modern sebagai lumbung ketahanan pangan lokal.',
             profil: 'Cikampek Selatan memiliki hamparan lahan pertanian subur yang didukung irigasi teknis serta pengembangan perumahan modern berkonsep ramah lingkungan.',
             potensi: 'Pertanian Padi Unggul, Agrowisata Edukasi Tani, Pengembangan Perumahan Asri, Peternakan Terpadu.',
@@ -126,6 +141,9 @@
             penduduk: '5.798 jiwa',
             pendudukLaki: '2.971',
             pendudukPerempuan: '2.827',
+            kades: 'Pendi Supendi',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Kepala Desa Cikampek Pusaka',
             ringkasan: 'Kawasan pemekaran sarat sejarah lokal dengan tradisi gotong royong kental, sanggar seni budaya, dan agrowisata.',
             profil: 'Desa Cikampek Pusaka memegang teguh warisan tradisi leluhur Sunda Karawang dengan lanskap perbukitan landai yang asri dan udara sejuk.',
             potensi: 'Seni Pertunjukan Tradisional, Wisata Budaya Lokal, Kerajinan Tangan Bambu, Ketahanan Pangan Nabati.',
@@ -145,6 +163,9 @@
             penduduk: '17.709 jiwa',
             pendudukLaki: '8.948',
             pendudukPerempuan: '8.761',
+            kades: 'Aang Khoerul Hak, S.Kep.',
+            jabatan: 'Pj. Kepala Desa',
+            kadesCatatan: 'Serah terima jabatan Pj. Kades Agustus 2026',
             ringkasan: 'Koridor strategis penghubung akses jalan tol dengan fasilitas pergudangan logistik modern dan sentra industri penunjang.',
             profil: 'Dawuan Barat merupakan pilar pendukung arus pergerakan logistik barang industri berkat kedekatannya dengan akses gerbang jalan tol Jakarta-Cikampek.',
             potensi: 'Pergudangan & Depo Kontainer, Sentra Logistik Nasional, Industri Pengemasan, Workshop Otomotif Berat.',
@@ -164,6 +185,9 @@
             penduduk: '18.201 jiwa',
             pendudukLaki: '9.250',
             pendudukPerempuan: '8.951',
+            kades: 'Tatang Somantri',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Kepala Desa Dawuan Timur',
             ringkasan: 'Pusat institusi edukasi sekolah menengah & kejuruan terkemuka serta pemukiman dinamis ramah keluarga.',
             profil: 'Dawuan Timur dikenal sebagai pusat pembinaan generasi muda melalui konsentrasi lembaga pendidikan kejuruan yang menyuplai tenaga kerja siap pakai untuk kawasan industri.',
             potensi: 'Pusat Lembaga Pendidikan SMK/SMA, Hunian Kos & Asrama Siswa, Penyediaan Tenaga Kerja Terampil, Wirausaha Digital.',
@@ -183,6 +207,9 @@
             penduduk: '5.622 jiwa',
             pendudukLaki: '2.868',
             pendudukPerempuan: '2.754',
+            kades: 'Herman',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Terpilih dalam Pilkades Digital 22 November 2026',
             ringkasan: 'Kawasan industri bertaraf internasional penggerak manufaktur nasional (Kawasan Industri Pupuk Kujang & BIC).',
             profil: 'Desa Kalihurip merupakan kawasan industri terpadu paling bergengsi di Cikampek dengan keberadaan pabrik pupuk nasional PT Pupuk Kujang dan berbagai industri multinasional.',
             potensi: 'Industri Kimia & Pupuk Nasional, Manufaktur Otomotif & Mesin, Lapangan Kerja Ribuan Karyawan, Perhotelan Bisnis.',
@@ -202,6 +229,9 @@
             penduduk: '5.342 jiwa',
             pendudukLaki: '2.718',
             pendudukPerempuan: '2.624',
+            kades: 'Cahyadi / Chahyadi',
+            jabatan: 'Kepala Desa',
+            kadesCatatan: 'Kepala Desa Kamojing',
             ringkasan: 'Destinasi wisata danau buatan bersejarah Situ Kamojing (sejak 1912), konservasi resapan air, dan kuliner apung.',
             profil: 'Desa Kamojing memiliki keindahan eksotis danau Situ Kamojing yang dibangun pada masa Hindia Belanda. Merupakan paru-paru hijau Cikampek sekaligus destinasi wisata keluarga favorit.',
             potensi: 'Pariwisata Danau & Sunset Spot, Wisata Kuliner Apung Sunda, Konservasi Air Irigasi, Olahraga Dayung & Memancing.',
@@ -488,6 +518,8 @@
         const iconEl = document.getElementById('modalDesaIcon');
         const titleEl = document.getElementById('modalDesaTitle');
         const badgeEl = document.getElementById('modalDesaBadge');
+        const kadesEl = document.getElementById('modalDesaKades');
+        const kadesDetailEl = document.getElementById('modalDesaKadesDetail');
         const luasEl = document.getElementById('modalDesaLuas');
         const luasPersenEl = document.getElementById('modalDesaLuasPersen');
         const pendudukEl = document.getElementById('modalDesaPenduduk');
@@ -498,11 +530,13 @@
         const potensiEl = document.getElementById('modalDesaPotensi');
         const facList = document.getElementById('modalDesaFacilities');
         const mapsBtn = document.getElementById('modalDesaMapsBtn');
-        const copyBtn = document.getElementById('modalDesaCopyBtn');
+        const pdfBtn = document.getElementById('modalDesaPdfBtn');
 
         if (iconEl) iconEl.innerHTML = `<i class="ph ${desa.icon}"></i>`;
         if (titleEl) titleEl.textContent = `Desa ${desa.nama}`;
         if (badgeEl) badgeEl.textContent = `${desa.kategoriLabel} • #${desa.id}`;
+        if (kadesEl) kadesEl.textContent = desa.kades || '-';
+        if (kadesDetailEl) kadesDetailEl.textContent = `${desa.jabatan || 'Kepala Desa'}${desa.kadesCatatan ? ' • ' + desa.kadesCatatan : ''}`;
         if (luasEl) luasEl.textContent = desa.luas;
         if (luasPersenEl) luasPersenEl.textContent = `${desa.persentaseLuas} wilayah kecamatan`;
         if (pendudukEl) pendudukEl.textContent = desa.penduduk;
@@ -525,14 +559,9 @@
             mapsBtn.target = '_blank';
         }
 
-        if (copyBtn) {
-            copyBtn.onclick = function () {
-                const infoText = `Desa ${desa.nama} - Kec. Cikampek, Kab. Karawang\nKategori: ${desa.kategoriLabel}\nLuas: ${desa.luas} (${desa.persentaseLuas} wilayah - BPS 2025)\nJumlah Penduduk: ${desa.penduduk} (L: ${desa.pendudukLaki}, P: ${desa.pendudukPerempuan} - BPS 2025)\nKode Pos: ${desa.kodePos}\nStatus: ${desa.status}\nPotensi: ${desa.potensi}`;
-                navigator.clipboard.writeText(infoText).then(() => {
-                    playDigitalBeep(1760, 0.12, 'sine');
-                    showToast(`Data Desa ${desa.nama} berhasil disalin!`);
-                });
-            };
+        if (pdfBtn) {
+            pdfBtn.href = `/desa/${desa.id}/pdf`;
+            pdfBtn.target = '_blank';
         }
 
         if (modal) {

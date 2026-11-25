@@ -936,6 +936,21 @@
     border-color: rgba(212, 175, 55, 0.45);
 }
 
+.btn-modal-pdf {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(185, 28, 28, 0.45));
+    color: #ffffff;
+    border: 1px solid rgba(248, 113, 113, 0.45);
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.25);
+}
+
+.btn-modal-pdf:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    border-color: #ef4444;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(220, 38, 38, 0.45);
+    color: #ffffff;
+}
+
 /* Toast Notification for Copy action */
 .stat-toast {
     position: fixed;

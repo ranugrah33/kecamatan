@@ -356,6 +356,11 @@
             </div>
 
             <div class="stat-modal-grid">
+                <div class="stat-modal-fact" style="grid-column: 1 / -1;">
+                    <div class="stat-modal-fact-label">Kepala Desa / Pj. Kepala Desa</div>
+                    <div class="stat-modal-fact-value" id="modalDesaKades" style="color: #34d399; font-size: 15.5px;">-</div>
+                    <div class="stat-modal-fact-sub" id="modalDesaKadesDetail" style="font-size: 11.5px; color: #94a3b8; margin-top: 2px;">-</div>
+                </div>
                 <div class="stat-modal-fact">
                     <div class="stat-modal-fact-label">Luas Wilayah (BPS 2025)</div>
                     <div class="stat-modal-fact-value" id="modalDesaLuas">0,50 km²</div>
@@ -389,9 +394,9 @@
                 <a href="#" id="modalDesaMapsBtn" target="_blank" class="btn-modal-action btn-modal-maps">
                     <i class="ph ph-navigation-arrow"></i> Petunjuk Arah (Google Maps)
                 </a>
-                <button type="button" id="modalDesaCopyBtn" class="btn-modal-action btn-modal-copy">
-                    <i class="ph ph-copy"></i> Salin Data Desa
-                </button>
+                <a href="#" id="modalDesaPdfBtn" target="_blank" class="btn-modal-action btn-modal-pdf">
+                    <i class="ph ph-file-pdf"></i> Unduh PDF
+                </a>
             </div>
         </div>
     </div>
