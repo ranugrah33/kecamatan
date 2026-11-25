@@ -92,8 +92,37 @@
                 <p class="text-xs text-gray-500 mt-1">Maksimal: {{ $aula->kapasitas }} orang</p>
             </div>
             <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700">Deskripsi Kegiatan <span class="text-red-500">*</span></label>
-                <textarea name="deskripsi_kegiatan" x-model="formData.deskripsi_kegiatan" rows="3" class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none" required></textarea>
+                <div class="flex items-center justify-between mb-1">
+                    <label class="block text-sm font-medium text-gray-700">
+                        Deskripsi Kegiatan <span class="text-red-500">*</span>
+                    </label>
+                    <div class="text-xs font-semibold"
+                         :class="countWords(formData.deskripsi_kegiatan) === 0 ? 'text-gray-400' : (countWords(formData.deskripsi_kegiatan) < 30 ? 'text-amber-600' : (countWords(formData.deskripsi_kegiatan) > 300 ? 'text-red-600' : 'text-emerald-600'))">
+                        <span x-text="countWords(formData.deskripsi_kegiatan)"></span> kata
+                        <span class="text-gray-400 font-normal">/ min. 30 – maks. 300 kata</span>
+                    </div>
+                </div>
+                <textarea name="deskripsi_kegiatan" x-model="formData.deskripsi_kegiatan" rows="4" 
+                          class="w-full px-4 py-2.5 text-sm border rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                          :class="countWords(formData.deskripsi_kegiatan) > 0 && countWords(formData.deskripsi_kegiatan) < 30 ? 'border-amber-300 bg-amber-50/20' : (countWords(formData.deskripsi_kegiatan) > 300 ? 'border-red-300 bg-red-50/20' : 'border-gray-300')"
+                          placeholder="Jelaskan secara ringkas maksud/tujuan kegiatan, susunan acara garis besar, atau rincian penggunaan aula (minimal 30 kata)..." 
+                          required></textarea>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-1 text-xs gap-1">
+                    <p class="text-gray-500">
+                        Jelaskan kegiatan dengan memadai agar petugas dapat memverifikasi permohonan dengan tepat.
+                    </p>
+                    <div class="shrink-0">
+                        <span x-show="countWords(formData.deskripsi_kegiatan) > 0 && countWords(formData.deskripsi_kegiatan) < 30" class="text-amber-600 font-semibold inline-flex items-center gap-1" x-cloak>
+                            <i class="ph ph-warning-circle"></i> Kurang <span x-text="30 - countWords(formData.deskripsi_kegiatan)"></span> kata lagi
+                        </span>
+                        <span x-show="countWords(formData.deskripsi_kegiatan) >= 30 && countWords(formData.deskripsi_kegiatan) <= 300" class="text-emerald-600 font-semibold inline-flex items-center gap-1" x-cloak>
+                            <i class="ph ph-check-circle font-bold"></i> Panjang kata ideal
+                        </span>
+                        <span x-show="countWords(formData.deskripsi_kegiatan) > 300" class="text-red-600 font-semibold inline-flex items-center gap-1" x-cloak>
+                            <i class="ph ph-x-circle font-bold"></i> Melebihi <span x-text="countWords(formData.deskripsi_kegiatan) - 300"></span> kata
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -137,10 +166,12 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                 @if($aula->fasilitas)
                     @foreach($aula->fasilitas as $fasilitas)
-                    <label class="flex items-center gap-2 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition">
-                        <input type="checkbox" name="fasilitas[]" value="{{ $fasilitas }}" x-model="formData.fasilitas" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
-                        <span class="text-sm text-gray-700">{{ $fasilitas }}</span>
-                    </label>
+                        @if(strcasecmp(trim($fasilitas), 'toilet') !== 0)
+                        <label class="flex items-center gap-2 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition">
+                            <input type="checkbox" name="fasilitas[]" value="{{ $fasilitas }}" x-model="formData.fasilitas" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                            <span class="text-sm text-gray-700">{{ $fasilitas }}</span>
+                        </label>
+                        @endif
                     @endforeach
                 @endif
                 <label class="flex items-center gap-2 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition">
@@ -207,6 +238,10 @@
                     <div class="col-span-2"><span class="text-gray-500 block">Nama Kegiatan</span><span x-text="formData.nama_kegiatan" class="font-medium"></span></div>
                     <div><span class="text-gray-500 block">Jenis Kegiatan</span><span x-text="formData.jenis_kegiatan === 'Lainnya' ? formData.jenis_kegiatan_lainnya : formData.jenis_kegiatan" class="font-medium"></span></div>
                     <div><span class="text-gray-500 block">Jumlah Peserta</span><span x-text="formData.jumlah_peserta + ' Orang'" class="font-medium"></span></div>
+                    <div class="col-span-2">
+                        <span class="text-gray-500 block">Deskripsi Kegiatan</span>
+                        <p x-text="formData.deskripsi_kegiatan" class="font-medium text-gray-800 whitespace-pre-line text-xs mt-0.5 bg-gray-50 p-2.5 rounded border border-gray-200"></p>
+                    </div>
                 </div>
             </div>
 
@@ -297,7 +332,22 @@ function peminjamanForm() {
             file_surat_permohonan: "",
             catatan_tambahan: ""
         },
+        countWords(text) {
+            if (!text) return 0;
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+            return words.length;
+        },
         previewData() {
+            const wordCount = this.countWords(this.formData.deskripsi_kegiatan);
+            if (wordCount < 30) {
+                alert("Deskripsi kegiatan masih terlalu pendek (saat ini: " + wordCount + " kata). Harap jelaskan rincian kegiatan minimal 30 kata.");
+                return;
+            }
+            if (wordCount > 300) {
+                alert("Deskripsi kegiatan melebihi batas maksimal (saat ini: " + wordCount + " kata). Maksimal 300 kata.");
+                return;
+            }
+
             if (!this.formData.jam_mulai) {
                 alert("Silakan pilih Jam Mulai.");
                 return;

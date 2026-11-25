@@ -21,7 +21,13 @@ class PeminjamanAulaController extends Controller
                                  ->get();
                                  
         $jadwal_disetujui = PeminjamanAula::whereIn('status', ['Disetujui', 'Surat Diproses', 'Surat Tersedia'])
-                                          ->where('tanggal', '>=', date('Y-m-d'))
+                                          ->where(function ($query) {
+                                              $query->where('tanggal', '>', date('Y-m-d'))
+                                                    ->orWhere(function ($q) {
+                                                        $q->where('tanggal', date('Y-m-d'))
+                                                          ->where('jam_selesai', '>', date('H:i:s'));
+                                                    });
+                                          })
                                           ->orderBy('tanggal', 'asc')
                                           ->orderBy('jam_mulai', 'asc')
                                           ->get();
@@ -76,6 +82,16 @@ class PeminjamanAulaController extends Controller
             'nomor_surat_permohonan' => 'required|string|max:255',
             'file_surat_permohonan' => 'required|mimes:pdf|max:2048',
         ]);
+
+        // Cek batasan jumlah kata pada deskripsi kegiatan (30 - 300 kata)
+        $words = array_filter(preg_split('/\s+/', trim($request->deskripsi_kegiatan)));
+        $wordCount = count($words);
+        if ($wordCount < 30) {
+            return redirect()->back()->withErrors('Deskripsi kegiatan masih terlalu pendek (' . $wordCount . ' kata). Harap jelaskan rincian kegiatan minimal 30 kata.')->withInput();
+        }
+        if ($wordCount > 300) {
+            return redirect()->back()->withErrors('Deskripsi kegiatan melebihi batas maksimal (' . $wordCount . ' kata). Maksimal 300 kata.')->withInput();
+        }
 
         // Cek jam operasional
         if ($request->jam_mulai < substr($aula->jam_buka, 0, 5) || $request->jam_selesai > substr($aula->jam_tutup, 0, 5)) {

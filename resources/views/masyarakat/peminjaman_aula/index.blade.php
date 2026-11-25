@@ -56,9 +56,11 @@
                     <div class="flex flex-wrap gap-2">
                         @if($aula->fasilitas)
                             @foreach($aula->fasilitas as $fasilitas)
+                                @if(strcasecmp(trim($fasilitas), 'toilet') !== 0)
                                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full border border-gray-200">
                                     {{ $fasilitas }}
                                 </span>
+                                @endif
                             @endforeach
                         @else
                             <span class="text-sm text-gray-500">-</span>

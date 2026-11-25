@@ -108,7 +108,7 @@ class PeminjamanAula extends Model
         // Spare waktu 30 menit: CONCAT(tanggal, ' ', jam_selesai) <= now() - 30 menit
         $threshold = now()->subMinutes(30)->format('Y-m-d H:i:s');
 
-        return static::whereIn('status', [self::STATUS_SURAT_TERSEDIA, self::STATUS_DISETUJUI])
+        return static::whereIn('status', [self::STATUS_SURAT_TERSEDIA, self::STATUS_DISETUJUI, self::STATUS_SURAT_DIPROSES])
             ->whereRaw("CONCAT(tanggal, ' ', jam_selesai) <= ?", [$threshold])
             ->update([
                 'status' => self::STATUS_SELESAI,
@@ -122,7 +122,7 @@ class PeminjamanAula extends Model
      */
     public function checkAndUpdateFinishedStatus()
     {
-        if (in_array($this->status, [self::STATUS_SURAT_TERSEDIA, self::STATUS_DISETUJUI])) {
+        if (in_array($this->status, [self::STATUS_SURAT_TERSEDIA, self::STATUS_DISETUJUI, self::STATUS_SURAT_DIPROSES])) {
             $tanggalStr = $this->tanggal instanceof Carbon
                 ? $this->tanggal->format('Y-m-d')
                 : substr((string)$this->tanggal, 0, 10);
