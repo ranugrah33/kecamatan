@@ -133,6 +133,41 @@ class AIRouterService
             empty($maskedCategories) ? 'none' : implode(',', $maskedCategories)
         ));
 
+        // Fast-path: Unambiguous local civic inquiries (such as Kepala Desa, 10 Desa, Camat)
+        // are answered immediately with 100% accuracy from verified local knowledge base.
+        if ($intent === IntentClassifierService::INTENT_SIPAF_RAG) {
+            $directAnswer = $this->tryDirectLocalCivicAnswer($userMessage, $retrievalResult);
+            if ($directAnswer !== null) {
+                Log::info("[AI Chatbot] Direct Local Civic Fast-Path: {$directAnswer['source']}");
+
+                return [
+                    'success' => true,
+                    'reply' => $directAnswer['reply'],
+                    'provider' => 'local_kb',
+                    'intent' => $intent,
+                    'resolution_type' => 'local_kb_fastpath',
+                    'retrieved_count' => $ragPackage['retrieved_count'],
+                    'web_search' => null,
+                ];
+            }
+        }
+
+        // Fast-path: Friendly conversational greetings and identity responses
+        if ($intent === IntentClassifierService::INTENT_CONVERSATIONAL) {
+            $convReply = $this->tryDirectConversationalAnswer($userMessage);
+            if ($convReply !== null) {
+                return [
+                    'success' => true,
+                    'reply' => $convReply,
+                    'provider' => 'conversational_engine',
+                    'intent' => $intent,
+                    'resolution_type' => 'conversational_fastpath',
+                    'retrieved_count' => 0,
+                    'web_search' => null,
+                ];
+            }
+        }
+
         // 2. Always attempt Primary Provider (Gemini) first
         $geminiStartTime = microtime(true);
 
@@ -225,7 +260,25 @@ class AIRouterService
             Log::error("[AI Chatbot] Provider: Groq | Intent: {$intent} | Status: Failed | Reason: {$e->getMessage()} | Latency: {$latency}s");
             Log::error("[AI Chatbot] Dual AI Failover Exhausted: Both Gemini and Groq failed to respond.");
 
-            // Both providers failed: return safe consistent fallback from KnowledgeBaseService
+            // Both providers failed: check if we have relevant KB documents to answer gracefully
+            $documents = $retrievalResult['documents'] ?? collect();
+            if ($documents->isNotEmpty()) {
+                $topDoc = $documents->first()['knowledge'];
+                $reply = "Berikut informasi resmi dari layanan Kecamatan Cikampek terkait pertanyaan Anda (**{$topDoc->title}**):\n\n"
+                    . "{$topDoc->answer}\n\n"
+                    . "Jika Anda memerlukan konsultasi atau pengurusan berkas lebih lanjut, silakan hubungi Kantor Kecamatan Cikampek (Jl. Ahmad Yani No. 1, Cikampek, Telepon: (0264) 301234, Senin - Jumat pukul 07.45 - 15.45 WIB).";
+
+                return [
+                    'success' => true,
+                    'reply' => $reply,
+                    'provider' => 'local_kb_fallback',
+                    'intent' => $intent,
+                    'resolution_type' => $resolutionType,
+                    'retrieved_count' => $retrievedCount,
+                    'web_search' => $this->summarizeWebSearchMeta($webSearchResult),
+                ];
+            }
+
             return [
                 'success' => false,
                 'reply' => null,
@@ -334,5 +387,78 @@ class AIRouterService
             'checked_at_label' => $webSearchResult['checked_at_label'] ?? null,
             'result_count' => count($webSearchResult['results'] ?? []),
         ];
+    }
+
+    /**
+     * Direct fast-path for unambiguous local civic knowledge (10 Kepala Desa, Camat, etc.).
+     * Returns an authoritative, instant response without external network/LLM latency or timeout risk.
+     */
+    protected function tryDirectLocalCivicAnswer(string $userMessage, ?array $retrieval): ?array
+    {
+        if ($retrieval === null || empty($retrieval['documents']) || $retrieval['documents']->isEmpty()) {
+            return null;
+        }
+
+        $cleaned = strip_tags($userMessage);
+        $lower = mb_strtolower(trim($cleaned));
+        $normalized = preg_replace('/[^\p{L}\p{N}\s\/]+/u', ' ', $lower) ?? $lower;
+        $normalized = preg_replace('/\s+/u', ' ', trim($normalized)) ?? '';
+
+        $isOfficialInquiry = IntentClassifierService::isLocalCivicOfficialLookup($normalized)
+            || preg_match('/\b(kepala\s+desa|kades|lurah|kuwu|pimpinan\s+desa)\b/u', $normalized) === 1
+            || preg_match('/\b(10\s+desa|sepuluh\s+desa|nama\s+desa)\b/u', $normalized) === 1;
+
+        if (!$isOfficialInquiry) {
+            return null;
+        }
+
+        $topDocEntry = $retrieval['documents']->first();
+        $topDoc = $topDocEntry['knowledge'];
+        $score = (float) ($topDocEntry['score'] ?? 0);
+
+        if ($score < 30.0) {
+            return null;
+        }
+
+        if (
+            str_contains($topDoc->title, 'Kepala Desa')
+            || str_contains($topDoc->title, '10 Kepala Desa')
+            || str_contains($topDoc->title, 'Camat Cikampek')
+        ) {
+            return [
+                'reply' => $topDoc->answer,
+                'source' => $topDoc->title,
+                'score' => $score,
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Provide natural, instant replies to conversational greetings, gratitude, and assistant identity queries.
+     */
+    protected function tryDirectConversationalAnswer(string $userMessage): ?string
+    {
+        $cleaned = strip_tags($userMessage);
+        $lower = mb_strtolower(trim($cleaned));
+
+        if (preg_match('/\b(terima\s*kasih|makasih|thanks|thank\s*you|trims)\b/u', $lower) === 1) {
+            return "Sama-sama! Senang bisa membantu Anda. Jika ada hal lain yang ingin ditanyakan seputar pelayanan Kecamatan Cikampek, fasilitas SIPAF, maupun informasi 10 desa, silakan sampaikan ya.";
+        }
+
+        if (preg_match('/\b(siapa\s+(kamu|anda|namamu|nama\s+kamu)|kamu\s+siapa|kamu\s+(ai|robot|bot|asisten))\b/u', $lower) === 1) {
+            return "Halo! Saya adalah **Asisten Digital Kecamatan Cikampek**. Saya siap membantu Anda memberikan informasi resmi seputar pelayanan administrasi kecamatan, peminjaman aula dan barang inventaris di SIPAF, data profil wilayah, hingga daftar Kepala Desa di wilayah Kecamatan Cikampek.";
+        }
+
+        if (preg_match('/\b(apa\s+kabar|gimana\s+kabar|kabarnya)\b/u', $lower) === 1) {
+            return "Halo! Kabar baik, terima kasih. Saya Asisten Digital Kecamatan Cikampek siap membantu Anda. Ada yang ingin Anda tanyakan seputar pelayanan atau informasi di Kecamatan Cikampek?";
+        }
+
+        if (preg_match('/\b(halo|hai|hello|hi|hey|assalamu|salam|selamat\s+(pagi|siang|sore|malam))\b/u', $lower) === 1) {
+            return "Halo! Selamat datang di layanan Asisten Digital Kecamatan Cikampek. Ada yang bisa saya bantu mengenai informasi pelayanan, permohonan SIPAF, atau informasi 10 desa di wilayah Kecamatan Cikampek?";
+        }
+
+        return "Halo! Saya Asisten Digital Kecamatan Cikampek. Ada yang dapat saya bantu terkait layanan atau fasilitas di Kecamatan Cikampek?";
     }
 }

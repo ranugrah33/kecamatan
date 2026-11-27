@@ -118,6 +118,8 @@ class IntentClassifierService
         '/\b(pelayanan|layanan|fasilitas|menu|fitur)\s+apa\s+saja\b/u',
         '/\b(pengantar\s+rt|rt\s*\/?\s*rw\s+.*(desa|kecamatan|surat|sktm|waris|usaha))\b/u',
         '/\b(status\s+pengajuan|riwayat\s+pengajuan|daftar\s+akun|akun\s+masyarakat)\b/u',
+        '/\b(kepala\s+desa|kades|lurah|kuwu)\s+(?:dari\s+|di\s+)?(cikampek|dawuan|kalihurip|kamojing)\b/u',
+        '/\b(daftar|nama|siapa)\s+(?:nama\s+)?(?:kepala\s+desa|kades)\b/u',
     ];
 
     /**
@@ -394,6 +396,10 @@ class IntentClassifierService
 
     protected function hasCivicDomainSignal(string $normalized): bool
     {
+        if (self::isLocalCivicOfficialLookup($normalized)) {
+            return true;
+        }
+
         foreach (self::STRONG_CIVIC_KEYWORDS as $keyword) {
             if (str_contains($normalized, $keyword)) {
                 return true;
@@ -545,6 +551,43 @@ class IntentClassifierService
     }
 
     /**
+     * Determine if a query refers to local village leaders (Kepala Desa/Kades) of the 10 Cikampek villages
+     * or local Kecamatan Cikampek leadership, which are internal civic knowledge (SIPAF_RAG) rather than external web search.
+     */
+    public static function isLocalCivicOfficialLookup(string $normalized): bool
+    {
+        $hasVillageLeaderRole = preg_match(
+            '/\b(?:kepala\s+desa|kades|lurah|kuwu|pimpinan\s+desa|perangkat\s+desa|sekdes|sekretaris\s+desa)\b/u',
+            $normalized
+        ) === 1;
+
+        if ($hasVillageLeaderRole) {
+            // Check if any of 10 villages in Cikampek or general Cikampek or general kades inquiry
+            if (preg_match(
+                '/\b(cikampek|dawuan|kalihurip|kamojing|10\s+desa|sepuluh\s+desa)\b/u',
+                $normalized
+            ) === 1) {
+                return true;
+            }
+
+            // Also match if asking generally about kepala desa without specifying another city/province
+            if (preg_match('/\b(siapa|daftar|nama|ada\s+berapa)\b/u', $normalized) === 1) {
+                return true;
+            }
+        }
+
+        // Camat / Sekcam Cikampek is also internal civic
+        if (
+            preg_match('/\b(camat|sekcam|sekretaris\s+camat)\b/u', $normalized) === 1
+            && str_contains($normalized, 'cikampek')
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Detect whether a normalized query looks up an incumbent/current public official
      * (either explicitly with "siapa/nama/sekarang" or as a short entity-region lookup like "Camat Cikampek").
      */
@@ -552,6 +595,10 @@ class IntentClassifierService
     {
         $normalized = trim($normalized);
         if ($normalized === '' || preg_match(self::PUBLIC_OFFICIAL_ROLE_PATTERN, $normalized) !== 1) {
+            return false;
+        }
+
+        if (self::isLocalCivicOfficialLookup($normalized)) {
             return false;
         }
 
